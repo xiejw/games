@@ -28,6 +28,10 @@ enum Player {
   case NONE, WHITE, BLACK
 }
 
+enum PlayError: Error {
+  case invalidMove(move: Move)
+}
+
 class Board {
   var states: [State]
   var moves: Set<Move>
@@ -40,7 +44,10 @@ class Board {
   }
 
   func newMove(_ move: Move) throws {
-    // FIXME: Validate the move based on history.
+    if moves.contains(move) {
+      throw PlayError.invalidMove(move: move)
+    }
+
     self.moves.insert(move)
     if states.isEmpty {
       states.append(State(move))
@@ -87,6 +94,6 @@ do {
   try board.newMove(Move(x:4, y:4))
   try board.newMove(Move(x:2, y:3))
   board.print()
-} catch {
-  print(error)
+} catch PlayError.invalidMove(let move) {
+  print("The move: \(move) is invalid.")
 }
