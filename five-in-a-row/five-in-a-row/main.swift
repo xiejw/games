@@ -2,11 +2,11 @@
 struct Move: Hashable {
   var x: Int
   var y: Int
-
+  
   var hashValue: Int {
     return x.hashValue * 16 + y.hashValue
   }
-
+  
   static func ==(lhs: Move, rhs: Move) -> Bool {
     return lhs.x == rhs.x && lhs.y == rhs.y
   }
@@ -19,7 +19,7 @@ class State {
     self.currentMove = move
     self.previovsState = previovsState
   }
-
+  
   var previovsState: State?
   var currentMove: Move
 }
@@ -36,18 +36,18 @@ class Board {
   var states: [State]
   var moves: Set<Move>
   var size: Int
-
+  
   init(_ size: Int = 8) {
     self.states = []
     self.moves = []
     self.size = size
   }
-
+  
   func newMove(_ move: Move) throws {
     if moves.contains(move) {
       throw PlayError.invalidMove(move: move)
     }
-
+    
     self.moves.insert(move)
     if states.isEmpty {
       states.append(State(move))
@@ -55,12 +55,12 @@ class Board {
       states.append(State(move, states.last!))
     }
   }
-
+  
   func contains(_ move: Move) -> Player? {
     if !self.moves.contains(move) {
       return nil
     }
-
+    
     var count = 0
     for state in states {
       if state.currentMove == move {
@@ -70,15 +70,23 @@ class Board {
     }
     return .NONE
   }
-
+  
   func print() {
+    
+    Swift.print("x\\y", terminator: "")
     for i in 0..<self.size {
+      Swift.print(" \(i)", terminator: "")
+    }
+    Swift.print("")
+    
+    for i in 0..<self.size {
+      Swift.print("\(i)  ", terminator: "")
       for j in 0..<self.size {
         if let player = self.contains(Move(x:i, y:j)) {
           if player == .BLACK {
-            Swift.print(" \u{001B}[0;31m*\u{001B}[0;0m", terminator: "")
+            Swift.print(" *", terminator: "")
           } else {
-            Swift.print(" \u{001B}[0;37m*\u{001B}[0;0m", terminator: "")
+            Swift.print(" O", terminator: "")
           }
         } else {
           Swift.print(" .", terminator: "")
@@ -93,6 +101,7 @@ let board = Board()
 do {
   try board.newMove(Move(x:4, y:4))
   try board.newMove(Move(x:2, y:3))
+  try board.newMove(Move(x:4, y:3))
   board.print()
 } catch PlayError.invalidMove(let move) {
   print("The move: \(move) is invalid.")
