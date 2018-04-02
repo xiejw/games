@@ -1,16 +1,17 @@
-let board = Board()
+let board = Board(numberToWin: 3)
 
 do {
   try board.newMove(Move(x:4, y:4))
   try board.newMove(Move(x:2, y:3))
-  try board.newMove(Move(x:4, y:3))
+  try board.newMove(Move(x:5, y:3))
   try board.newMove(Move(x:3, y:4))
+  try board.newMove(Move(x:6, y:2))
   board.print()
   
-  let simulator = BoardSimulator(size:8)
-  print("Legal moves left: \(simulator.legal_moves(state_history: board.states).count)")
-  print("Next Player: \(simulator.next_player(state: board.states.last!))")
-  if let winner = simulator.winner(state_history: board.states) {
+  let simulator = BoardSimulator(size:8, numberToWin:3)
+  print("Legal moves left: \(simulator.legalMoves(stateHistory: board.states).count)")
+  print("Next Player: \(simulator.nextPlayer(state: board.states.last!))")
+  if let winner = simulator.winner(stateHistory: board.states) {
     print("Winner: \(winner)")
   } else {
     print("No winner yet")
