@@ -83,6 +83,10 @@ class Board {
 }
 
 let board = Board()
-board.newMove(Move(x:4, y:4))
-board.newMove(Move(x:2, y:3))
-board.print()
+do {
+  try board.newMove(Move(x:4, y:4))
+  try board.newMove(Move(x:2, y:3))
+  board.print()
+} catch {
+  print(error)
+}
