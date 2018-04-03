@@ -10,7 +10,7 @@ import Foundation
 
 struct SimuationStats {
   var blackWins: Int
-  var whieWins: Int
+  var whiteWins: Int
   var games: Int
   var startTime: Double
   var endTime: Double
@@ -32,28 +32,42 @@ class MonteCarlo {
   }
   
   func getNextMove(stateHistory: [State]) {
-    let begin = NSDate().timeIntervalSince1970
-    var games = 0
-    var stats = Dictionary<Player, Int>()
-    stats[.BLACK] = 0
-    stats[.WHITE] = 0
+    let simulationStats = runSimulations(stateHistory: stateHistory)
     
-    print("Start simulation at \(begin)")
-    while NSDate().timeIntervalSince1970 - begin < self.calculationTime {
-      var player = runSimulation(stateHistory: stateHistory)
-      games += 1
-    }
-    print("End simulation at \(NSDate().timeIntervalSince1970)")
-    
-    print("Played \(games) games with search depth \(self.maxMoves).")
-    
+    print("Played \(simulationStats.games) games with search depth \(self.maxMoves).")
+    let blackWinsRatio = Double(simulationStats.blackWins) * 1.0 / Double(simulationStats.games)
+    let whiteWinsRatio = Double(simulationStats.whiteWins) * 1.0 / Double(simulationStats.games)
+    print("BlackWins: \(simulationStats.blackWins) -- \(blackWinsRatio)")
+    print("WhiteWins: \(simulationStats.whiteWins) -- \(whiteWinsRatio)")
+
     // var legalMoves = boardSimulator.legalMoves(stateHistory: stateHistory)
     // var nextPlayer = boardSimulator.nextPlayer(state: stateHistory.last!)
     
   }
   
-  func runSimulations(stateHistory: []) -> SimuationStats {
+  func runSimulations(stateHistory: [State]) -> SimuationStats {
+    let begin = NSDate().timeIntervalSince1970
+    var games = 0
+    var blackWins = 0
+    var whiteWins = 0
     
+    print("Start simulation at \(begin)")
+    var end = NSDate().timeIntervalSince1970 - begin
+    while  end < self.calculationTime {
+      if let player = runSimulation(stateHistory: stateHistory) {
+        if player == .BLACK {
+          blackWins += 1
+        } else {
+          whiteWins += 1
+        }
+      }
+      games += 1
+      end = NSDate().timeIntervalSince1970 - begin
+    }
+    print("End simulation at \(end)")
+
+    return SimuationStats(blackWins: blackWins, whiteWins: whiteWins,
+                          games: games, startTime: begin, endTime: end)
   }
   
   func runSimulation(stateHistory: [State]) -> Player? {
@@ -93,6 +107,7 @@ class MonteCarlo {
     for state in visitedSates {
       if self.plays[state] != nil {
         self.plays[state]! += 1
+        
         if finalWinner != nil {
           if finalWinner! == .BLACK {
             self.blackWins[state]! += 1
@@ -102,5 +117,6 @@ class MonteCarlo {
         }
       }
     }
+    return finalWinner
   }
 }
