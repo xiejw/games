@@ -3,6 +3,10 @@
 I think the issue is the State is not remembered correctly. It remebers the path
 not the board state.
 
+However, after impoving the hash funciton of State, the result is still bad. It
+is not random and puts the stones to corners anymore. But the AI level is low.
+See `result/2018-04-03_2.md`.
+
 # 2018-04-03
 
 Things to try:
