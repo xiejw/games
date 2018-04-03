@@ -34,10 +34,13 @@ class MonteCarlo {
   func getNextMove(stateHistory: [State]) {
     let begin = NSDate().timeIntervalSince1970
     var games = 0
+    var stats = Dictionary<Player, Int>()
+    stats[.BLACK] = 0
+    stats[.WHITE] = 0
     
     print("Start simulation at \(begin)")
     while NSDate().timeIntervalSince1970 - begin < self.calculationTime {
-      runSimulation(stateHistory: stateHistory)
+      var player = runSimulation(stateHistory: stateHistory)
       games += 1
     }
     print("End simulation at \(NSDate().timeIntervalSince1970)")
@@ -53,7 +56,7 @@ class MonteCarlo {
     
   }
   
-  func runSimulation(stateHistory: [State]) {
+  func runSimulation(stateHistory: [State]) -> Player? {
     var stateHistoryCopy = stateHistory
     var nextState = stateHistoryCopy.last!
     var visitedSates = Set<State>()
