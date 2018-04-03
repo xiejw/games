@@ -8,6 +8,14 @@
 
 import Foundation
 
+struct SimuationStats {
+  var blackWins: Int
+  var whieWins: Int
+  var games: Int
+  var startTime: Double
+  var endTime: Double
+}
+
 class MonteCarlo {
   
   var boardSimulator: BoardSimulator
@@ -38,6 +46,10 @@ class MonteCarlo {
     
     // var legalMoves = boardSimulator.legalMoves(stateHistory: stateHistory)
     // var nextPlayer = boardSimulator.nextPlayer(state: stateHistory.last!)
+    
+  }
+  
+  func runSimulations(stateHistory: []) -> SimuationStats {
     
   }
   
