@@ -90,14 +90,22 @@ class Board {
   
   func print() {
     
-    Swift.print("x\\y", terminator: "")
+    Swift.print(" x\\y", terminator: "")
     for i in 0..<self.size {
-      Swift.print(" \(i)", terminator: "")
+      if i < 10 {
+        Swift.print(" \(i)", terminator: "")
+      } else {
+        Swift.print("\(i)", terminator: "")
+      }
     }
     Swift.print("")
     
     for i in 0..<self.size {
-      Swift.print("\(i)  ", terminator: "")
+      if i < 10 {
+        Swift.print(" \(i)  ", terminator: "")
+      } else {
+        Swift.print("\(i)  ", terminator: "")
+      }
       for j in 0..<self.size {
         if let player = self.contains(Move(x:i, y:j)) {
           if player == .BLACK {

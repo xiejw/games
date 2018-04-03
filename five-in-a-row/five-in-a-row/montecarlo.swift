@@ -23,7 +23,7 @@ class MonteCarlo {
     self.calculationTime = calculationTime
   }
   
-  func getNextMove(stateHistory: [State]) {
+  func getNextMove(stateHistory: [State]) -> Move? {
     let simulationStats = runSimulations(stateHistory: stateHistory)
     
     // Print out the statistic.
@@ -66,6 +66,8 @@ class MonteCarlo {
         print(" -> \(result.1): \(result.0)")
       }
     }
+    
+    return bestMove
   }
   
   func runSimulations(stateHistory: [State]) -> SimuationStats {
