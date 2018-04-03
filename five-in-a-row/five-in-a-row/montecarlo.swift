@@ -35,6 +35,8 @@ class MonteCarlo {
     print("BlackWins: \(simulationStats.blackWins) -- \(blackWinsRatio)")
     print("WhiteWins: \(simulationStats.whiteWins) -- \(whiteWinsRatio)")
     print("Total plays in memory \(self.plays.count)")
+    print("Updated plays in memory \(self.updatedState)")
+    print("Reused plays in memory \(self.reuseState)")
     
     // Find the best move.
     let currentState = stateHistory.last!
@@ -139,7 +141,13 @@ class MonteCarlo {
     
     // Update status.
     for state in visitedSates {
-      if self.plays[state] != nil {
+      if let games = self.plays[state]  {
+        
+        self.updatedState += 1
+        if games > 0 {
+          self.reuseState += 1
+        }
+
         self.plays[state]! += 1
         
         if finalWinner != nil {
@@ -215,5 +223,8 @@ class MonteCarlo {
     return bestMove!
   }
   
+  // remove me.
+  var updatedState = 0
+  var reuseState = 0
   var useUCB = false
 }

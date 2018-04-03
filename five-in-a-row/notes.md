@@ -1,5 +1,10 @@
 # 2018-04-03
 
+I think the issue is the State is not remembered correctly. It remebers the path
+not the board state.
+
+# 2018-04-03
+
 Things to try:
 1. Use stats rather than randomness
 2. Remember stats over runs
