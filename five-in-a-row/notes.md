@@ -1,5 +1,9 @@
 # 2018-04-03
 
+Things to try:
+1. Use stats rather than randomness
+2. Remember stats over runs
+
 Pure random. Start the game from empy stats table each run.
 
     let numberToWin = 5
