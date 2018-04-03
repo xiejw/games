@@ -13,14 +13,16 @@ class MonteCarlo {
   var boardSimulator: BoardSimulator
   var maxMoves: Int
   var calculationTime: Double
+  var randomOnly: Bool
   var plays = Dictionary<State, Int>()
   var blackWins = Dictionary<State, Int>()
   var whiteWins = Dictionary<State, Int>()
   
-  init(boardSimulator: BoardSimulator, maxMoves: Int, calculationTime: Double) {
+  init(boardSimulator: BoardSimulator, maxMoves: Int, calculationTime: Double, randomOnly: Bool = true) {
     self.boardSimulator = boardSimulator
     self.maxMoves = maxMoves
     self.calculationTime = calculationTime
+    self.randomOnly = randomOnly
   }
   
   func getNextMove(stateHistory: [State]) -> Move? {
@@ -70,6 +72,7 @@ class MonteCarlo {
     return bestMove
   }
   
+  // Run multiple simulations within a time constraint.
   func runSimulations(stateHistory: [State]) -> SimuationStats {
     let begin = NSDate().timeIntervalSince1970
     var games = 0
@@ -95,6 +98,7 @@ class MonteCarlo {
                           games: games, startTime: begin, endTime: end)
   }
   
+  // Run one simulation and return the possible winner.
   func runSimulation(stateHistory: [State]) -> Player? {
     var stateHistoryCopy = stateHistory
     var nextState = stateHistoryCopy.last!
@@ -104,10 +108,11 @@ class MonteCarlo {
     var expand = true
     
     for _ in 0..<self.maxMoves {
-      var legalMoves = boardSimulator.legalMoves(stateHistory: stateHistoryCopy)
+      let legalMoves = boardSimulator.legalMoves(stateHistory: stateHistoryCopy)
       
-      let n = Int(arc4random_uniform(UInt32(legalMoves.count)))
-      let move = legalMoves[n]
+      // Choose a move.
+      let move = chooseAMove(legalMoves: legalMoves, stateHistory: stateHistoryCopy)
+
       nextState = boardSimulator.nextState(state: nextState, move: move)
       stateHistoryCopy.append(nextState)
       
@@ -144,4 +149,62 @@ class MonteCarlo {
     }
     return finalWinner
   }
+  
+  // Choose a Move from legalMoves and stateHistory.
+  func chooseAMove(legalMoves: [Move], stateHistory: [State]) -> Move {
+    func pickARandomMove() -> Move {
+      let n = Int(arc4random_uniform(UInt32(legalMoves.count)))
+      return  legalMoves[n]
+    }
+    
+    if self.randomOnly || legalMoves.count == 0 {
+      return pickARandomMove()
+    }
+    
+    var hasAllKnowledge = true
+    let currentState = stateHistory.last!
+    let nextPlayer = boardSimulator.nextPlayer(state: currentState)
+    
+    var states = [State]()
+    var totalPlays = 0
+    for move in legalMoves {
+      let nextState = boardSimulator.nextState(state: currentState, move: move)
+      states.append(nextState)
+      if let games = self.plays[nextState] {
+        totalPlays += games
+      } else {
+        hasAllKnowledge = false
+        break
+      }
+    }
+    
+    if !hasAllKnowledge {
+      return pickARandomMove()
+    }
+    
+    // Now use UCB1.
+    var winsTable = nextPlayer == .BLACK ? blackWins : whiteWins
+    let logOfTotalGames = log(Double(totalPlays))
+    var bestMove: Move? = nil
+    var bestPlayOut = 0.0
+    for (index, move) in legalMoves.enumerated() {
+      let nextState = states[index]
+      let gamses = Double(self.plays[nextState]!)
+      
+      var playOut = Double(winsTable[nextState]!) / gamses
+      playOut += 1.4 * sqrt(logOfTotalGames / gamses)
+      
+      if playOut > bestPlayOut {
+        bestPlayOut = playOut
+        bestMove = move
+      }
+    }
+    if !useUCB {
+      useUCB = true
+      print("UCB!")
+    }
+    return bestMove!
+  }
+  
+  var useUCB = false
 }

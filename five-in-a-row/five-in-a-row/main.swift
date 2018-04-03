@@ -2,27 +2,35 @@
 
 let numberToWin = 5
 let size = 15
-let maxMoves = 100
+let maxMoves = 150
 let calculationTime = 90.0
 
 let board = Board(size: size, numberToWin: numberToWin)
 let simulator = BoardSimulator(size: size, numberToWin: numberToWin)
 
 let ai = MonteCarlo(boardSimulator: simulator,
-                    maxMoves: maxMoves, calculationTime: calculationTime)
+                    maxMoves: maxMoves, calculationTime: calculationTime,
+                    randomOnly: false)
+
 
 do {
   try board.newMove(Move(x:8, y:8))
   try board.newMove(Move(x:7, y:9))
 
   board.print()
-  var move = ai.getNextMove(stateHistory: board.states)!
   
-  try board.newMove(Move(x:8, y:9))
-  try board.newMove(Move(x:8, y:10))
-  board.print()
-  
-  ai.getNextMove(stateHistory: board.states)
+  while true {
+    let nextPlayer = simulator.nextPlayer(state: board.states.last!)
+    print("Next player is \(nextPlayer)")
+    let move = ai.getNextMove(stateHistory: board.states)!
+    print("Push move \(move)")
+    try board.newMove(move)
+    board.print()
+    if let winner = simulator.winner(stateHistory: board.states) {
+      print("We have a winner \(winner)")
+      break
+    }
+  }
 
 } catch PlayError.invalidMove(let move) {
   print("The move: \(move) is invalid.")
