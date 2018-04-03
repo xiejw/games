@@ -34,6 +34,7 @@ class MonteCarlo {
     let whiteWinsRatio = Double(simulationStats.whiteWins) * 1.0 / Double(simulationStats.games)
     print("BlackWins: \(simulationStats.blackWins) -- \(blackWinsRatio)")
     print("WhiteWins: \(simulationStats.whiteWins) -- \(whiteWinsRatio)")
+    print("Total plays in memory \(self.plays.count)")
     
     // Find the best move.
     let currentState = stateHistory.last!
@@ -109,6 +110,10 @@ class MonteCarlo {
     
     for _ in 0..<self.maxMoves {
       let legalMoves = boardSimulator.legalMoves(stateHistory: stateHistoryCopy)
+      
+      if legalMoves.isEmpty {
+        break
+      }
       
       // Choose a move.
       let move = chooseAMove(legalMoves: legalMoves, stateHistory: stateHistoryCopy)

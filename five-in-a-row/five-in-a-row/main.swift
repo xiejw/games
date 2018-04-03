@@ -1,7 +1,7 @@
 // Reference: https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
 
 let numberToWin = 5
-let size = 15
+let size = 10
 let maxMoves = 150
 let calculationTime = 90.0
 
@@ -14,8 +14,10 @@ let ai = MonteCarlo(boardSimulator: simulator,
 
 
 do {
-  try board.newMove(Move(x:8, y:8))
-  try board.newMove(Move(x:7, y:9))
+  // try board.newMove(Move(x:8, y:8))
+  // try board.newMove(Move(x:7, y:9))
+  
+  try board.newMove(Move(x:4, y:4))
 
   board.print()
   
