@@ -5,7 +5,6 @@ do {
   try board.newMove(Move(x:2, y:3))
   try board.newMove(Move(x:5, y:3))
   try board.newMove(Move(x:3, y:4))
-  try board.newMove(Move(x:6, y:2))
   board.print()
   
   let simulator = BoardSimulator(size:8, numberToWin:3)
@@ -16,6 +15,11 @@ do {
   } else {
     print("No winner yet")
   }
+  
+  print("Run one step of simuation")
+  let ai = MonteCarlo(boardSimulator: simulator, maxMoves: 10, calculationTime: 30)
+  ai.runSimulation(stateHistory: board.states)
+
   
 } catch PlayError.invalidMove(let move) {
   print("The move: \(move) is invalid.")

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E38420402072AFF500B9D510 /* board.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384203F2072AFF500B9D510 /* board.swift */; };
 		E38420422072BAC600B9D510 /* montecarlo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420412072BAC600B9D510 /* montecarlo.swift */; };
+		E38420442072E5B300B9D510 /* simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* simulator.swift */; };
 		E38C4DD6207299E100ADE4A6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C4DD5207299E100ADE4A6 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		E384203F2072AFF500B9D510 /* board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = board.swift; sourceTree = "<group>"; };
 		E38420412072BAC600B9D510 /* montecarlo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = montecarlo.swift; sourceTree = "<group>"; };
+		E38420432072E5B300B9D510 /* simulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simulator.swift; sourceTree = "<group>"; };
 		E38C4DD2207299E100ADE4A6 /* five-in-a-row */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "five-in-a-row"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E38C4DD5207299E100ADE4A6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,6 +66,7 @@
 				E38C4DD5207299E100ADE4A6 /* main.swift */,
 				E384203F2072AFF500B9D510 /* board.swift */,
 				E38420412072BAC600B9D510 /* montecarlo.swift */,
+				E38420432072E5B300B9D510 /* simulator.swift */,
 			);
 			path = "five-in-a-row";
 			sourceTree = "<group>";
@@ -128,6 +131,7 @@
 			files = (
 				E38420402072AFF500B9D510 /* board.swift in Sources */,
 				E38420422072BAC600B9D510 /* montecarlo.swift in Sources */,
+				E38420442072E5B300B9D510 /* simulator.swift in Sources */,
 				E38C4DD6207299E100ADE4A6 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,6 +12,9 @@ class MonteCarlo {
   var boardSimulator: BoardSimulator
   var maxMoves: Int
   var calculationTime: Double
+  var plays = Dictionary<State, Int>()
+  var blackWins = Dictionary<State, Int>()
+  var whiteWins = Dictionary<State, Int>()
   
   init(boardSimulator: BoardSimulator, maxMoves: Int, calculationTime: Double) {
     self.boardSimulator = boardSimulator
@@ -27,20 +30,48 @@ class MonteCarlo {
   }
   
   func runSimulation(stateHistory: [State]) {
-//    var stateHistoryCopy = stateHistory
-//    var nextState = stateHistoryCopy.last!
-//
-//    for _ in 0..<self.maxMoves {
-//      var legalMoves = boardSimulator.legalMoves(stateHistory: stateHistoryCopy)
-//
-//      let n = Int(arc4random_uniform(UInt32(legalMoves.count)))
-//      let move = legalMoves[n]
-//      let nextState = boardSimulator.nextState(state: nextState, move: move)
-//      stateHistoryCopy.append(nextState)
-//
-//      if let winner = boardSimulator.winner(stateHistory: stateHistoryCopy) {
-//        break
-//      }
-//    }
+    var stateHistoryCopy = stateHistory
+    var nextState = stateHistoryCopy.last!
+    var visitedSates = Set<State>()
+    
+    var finalWinner: Player? = nil
+    var expand = true
+    
+    for _ in 0..<self.maxMoves {
+      var legalMoves = boardSimulator.legalMoves(stateHistory: stateHistoryCopy)
+      
+      let n = Int(arc4random_uniform(UInt32(legalMoves.count)))
+      let move = legalMoves[n]
+      nextState = boardSimulator.nextState(state: nextState, move: move)
+      stateHistoryCopy.append(nextState)
+      
+      visitedSates.insert(nextState)
+      if expand {
+        if self.plays[nextState] == nil {
+          expand = false
+          self.plays[nextState] = 0
+          self.blackWins[nextState] = 0
+          self.whiteWins[nextState] = 0
+        }
+      }
+      
+      if let winner = boardSimulator.winner(stateHistory: stateHistoryCopy) {
+        finalWinner = winner
+        break
+      }
+    }
+    
+    for state in visitedSates {
+      if self.plays[state] != nil {
+        self.plays[state]! += 1
+        if finalWinner != nil {
+          if finalWinner! == .BLACK {
+            self.blackWins[state]! += 1
+          } else {
+            self.whiteWins[state]! += 1
+          }
+        }
+      }
+    }
   }
 }
