@@ -9,6 +9,7 @@
 import Foundation
 
 class MonteCarlo {
+  
   var boardSimulator: BoardSimulator
   var maxMoves: Int
   var calculationTime: Double
@@ -24,9 +25,20 @@ class MonteCarlo {
   
   func getNextMove(stateHistory: [State]) {
     let begin = NSDate().timeIntervalSince1970
+    var games = 0
+    
+    print("Start simulation at \(begin)")
     while NSDate().timeIntervalSince1970 - begin < self.calculationTime {
       runSimulation(stateHistory: stateHistory)
+      games += 1
     }
+    print("End simulation at \(NSDate().timeIntervalSince1970)")
+    
+    print("Played \(games) games with search depth \(self.maxMoves).")
+    
+    // var legalMoves = boardSimulator.legalMoves(stateHistory: stateHistory)
+    // var nextPlayer = boardSimulator.nextPlayer(state: stateHistory.last!)
+    
   }
   
   func runSimulation(stateHistory: [State]) {
@@ -48,6 +60,7 @@ class MonteCarlo {
       visitedSates.insert(nextState)
       if expand {
         if self.plays[nextState] == nil {
+          // Only expand once.
           expand = false
           self.plays[nextState] = 0
           self.blackWins[nextState] = 0
@@ -61,6 +74,7 @@ class MonteCarlo {
       }
     }
     
+    // Update status.
     for state in visitedSates {
       if self.plays[state] != nil {
         self.plays[state]! += 1

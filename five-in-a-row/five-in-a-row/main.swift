@@ -18,7 +18,7 @@ do {
   
   print("Run one step of simuation")
   let ai = MonteCarlo(boardSimulator: simulator, maxMoves: 10, calculationTime: 30)
-  ai.runSimulation(stateHistory: board.states)
+  ai.getNextMove(stateHistory: board.states)
 
   
 } catch PlayError.invalidMove(let move) {
