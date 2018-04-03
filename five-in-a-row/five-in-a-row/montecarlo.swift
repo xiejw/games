@@ -112,7 +112,6 @@ class MonteCarlo {
       
       // Choose a move.
       let move = chooseAMove(legalMoves: legalMoves, stateHistory: stateHistoryCopy)
-
       nextState = boardSimulator.nextState(state: nextState, move: move)
       stateHistoryCopy.append(nextState)
       
@@ -153,8 +152,13 @@ class MonteCarlo {
   // Choose a Move from legalMoves and stateHistory.
   func chooseAMove(legalMoves: [Move], stateHistory: [State]) -> Move {
     func pickARandomMove() -> Move {
+#if os(Linux)
+      // This has a module bias.
+      let n = Int(random() % legalMoves.count)
+#else
       let n = Int(arc4random_uniform(UInt32(legalMoves.count)))
-      return  legalMoves[n]
+#endif
+      return legalMoves[n]
     }
     
     if self.randomOnly || legalMoves.count == 0 {
