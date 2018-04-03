@@ -4,6 +4,7 @@ let numberToWin = 5
 let size = 10
 let maxMoves = 150
 let calculationTime = 90.0
+let humanPlay = true
 
 let board = Board(size: size, numberToWin: numberToWin)
 let simulator = BoardSimulator(size: size, numberToWin: numberToWin)
@@ -24,7 +25,17 @@ do {
   while true {
     let nextPlayer = simulator.nextPlayer(state: board.states.last!)
     print("Next player is \(nextPlayer)")
-    let move = ai.getNextMove(stateHistory: board.states)!
+    
+    var move: Move
+    if nextPlayer == .WHITE && humanPlay {
+      print("x: ", terminator: "")
+      let x = Int(readLine()!)!
+      print("y: ", terminator: "")
+      let y = Int(readLine()!)!
+      move = Move(x:x, y:y)
+    } else {
+      move = ai.getNextMove(stateHistory: board.states)!
+    }
     print("Push move \(move)")
     try board.newMove(move)
     board.print()

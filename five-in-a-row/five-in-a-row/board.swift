@@ -12,6 +12,15 @@ struct Move: Hashable {
   static func ==(lhs: Move, rhs: Move) -> Bool {
     return lhs.x == rhs.x && lhs.y == rhs.y
   }
+  
+  static func <(lhs: Move, rhs: Move) -> Bool {
+    if lhs.x < rhs.x {
+      return true
+    } else if lhs.x > rhs.x {
+      return false
+    }
+    return lhs.y < rhs.y
+  }
 }
 
 // A chain based State with current move and previous State. It is cheap to make
@@ -25,12 +34,43 @@ class State: Hashable {
   var previovsState: State?
   var currentMove: Move
   
+  // The rest of the code is all about hashing.
+  var hashTable = [Move]()
+  var lazyHashValue = 0
+  
+  func lazyBuildHashTable() {
+    // We can take the prevousState.hashTable and insert.
+    if !hashTable.isEmpty {
+      return
+    }
+
+    hashTable.append(currentMove)
+    
+    var state = previovsState
+    while state != nil {
+      let move = state!.currentMove
+      hashTable.append(move)
+      state = state!.previovsState
+    }
+    
+    hashTable.sort(by: < )
+    
+    for move in hashTable[0..<min(3, hashTable.count)] {
+      lazyHashValue = lazyHashValue * 16
+      lazyHashValue += move.hashValue
+    }
+  }
+  
   var hashValue: Int {
-    return currentMove.hashValue
+    lazyBuildHashTable()
+    return lazyHashValue
   }
   
   static func ==(lhs: State, rhs: State) -> Bool {
-    return lhs.currentMove == rhs.currentMove && lhs.previovsState == rhs.previovsState
+    if lhs.hashValue != rhs.hashValue {
+      return false
+    }
+    return lhs.hashTable == rhs.hashTable
   }
 }
 
