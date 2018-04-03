@@ -1,4 +1,12 @@
+# Jupyter
 .ipynb_checkpoints/
+
+# Xcode
 xcuserdata
+project.xcworkspace/
+
+# Vim
 *.swp
+
+# OSX
 .DS_Store
