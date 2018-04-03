@@ -1,3 +1,5 @@
+// Reference: https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
+
 let numberToWin = 3
 let size = 8
 

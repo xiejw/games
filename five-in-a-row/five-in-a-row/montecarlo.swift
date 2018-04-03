@@ -41,22 +41,30 @@ class MonteCarlo {
     
     var maxWins = 0.0
     var bestMove: Move? = nil
+    var moveResult = Dictionary<Move, Double>()
     
     for move in legalMoves {
       let nextState = boardSimulator.nextState(state: currentState, move: move)
       if let games = self.plays[nextState]  {
         let wins = Double(winsTable[nextState]!) / Double(games)
+        moveResult[move] = wins
+        
         if wins > maxWins {
           maxWins = wins
           bestMove = move
         }
       }
     }
-
+    
     if maxWins == 0 {
       print("No stats.")
     } else {
       print("bestMove \(bestMove!)")
+      print("All results: ")
+      let sortedResult = moveResult.sorted{ $0.value > $1.value }
+      for result in sortedResult[0..<5] {
+        print(" -> \(result.1): \(result.0)")
+      }
     }
   }
   
