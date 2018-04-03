@@ -48,7 +48,7 @@ class Board {
   let size: Int
   let numberToWin: Int
   
-  init(_ size: Int = 8, numberToWin: Int = 5) {
+  init(size: Int = 8, numberToWin: Int = 5) {
     self.states = []
     self.moves = []
     self.size = size

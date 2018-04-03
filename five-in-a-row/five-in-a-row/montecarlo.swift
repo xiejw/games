@@ -1,11 +1,3 @@
-//
-//  montecarlo.swift
-//  five-in-a-row
-//
-//  Created by Jianwei Xie on 4/2/18.
-//  Copyright © 2018 Jianwei Xie. All rights reserved.
-//
-
 import Foundation
 
 struct SimuationStats {
@@ -34,15 +26,38 @@ class MonteCarlo {
   func getNextMove(stateHistory: [State]) {
     let simulationStats = runSimulations(stateHistory: stateHistory)
     
+    // Print out the statistic.
     print("Played \(simulationStats.games) games with search depth \(self.maxMoves).")
     let blackWinsRatio = Double(simulationStats.blackWins) * 1.0 / Double(simulationStats.games)
     let whiteWinsRatio = Double(simulationStats.whiteWins) * 1.0 / Double(simulationStats.games)
     print("BlackWins: \(simulationStats.blackWins) -- \(blackWinsRatio)")
     print("WhiteWins: \(simulationStats.whiteWins) -- \(whiteWinsRatio)")
-
-    // var legalMoves = boardSimulator.legalMoves(stateHistory: stateHistory)
-    // var nextPlayer = boardSimulator.nextPlayer(state: stateHistory.last!)
     
+    // Find the best move.
+    let currentState = stateHistory.last!
+    let legalMoves = boardSimulator.legalMoves(stateHistory: stateHistory)
+    let nextPlayer = boardSimulator.nextPlayer(state: currentState)
+    let winsTable = nextPlayer == .BLACK ? blackWins : whiteWins
+    
+    var maxWins = 0.0
+    var bestMove: Move? = nil
+    
+    for move in legalMoves {
+      let nextState = boardSimulator.nextState(state: currentState, move: move)
+      if let games = self.plays[nextState]  {
+        let wins = Double(winsTable[nextState]!) / Double(games)
+        if wins > maxWins {
+          maxWins = wins
+          bestMove = move
+        }
+      }
+    }
+
+    if maxWins == 0 {
+      print("No stats.")
+    } else {
+      print("bestMove \(bestMove!)")
+    }
   }
   
   func runSimulations(stateHistory: [State]) -> SimuationStats {
@@ -65,7 +80,7 @@ class MonteCarlo {
       end = NSDate().timeIntervalSince1970 - begin
     }
     print("End simulation at \(end)")
-
+    
     return SimuationStats(blackWins: blackWins, whiteWins: whiteWins,
                           games: games, startTime: begin, endTime: end)
   }
