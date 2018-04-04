@@ -1,4 +1,9 @@
-# 2018-04-03
+# 2018-04-03 03
+
+According to a post, MCTS is only working with board size 8x8. 
+See `result/2018-04-03_3.md`. It is better but still not close to human.
+
+# 2018-04-03 02
 
 I think the issue is the State is not remembered correctly. It remebers the path
 not the board state.

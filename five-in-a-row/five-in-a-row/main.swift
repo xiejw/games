@@ -1,9 +1,9 @@
 // Reference: https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
 
 let numberToWin = 5
-let size = 10
+let size = 8
 let maxMoves = 150
-let calculationTime = 90.0
+let calculationTime = 300.0
 let humanPlay = true
 
 let board = Board(size: size, numberToWin: numberToWin)
@@ -18,7 +18,7 @@ do {
   // try board.newMove(Move(x:8, y:8))
   // try board.newMove(Move(x:7, y:9))
   
-  try board.newMove(Move(x:4, y:4))
+  try board.newMove(Move(x:3, y:3))
 
   board.print()
   
