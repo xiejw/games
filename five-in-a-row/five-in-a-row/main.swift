@@ -4,23 +4,23 @@ let numberToWin = 5
 let size = 8
 let maxMoves = 150
 let calculationTime = 300.0
+let warmUpTime = 600.0
 let humanPlay = true
 
 let board = Board(size: size, numberToWin: numberToWin)
 let simulator = BoardSimulator(size: size, numberToWin: numberToWin)
 
 let ai = MonteCarlo(boardSimulator: simulator,
-                    maxMoves: maxMoves, calculationTime: calculationTime,
+                    maxMoves: maxMoves,
+                    calculationTime: calculationTime,
                     randomOnly: false)
 
-
 do {
-  // try board.newMove(Move(x:8, y:8))
-  // try board.newMove(Move(x:7, y:9))
-  
   try board.newMove(Move(x:3, y:3))
-
   board.print()
+  
+  print("Warm up")
+  ai.warmUp(stateHistory: board.states, warmupTime: warmUpTime)
   
   while true {
     let nextPlayer = simulator.nextPlayer(state: board.states.last!)
@@ -37,6 +37,7 @@ do {
       move = ai.getNextMove(stateHistory: board.states)!
     }
     print("Push move \(move)")
+    
     try board.newMove(move)
     board.print()
     if let winner = simulator.winner(stateHistory: board.states) {
@@ -44,7 +45,7 @@ do {
       break
     }
   }
-
+  
 } catch PlayError.invalidMove(let move) {
   print("The move: \(move) is invalid.")
 }

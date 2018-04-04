@@ -6,7 +6,7 @@ struct Move: Hashable {
   var y: Int
   
   var hashValue: Int {
-    return x.hashValue * 16 + y.hashValue
+    return x.hashValue * 31 + y.hashValue
   }
   
   static func ==(lhs: Move, rhs: Move) -> Bool {
@@ -55,8 +55,8 @@ class State: Hashable {
     
     hashTable.sort(by: < )
     
-    for move in hashTable[0..<min(3, hashTable.count)] {
-      lazyHashValue = lazyHashValue * 16
+    for move in hashTable[0..<min(5, hashTable.count)] {
+      lazyHashValue *= 256
       lazyHashValue += move.hashValue
     }
   }

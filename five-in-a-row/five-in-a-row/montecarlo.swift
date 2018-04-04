@@ -25,8 +25,24 @@ class MonteCarlo {
     self.randomOnly = randomOnly
   }
   
+  func warmUp(stateHistory: [State], warmupTime: Double) {
+    let simulationStats = runSimulations(stateHistory: stateHistory,
+                                         calculationTime: warmupTime)
+    
+    // Print out the statistic.
+    print("Played \(simulationStats.games) games with search depth \(self.maxMoves).")
+    let blackWinsRatio = Double(simulationStats.blackWins) * 1.0 / Double(simulationStats.games)
+    let whiteWinsRatio = Double(simulationStats.whiteWins) * 1.0 / Double(simulationStats.games)
+    print("BlackWins: \(simulationStats.blackWins) -- \(blackWinsRatio)")
+    print("WhiteWins: \(simulationStats.whiteWins) -- \(whiteWinsRatio)")
+    print("Total plays in memory \(self.plays.count)")
+    print("Updated plays in memory \(self.updatedState)")
+    print("Reused plays in memory \(self.reuseState)")
+  }
+  
   func getNextMove(stateHistory: [State]) -> Move? {
-    let simulationStats = runSimulations(stateHistory: stateHistory)
+    let simulationStats = runSimulations(stateHistory: stateHistory,
+                                         calculationTime: self.calculationTime)
     
     // Print out the statistic.
     print("Played \(simulationStats.games) games with search depth \(self.maxMoves).")
@@ -76,7 +92,7 @@ class MonteCarlo {
   }
   
   // Run multiple simulations within a time constraint.
-  func runSimulations(stateHistory: [State]) -> SimuationStats {
+  func runSimulations(stateHistory: [State], calculationTime: Double) -> SimuationStats {
     let begin = NSDate().timeIntervalSince1970
     var games = 0
     var blackWins = 0
@@ -84,7 +100,7 @@ class MonteCarlo {
     
     print("Start simulation at \(begin)")
     var end = NSDate().timeIntervalSince1970 - begin
-    while  end < self.calculationTime {
+    while  end < calculationTime {
       if let player = runSimulation(stateHistory: stateHistory) {
         if player == .BLACK {
           blackWins += 1

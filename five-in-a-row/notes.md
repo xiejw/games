@@ -1,3 +1,11 @@
+# 2018-04-04
+
+Added warn up time to help the AI collect stats sufficient before the game.
+See `result/2018-04-04.md`. 
+
+AI won, for the first time.
+
+
 # 2018-04-03 03
 
 According to a post, MCTS is only working with board size 8x8. 
