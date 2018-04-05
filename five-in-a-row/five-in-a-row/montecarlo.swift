@@ -25,11 +25,7 @@ class MonteCarlo {
     self.randomOnly = randomOnly
   }
   
-  func warmUp(stateHistory: [State], warmupTime: Double) {
-    let simulationStats = runSimulations(stateHistory: stateHistory,
-                                         calculationTime: warmupTime)
-    
-    // Print out the statistic.
+  func printLearningStats(_ simulationStats: SimuationStats) {
     print("Played \(simulationStats.games) games with search depth \(self.maxMoves).")
     let blackWinsRatio = Double(simulationStats.blackWins) * 1.0 / Double(simulationStats.games)
     let whiteWinsRatio = Double(simulationStats.whiteWins) * 1.0 / Double(simulationStats.games)
@@ -38,6 +34,16 @@ class MonteCarlo {
     print("Total plays in memory \(self.plays.count)")
     print("Updated plays in memory \(self.updatedState)")
     print("Reused plays in memory \(self.reuseState)")
+    print("Random moves \(self.randomMoves)")
+    print("UCB moves \(self.ucbMoves) -- \(Double(self.ucbMoves) / Double(randomMoves + ucbMoves))")
+  }
+  
+  func warmUp(stateHistory: [State], warmupTime: Double) {
+    let simulationStats = runSimulations(stateHistory: stateHistory,
+                                         calculationTime: warmupTime)
+    
+    // Print out the statistic.
+    printLearningStats(simulationStats)
   }
   
   func getNextMove(stateHistory: [State]) -> Move? {
@@ -45,14 +51,7 @@ class MonteCarlo {
                                          calculationTime: self.calculationTime)
     
     // Print out the statistic.
-    print("Played \(simulationStats.games) games with search depth \(self.maxMoves).")
-    let blackWinsRatio = Double(simulationStats.blackWins) * 1.0 / Double(simulationStats.games)
-    let whiteWinsRatio = Double(simulationStats.whiteWins) * 1.0 / Double(simulationStats.games)
-    print("BlackWins: \(simulationStats.blackWins) -- \(blackWinsRatio)")
-    print("WhiteWins: \(simulationStats.whiteWins) -- \(whiteWinsRatio)")
-    print("Total plays in memory \(self.plays.count)")
-    print("Updated plays in memory \(self.updatedState)")
-    print("Reused plays in memory \(self.reuseState)")
+    printLearningStats(simulationStats)
     
     // Find the best move.
     let currentState = stateHistory.last!
@@ -196,6 +195,7 @@ class MonteCarlo {
 #else
       let n = Int(arc4random_uniform(UInt32(legalMoves.count)))
 #endif
+      self.randomMoves += 1
       return legalMoves[n]
     }
     
@@ -241,15 +241,13 @@ class MonteCarlo {
         bestMove = move
       }
     }
-    if !useUCB {
-      useUCB = true
-      print("UCB!")
-    }
+    self.ucbMoves += 1
     return bestMove!
   }
   
   // remove me.
   var updatedState = 0
   var reuseState = 0
-  var useUCB = false
+  var randomMoves = 0
+  var ucbMoves = 0
 }
