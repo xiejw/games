@@ -91,14 +91,23 @@ class MonteCarlo {
     return bestMove
   }
   
+  func formatDate(_ timeIntervalSince1970: Double) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    dateFormatter.timeZone = TimeZone.current
+    
+    return dateFormatter.string(from: Date(timeIntervalSince1970: timeIntervalSince1970))
+  }
+  
   // Run multiple simulations within a time constraint.
   func runSimulations(stateHistory: [State], calculationTime: Double) -> SimuationStats {
-    let begin = NSDate().timeIntervalSince1970
+    let begin = Date().timeIntervalSince1970
     var games = 0
     var blackWins = 0
     var whiteWins = 0
-    
-    print("Start simulation at \(begin)")
+
+    print("Start simulation at \(formatDate(begin)).")
+    print("Estimator calculation time \(calculationTime) secs.")
     var end = NSDate().timeIntervalSince1970 - begin
     while  end < calculationTime {
       if let player = runSimulation(stateHistory: stateHistory) {
