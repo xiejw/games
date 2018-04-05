@@ -4,7 +4,7 @@ let numberToWin = 5
 let size = 8
 let maxMoves = 150
 let calculationTime = 300.0
-let warmUpTime = 600.0
+let warmUpTime = 1200.0
 let humanPlay = true
 
 let board = Board(size: size, numberToWin: numberToWin)
@@ -23,7 +23,7 @@ do {
   ai.warmUp(stateHistory: board.states, warmupTime: warmUpTime)
   
   while true {
-    let nextPlayer = simulator.nextPlayer(state: board.states.last!)
+    let nextPlayer = board.states.last!.nextPlayer
     print("Next player is \(nextPlayer)")
     
     var move: Move

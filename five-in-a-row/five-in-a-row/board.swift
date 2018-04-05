@@ -1,7 +1,7 @@
 import Foundation
 
 // Represents the current move.
-struct Move: Hashable {
+struct Move: Hashable, Equatable {
   var x: Int
   var y: Int
   
@@ -13,6 +13,9 @@ struct Move: Hashable {
     return lhs.x == rhs.x && lhs.y == rhs.y
   }
   
+  // The < operator is used to sort the Moves in a Board.
+  // Five-in-a-row does not allow Player to take the stone out.
+  // So, we do not need to sort based on Player.
   static func <(lhs: Move, rhs: Move) -> Bool {
     if lhs.x < rhs.x {
       return true
@@ -23,6 +26,20 @@ struct Move: Hashable {
   }
 }
 
+struct Stone: Equatable {
+  var move: Move
+  var player: Player
+  
+  // Used to sort the Move only
+  static func <(lhs: Stone, rhs: Stone) -> Bool {
+    return lhs.move < rhs.move
+  }
+  
+  static func ==(lhs: Stone, rhs: Stone) -> Bool {
+    return lhs.player == rhs.player && lhs.move == rhs.move
+  }
+}
+
 // A chain based State with current move and previous State. It is cheap to make
 // copy.
 class State: Hashable {
@@ -30,12 +47,23 @@ class State: Hashable {
     self.currentMove = move
     self.previovsState = previovsState
   }
-  
+
   var previovsState: State?
   var currentMove: Move
   
+  lazy var currentPlayer: Player = {
+    if previovsState == nil {
+      return .BLACK
+    }
+    return (previovsState!.currentPlayer == .WHITE) ? .BLACK : .WHITE
+  }()
+  
+  lazy var nextPlayer: Player = {
+    return (currentPlayer == .WHITE) ? .BLACK : .WHITE
+  }()
+  
   // The rest of the code is all about hashing.
-  var hashTable = [Move]()
+  var hashTable = [Stone]()
   var lazyHashValue = 0
   
   func lazyBuildHashTable() {
@@ -44,20 +72,20 @@ class State: Hashable {
       return
     }
 
-    hashTable.append(currentMove)
+    hashTable.append(Stone(move: currentMove, player: currentPlayer))
     
     var state = previovsState
     while state != nil {
       let move = state!.currentMove
-      hashTable.append(move)
+      hashTable.append(Stone(move:move, player:state!.currentPlayer))
       state = state!.previovsState
     }
     
-    hashTable.sort(by: < )
+    hashTable.sort(by: <)
     
-    for move in hashTable[0..<min(5, hashTable.count)] {
+    for stone in hashTable[0..<min(5, hashTable.count)] {
       lazyHashValue *= 256
-      lazyHashValue += move.hashValue
+      lazyHashValue += stone.move.hashValue
     }
   }
   
