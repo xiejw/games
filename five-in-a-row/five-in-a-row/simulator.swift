@@ -1,6 +1,6 @@
 import Foundation
 
-class BoardSimulator {
+class GameSimulator {
   let size: Int
   let numberToWin: Int
   

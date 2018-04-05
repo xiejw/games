@@ -7,23 +7,23 @@ let calculationTime = 300.0
 let warmUpTime = 1200.0
 let humanPlay = true
 
-let board = Board(size: size, numberToWin: numberToWin)
-let simulator = BoardSimulator(size: size, numberToWin: numberToWin)
+let game = Game(size: size, numberToWin: numberToWin)
+let simulator = GameSimulator(size: size, numberToWin: numberToWin)
 
-let ai = MonteCarlo(boardSimulator: simulator,
+let ai = MonteCarlo(gameSimulator: simulator,
                     maxMoves: maxMoves,
                     calculationTime: calculationTime,
                     randomOnly: false)
 
 do {
-  try board.newMove(Move(x:3, y:3))
-  board.print()
+  try game.newMove(Move(x:3, y:3))
+  game.print()
   
-  print("Warm up")
-  ai.warmUp(stateHistory: board.states, warmupTime: warmUpTime)
+  print("Warm up AI.")
+  ai.warmUp(stateHistory: game.states, warmupTime: warmUpTime)
   
   while true {
-    let nextPlayer = board.states.last!.nextPlayer
+    let nextPlayer = game.states.last!.nextPlayer
     print("Next player is \(nextPlayer)")
     
     var move: Move
@@ -34,13 +34,13 @@ do {
       let y = Int(readLine()!)!
       move = Move(x:x, y:y)
     } else {
-      move = ai.getNextMove(stateHistory: board.states)!
+      move = ai.getNextMove(stateHistory: game.states)!
     }
     print("Push move \(move)")
     
-    try board.newMove(move)
-    board.print()
-    if let winner = simulator.winner(stateHistory: board.states) {
+    try game.newMove(move)
+    game.print()
+    if let winner = simulator.winner(stateHistory: game.states) {
       print("We have a winner \(winner)")
       break
     }

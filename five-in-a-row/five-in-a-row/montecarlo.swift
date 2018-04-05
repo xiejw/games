@@ -10,7 +10,7 @@ struct SimuationStats {
 
 class MonteCarlo {
   
-  var boardSimulator: BoardSimulator
+  var gameSimulator: GameSimulator
   var maxMoves: Int
   var calculationTime: Double
   var randomOnly: Bool
@@ -18,8 +18,8 @@ class MonteCarlo {
   var blackWins = Dictionary<State, Int>()
   var whiteWins = Dictionary<State, Int>()
   
-  init(boardSimulator: BoardSimulator, maxMoves: Int, calculationTime: Double, randomOnly: Bool = true) {
-    self.boardSimulator = boardSimulator
+  init(gameSimulator: GameSimulator, maxMoves: Int, calculationTime: Double, randomOnly: Bool = true) {
+    self.gameSimulator = gameSimulator
     self.maxMoves = maxMoves
     self.calculationTime = calculationTime
     self.randomOnly = randomOnly
@@ -55,8 +55,8 @@ class MonteCarlo {
     
     // Find the best move.
     let currentState = stateHistory.last!
-    let legalMoves = boardSimulator.legalMoves(stateHistory: stateHistory)
-    let nextPlayer = boardSimulator.nextPlayer(state: currentState)
+    let legalMoves = gameSimulator.legalMoves(stateHistory: stateHistory)
+    let nextPlayer = gameSimulator.nextPlayer(state: currentState)
     let winsTable = nextPlayer == .BLACK ? blackWins : whiteWins
     
     var maxWins = 0.0
@@ -64,7 +64,7 @@ class MonteCarlo {
     var moveResult = Dictionary<Move, Double>()
     
     for move in legalMoves {
-      let nextState = boardSimulator.nextState(state: currentState, move: move)
+      let nextState = gameSimulator.nextState(state: currentState, move: move)
       if let games = self.plays[nextState]  {
         let wins = Double(winsTable[nextState]!) / Double(games)
         moveResult[move] = wins
@@ -135,7 +135,7 @@ class MonteCarlo {
     var expand = true
     
     for _ in 0..<self.maxMoves {
-      let legalMoves = boardSimulator.legalMoves(stateHistory: stateHistoryCopy)
+      let legalMoves = gameSimulator.legalMoves(stateHistory: stateHistoryCopy)
       
       if legalMoves.isEmpty {
         break
@@ -143,7 +143,7 @@ class MonteCarlo {
       
       // Choose a move.
       let move = chooseAMove(legalMoves: legalMoves, stateHistory: stateHistoryCopy)
-      nextState = boardSimulator.nextState(state: nextState, move: move)
+      nextState = gameSimulator.nextState(state: nextState, move: move)
       stateHistoryCopy.append(nextState)
       
       visitedSates.insert(nextState)
@@ -157,7 +157,7 @@ class MonteCarlo {
         }
       }
       
-      if let winner = boardSimulator.winner(stateHistory: stateHistoryCopy) {
+      if let winner = gameSimulator.winner(stateHistory: stateHistoryCopy) {
         finalWinner = winner
         break
       }
@@ -205,12 +205,12 @@ class MonteCarlo {
     
     var hasAllKnowledge = true
     let currentState = stateHistory.last!
-    let nextPlayer = boardSimulator.nextPlayer(state: currentState)
+    let nextPlayer = gameSimulator.nextPlayer(state: currentState)
     
     var states = [State]()
     var totalPlays = 0
     for move in legalMoves {
-      let nextState = boardSimulator.nextState(state: currentState, move: move)
+      let nextState = gameSimulator.nextState(state: currentState, move: move)
       states.append(nextState)
       if let games = self.plays[nextState] {
         totalPlays += games

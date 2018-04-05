@@ -13,7 +13,7 @@ struct Move: Hashable, Equatable {
     return lhs.x == rhs.x && lhs.y == rhs.y
   }
   
-  // The < operator is used to sort the Moves in a Board.
+  // The < operator is used to sort the Moves in a Game.
   // Five-in-a-row does not allow Player to take the stone out.
   // So, we do not need to sort based on Player.
   static func <(lhs: Move, rhs: Move) -> Bool {
@@ -110,7 +110,7 @@ enum PlayError: Error {
   case invalidMove(move: Move)
 }
 
-class Board {
+class Game {
   var states: [State]
   var moves: Set<Move>
   let size: Int
