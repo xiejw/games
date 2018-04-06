@@ -107,7 +107,8 @@ enum Player {
 }
 
 enum PlayError: Error {
-  case invalidMove(move: Move)
+  case invalidMove(move: Move, errMsg: String)
+  case invalidInput(errMsg: String)
 }
 
 class Game {
@@ -123,11 +124,21 @@ class Game {
     self.numberToWin = numberToWin
   }
   
-  func newMove(_ move: Move) throws {
+  func validateNewMove(_ move: Move) -> Error? {
     if moves.contains(move) {
-      throw PlayError.invalidMove(move: move)
+      return PlayError.invalidMove(move: move, errMsg: "Duplicated move.")
     }
-    
+    if move.x < 0 || move.x >= size || move.y < 0 || move.y >= size {
+      return PlayError.invalidMove(move: move, errMsg: "Out of range.")
+    }
+    return nil
+  }
+  
+  func newMove(_ move: Move) throws {
+    if let err = validateNewMove(move) {
+      throw err
+    }
+
     self.moves.insert(move)
     if states.isEmpty {
       states.append(State(move))

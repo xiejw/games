@@ -13,6 +13,7 @@
 		E38C4DD6207299E100ADE4A6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C4DD5207299E100ADE4A6 /* main.swift */; };
 		E3F7C92F2076AABB003BF365 /* gameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C92E2076AABB003BF365 /* gameTest.swift */; };
 		E3F7C9302076ABDD003BF365 /* game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384203F2072AFF500B9D510 /* game.swift */; };
+		E3F7C9322076F262003BF365 /* system.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9312076F262003BF365 /* system.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +37,7 @@
 		E3F7C926207696C3003BF365 /* Testing.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Testing.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3F7C92A207696C3003BF365 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3F7C92E2076AABB003BF365 /* gameTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameTest.swift; sourceTree = "<group>"; };
+		E3F7C9312076F262003BF365 /* system.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = system.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 				E384203F2072AFF500B9D510 /* game.swift */,
 				E38420412072BAC600B9D510 /* montecarlo.swift */,
 				E38420432072E5B300B9D510 /* simulator.swift */,
+				E3F7C9312076F262003BF365 /* system.swift */,
 			);
 			path = "five-in-a-row";
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E38420402072AFF500B9D510 /* game.swift in Sources */,
+				E3F7C9322076F262003BF365 /* system.swift in Sources */,
 				E38420422072BAC600B9D510 /* montecarlo.swift in Sources */,
 				E38420442072E5B300B9D510 /* simulator.swift in Sources */,
 				E38C4DD6207299E100ADE4A6 /* main.swift in Sources */,
