@@ -2,7 +2,7 @@
 .ipynb_checkpoints/
 
 # Xcode
-xcuserdata
+# xcuserdata
 project.xcworkspace/
 
 # Vim
