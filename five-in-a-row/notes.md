@@ -1,3 +1,19 @@
+# 2018-04-05
+Start to write the simuation to disk, which can be picked up and trained by ML.
+
+It might slow the simuation down. Benchmark shows
+
+
+    # Write I/O write.
+    End simulation at 60.0008871555328
+    Played 6068 games with search depth 150.
+
+    # Without I/O write
+    End simulation at 60.0066170692444
+    Played 6259 games with search depth 150.
+
+
+
 # 2018-04-04
 
 Added warn up time to help the AI collect stats sufficient before the game.

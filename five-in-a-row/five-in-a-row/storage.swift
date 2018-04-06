@@ -6,27 +6,28 @@ protocol Storage {
 
 class CSVStorage: Storage {
   
+  let fileName: String
   let focusedPlayer: Player
   let fs: FileHandle
   
   init(fileName: String, focusedPlayer: Player) {
+    self.fileName = fileName
     self.focusedPlayer = focusedPlayer
     
     let filemgr = FileManager.default
     
     if filemgr.fileExists(atPath: fileName) {
-      print("File exists")
+      print("File \(fileName) already exists. Append game to the end.")
     } else {
-      print("File not found")
       filemgr.createFile(atPath:fileName, contents: nil)
-      print("File created")
+      print("File \(fileName) created")
     }
     fs = FileHandle(forWritingAtPath: fileName)!
   }
   
   deinit {
     fs.closeFile()
-    print("File closed")
+    print("File \(fileName) closed")
   }
   
   let newline = "\n".data(using: .utf8)!
