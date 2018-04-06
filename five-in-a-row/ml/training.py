@@ -3,8 +3,12 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 
+from keras import backend as K
+assert K.image_data_format() != 'channels_first'
+
 boardSize = 8
 fname = "/Users/xiejw/Desktop/stage_1.txt"
+shortMode = True
 
 def getTrainingData(fname):
 
@@ -35,8 +39,12 @@ def getTrainingData(fname):
       board[x,y] = [player]
     return win, board
 
+  count = 1
   for line in content:
     result = parseLine(line)
+    count += 1
+    if shortMode and count >= 100:
+      break
     if result is None:
       continue
     win, board = result
@@ -58,14 +66,15 @@ y_train = y_train[10:]
 input_shape = (boardSize, boardSize, 1)
 
 model = Sequential()
-model.add(Conv2D(32, kernel_size=(3, 3),
-                 activation='relu',
+model.add(Conv2D(32, kernel_size=(3, 3), activation='relu',
                  input_shape=input_shape))
 model.add(Conv2D(64, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
+
+
 model.add(Flatten())
-model.add(Dense(128, activation='relu'))
+model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 	# Compile model
@@ -73,7 +82,13 @@ model.compile(
     loss='binary_crossentropy',
     optimizer='adam', metrics=['accuracy'])
 
+model.summary()
+
 model.fit(x_train, y_train,
           batch_size=128,
           epochs=12,
           validation_data=(x_test, y_test))
+
+result = model.predict(x=x_train[0:10])
+for index in range(10):
+  print('P {}  R {}'.format(result[index], y_train[index]))
