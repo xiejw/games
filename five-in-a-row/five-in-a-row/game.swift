@@ -26,7 +26,8 @@ struct Move: Hashable, Equatable {
   }
 }
 
-struct Stone: Equatable {
+// Represents a Stone on Board.
+fileprivate struct Stone: Equatable {
   var move: Move
   var player: Player
   
@@ -63,8 +64,8 @@ class State: Hashable {
   }()
   
   // The rest of the code is all about hashing.
-  var hashTable = [Stone]()
-  var lazyHashValue = 0
+  fileprivate var hashTable = [Stone]()
+  fileprivate var lazyHashValue = 0
   
   func lazyBuildHashTable() {
     // We can take the prevousState.hashTable and insert.
@@ -148,7 +149,7 @@ class Game {
   }
   
   // Given move and state, find the player for that.
-  func playForMove(move: Move, stateHistory: [State]) -> Player {
+  internal func playForMove(move: Move, stateHistory: [State]) -> Player {
     var count = 0
     for state in stateHistory {
       if state.currentMove == move {
@@ -160,7 +161,7 @@ class Game {
     return .NONE
   }
   
-  func contains(_ move: Move) -> Player? {
+  internal func contains(_ move: Move) -> Player? {
     if !self.moves.contains(move) {
       return nil
     }

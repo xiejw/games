@@ -9,20 +9,6 @@ class GameSimulator {
     self.numberToWin = numberToWin
   }
   
-  func nextPlayer(state: State) -> Player {
-    var count = 0
-    var current_state = state
-    while true {
-      if current_state.previovsState != nil {
-        current_state = current_state.previovsState!
-        count += 1
-        continue
-      }
-      break
-    }
-    return count % 2 == 1 ? .BLACK: .WHITE
-  }
-  
   func nextState(state: State, move: Move) -> State {
     return State(move, state)
   }

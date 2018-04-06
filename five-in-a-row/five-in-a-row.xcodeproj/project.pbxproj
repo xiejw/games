@@ -14,6 +14,8 @@
 		E3F7C92F2076AABB003BF365 /* gameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C92E2076AABB003BF365 /* gameTest.swift */; };
 		E3F7C9302076ABDD003BF365 /* game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384203F2072AFF500B9D510 /* game.swift */; };
 		E3F7C9322076F262003BF365 /* system.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9312076F262003BF365 /* system.swift */; };
+		E3F7C9342076FE11003BF365 /* simulatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9332076FE11003BF365 /* simulatorTest.swift */; };
+		E3F7C9352076FF2C003BF365 /* simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* simulator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +40,7 @@
 		E3F7C92A207696C3003BF365 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3F7C92E2076AABB003BF365 /* gameTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameTest.swift; sourceTree = "<group>"; };
 		E3F7C9312076F262003BF365 /* system.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = system.swift; sourceTree = "<group>"; };
+		E3F7C9332076FE11003BF365 /* simulatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simulatorTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +96,7 @@
 			children = (
 				E3F7C92A207696C3003BF365 /* Info.plist */,
 				E3F7C92E2076AABB003BF365 /* gameTest.swift */,
+				E3F7C9332076FE11003BF365 /* simulatorTest.swift */,
 			);
 			path = Testing;
 			sourceTree = "<group>";
@@ -199,6 +203,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3F7C9352076FF2C003BF365 /* simulator.swift in Sources */,
+				E3F7C9342076FE11003BF365 /* simulatorTest.swift in Sources */,
 				E3F7C9302076ABDD003BF365 /* game.swift in Sources */,
 				E3F7C92F2076AABB003BF365 /* gameTest.swift in Sources */,
 			);

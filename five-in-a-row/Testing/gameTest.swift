@@ -42,4 +42,16 @@ class BoardTest : XCTestCase {
     state3 = State(move43, state3)
     XCTAssertFalse(state1 == state3)
   }
+  
+  func testStatePlayer() {
+    let move23 = Move(x: 2, y: 3)
+    let move33 = Move(x: 3, y: 3)
+    let move43 = Move(x: 4, y: 3)
+    
+    var state = State(move23)
+    state = State(move33, state)
+    state = State(move43, state)
+    XCTAssertEqual(Player.BLACK, state.currentPlayer)
+    XCTAssertEqual(Player.WHITE, state.nextPlayer)
+  }
 }

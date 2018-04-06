@@ -25,7 +25,7 @@ class MonteCarlo {
     self.randomOnly = randomOnly
   }
   
-  func printLearningStats(_ simulationStats: SimuationStats) {
+  fileprivate func printLearningStats(_ simulationStats: SimuationStats) {
     print("Played \(simulationStats.games) games with search depth \(self.maxMoves).")
     let blackWinsRatio = Double(simulationStats.blackWins) * 1.0 / Double(simulationStats.games)
     let whiteWinsRatio = Double(simulationStats.whiteWins) * 1.0 / Double(simulationStats.games)
@@ -56,7 +56,7 @@ class MonteCarlo {
     // Find the best move.
     let currentState = stateHistory.last!
     let legalMoves = gameSimulator.legalMoves(stateHistory: stateHistory)
-    let nextPlayer = gameSimulator.nextPlayer(state: currentState)
+    let nextPlayer = currentState.nextPlayer
     let winsTable = nextPlayer == .BLACK ? blackWins : whiteWins
     
     var maxWins = 0.0
@@ -90,7 +90,7 @@ class MonteCarlo {
     return bestMove
   }
   
-  func formatDate(_ timeIntervalSince1970: Double) -> String {
+  fileprivate func formatDate(_ timeIntervalSince1970: Double) -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
     dateFormatter.timeZone = TimeZone.current
@@ -99,7 +99,7 @@ class MonteCarlo {
   }
   
   // Run multiple simulations within a time constraint.
-  func runSimulations(stateHistory: [State], calculationTime: Double) -> SimuationStats {
+  fileprivate func runSimulations(stateHistory: [State], calculationTime: Double) -> SimuationStats {
     let begin = Date().timeIntervalSince1970
     var games = 0
     var blackWins = 0
@@ -126,7 +126,7 @@ class MonteCarlo {
   }
   
   // Run one simulation and return the possible winner.
-  func runSimulation(stateHistory: [State]) -> Player? {
+  fileprivate func runSimulation(stateHistory: [State]) -> Player? {
     var stateHistoryCopy = stateHistory
     var nextState = stateHistoryCopy.last!
     var visitedSates = Set<State>()
@@ -187,7 +187,7 @@ class MonteCarlo {
   }
   
   // Choose a Move from legalMoves and stateHistory.
-  func chooseAMove(legalMoves: [Move], stateHistory: [State]) -> Move {
+  fileprivate func chooseAMove(legalMoves: [Move], stateHistory: [State]) -> Move {
     func pickARandomMove() -> Move {
 #if os(Linux)
       // This has a module bias.
@@ -205,7 +205,7 @@ class MonteCarlo {
     
     var hasAllKnowledge = true
     let currentState = stateHistory.last!
-    let nextPlayer = gameSimulator.nextPlayer(state: currentState)
+    let nextPlayer = currentState.nextPlayer
     
     var states = [State]()
     var totalPlays = 0
