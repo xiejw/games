@@ -4,17 +4,19 @@ let numberToWin = 5
 let size = 8
 let maxMoves = 150
 let calculationTime = 300.0
-let warmUpTime = 600.0
+let warmUpTime = 60.0
 let humanPlay = true
 
 let game = Game(size: size, numberToWin: numberToWin)
 let simulator = GameSimulator(size: size, numberToWin: numberToWin)
 
+let storage = CSVStorage(fileName: "/tmp/333.txt", focusedPlayer: .BLACK)
+
 let ai = MonteCarlo(gameSimulator: simulator,
                     maxMoves: maxMoves,
                     calculationTime: calculationTime,
-                    randomOnly: false)
-
+                    randomOnly: false,
+                    storage: storage)
 
 try! game.newMove(Move(x:3, y:3))
 game.print()

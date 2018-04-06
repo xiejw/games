@@ -103,13 +103,14 @@ class State: Hashable {
   }
   
   func toString() -> String {
+    lazyBuildHashTable()
     var str = [String]()
     for stone in hashTable {
       str.append(String(stone.move.x))
       str.append(String(stone.move.y))
       str.append(String(stone.player == .BLACK ? 1 : 0))
     }
-    return str.joined(separator: ", ")
+    return str.joined(separator: ",")
   }
 }
 
