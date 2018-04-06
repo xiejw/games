@@ -14,15 +14,19 @@ class MonteCarlo {
   var maxMoves: Int
   var calculationTime: Double
   var randomOnly: Bool
+  var storage: Storage?
+  
   var plays = Dictionary<State, Int>()
   var blackWins = Dictionary<State, Int>()
   var whiteWins = Dictionary<State, Int>()
   
-  init(gameSimulator: GameSimulator, maxMoves: Int, calculationTime: Double, randomOnly: Bool = true) {
+  init(gameSimulator: GameSimulator, maxMoves: Int, calculationTime: Double,
+       randomOnly: Bool = true, storage: Storage? = nil) {
     self.gameSimulator = gameSimulator
     self.maxMoves = maxMoves
     self.calculationTime = calculationTime
     self.randomOnly = randomOnly
+    self.storage = storage
   }
   
   fileprivate func printLearningStats(_ simulationStats: SimuationStats) {
@@ -173,6 +177,10 @@ class MonteCarlo {
         }
 
         self.plays[state]! += 1
+        
+        if storage != nil {
+          storage?.save(state: state, winner: finalWinner)
+        }
         
         if finalWinner != nil {
           if finalWinner! == .BLACK {

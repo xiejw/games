@@ -101,6 +101,16 @@ class State: Hashable {
     }
     return lhs.hashTable == rhs.hashTable
   }
+  
+  func toString() -> String {
+    var str = [String]()
+    for stone in hashTable {
+      str.append(String(stone.move.x))
+      str.append(String(stone.move.y))
+      str.append(String(stone.player == .BLACK ? 1 : 0))
+    }
+    return str.joined(separator: ", ")
+  }
 }
 
 enum Player {
