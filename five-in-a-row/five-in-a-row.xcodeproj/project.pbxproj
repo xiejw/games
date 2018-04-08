@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E36B926F207843C60043D4F5 /* ml.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B926E207843C60043D4F5 /* ml.swift */; };
+		E36B9271207AD6370043D4F5 /* board.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E36B9270207AD6370043D4F5 /* board.mlmodel */; };
 		E38420402072AFF500B9D510 /* game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384203F2072AFF500B9D510 /* game.swift */; };
 		E38420422072BAC600B9D510 /* montecarlo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420412072BAC600B9D510 /* montecarlo.swift */; };
 		E38420442072E5B300B9D510 /* simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* simulator.swift */; };
@@ -32,6 +34,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E36B926E207843C60043D4F5 /* ml.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ml.swift; sourceTree = "<group>"; };
+		E36B9270207AD6370043D4F5 /* board.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = board.mlmodel; path = ml/board.mlmodel; sourceTree = SOURCE_ROOT; };
 		E384203F2072AFF500B9D510 /* game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = game.swift; sourceTree = "<group>"; };
 		E38420412072BAC600B9D510 /* montecarlo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = montecarlo.swift; sourceTree = "<group>"; };
 		E38420432072E5B300B9D510 /* simulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simulator.swift; sourceTree = "<group>"; };
@@ -90,6 +94,8 @@
 				E38420432072E5B300B9D510 /* simulator.swift */,
 				E3F7C9312076F262003BF365 /* system.swift */,
 				E3B6B8E42077314C00B0F81A /* storage.swift */,
+				E36B926E207843C60043D4F5 /* ml.swift */,
+				E36B9270207AD6370043D4F5 /* board.mlmodel */,
 			);
 			path = "five-in-a-row";
 			sourceTree = "<group>";
@@ -197,7 +203,9 @@
 				E38420402072AFF500B9D510 /* game.swift in Sources */,
 				E3F7C9322076F262003BF365 /* system.swift in Sources */,
 				E38420422072BAC600B9D510 /* montecarlo.swift in Sources */,
+				E36B926F207843C60043D4F5 /* ml.swift in Sources */,
 				E3B6B8E52077314C00B0F81A /* storage.swift in Sources */,
+				E36B9271207AD6370043D4F5 /* board.mlmodel in Sources */,
 				E38420442072E5B300B9D510 /* simulator.swift in Sources */,
 				E38C4DD6207299E100ADE4A6 /* main.swift in Sources */,
 			);
