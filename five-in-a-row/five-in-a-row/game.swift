@@ -110,18 +110,17 @@ class State: Hashable {
     }
     lazyBuildHashTable()
     var result = [[Double]]()
-    for i in 0..<size {
+    for _ in 0..<size {
       var currentRow = [Double]()
-      
-      for j in 0..<size {
+      for _ in 0..<size {
         currentRow.append(0.0)
       }
       result.append(currentRow)
     }
     for stone in hashTable {
+      // This should match the ML model.
       result[stone.move.x][stone.move.y] = stone.player == .BLACK ? 1.0 : -1.0
     }
-    // FIXME
     _boardState = result
     return result
   }

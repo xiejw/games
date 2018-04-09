@@ -31,3 +31,11 @@ func getMoveFromUser(validateFn: (Move) -> Error?) -> Move {
     }
   }
 }
+
+func formatDate(timeIntervalSince1970: Double) -> String {
+  let dateFormatter = DateFormatter()
+  dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+  dateFormatter.timeZone = TimeZone.current
+  
+  return dateFormatter.string(from: Date(timeIntervalSince1970: timeIntervalSince1970))
+}

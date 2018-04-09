@@ -11,7 +11,7 @@ class StatePredictionWrapper {
 
   let model = board()
   
-  func predictWinning(state: State) -> Double {
+  func predictBlackPlayerWinning(state: State) -> Double {
     do {
       let mlMultiArrayInput = try? MLMultiArray(shape:[1, 8, 8], dataType:MLMultiArrayDataType.double)
       let boardState = state.boardState(size: size)

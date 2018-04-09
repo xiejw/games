@@ -1,7 +1,7 @@
 import Foundation
 
 protocol Storage {
-  func save(state: State, winner: Player?)
+  func save(state: State, blackWinnerProbability: Double)
 }
 
 class CSVStorage: Storage {
@@ -32,13 +32,9 @@ class CSVStorage: Storage {
   
   let newline = "\n".data(using: .utf8)!
   
-  func save(state: State, winner: Player?) {
+  func save(state: State, blackWinnerProbability: Double) {
     var result = [String]()
-    if winner == focusedPlayer {
-      result.append("1")
-    } else {
-      result.append("0")
-    }
+    result.append(String(blackWinnerProbability))
     result.append(state.toString())
     fs.seekToEndOfFile()
     fs.write(result.joined(separator: ",").data(using: .utf8)!)
