@@ -10,3 +10,6 @@ project.xcworkspace/
 
 # OSX
 .DS_Store
+
+# Project five-in-a-row
+five-in-a-row/build

@@ -1,6 +1,6 @@
 import XCTest
 
-class simulatorTest: XCTestCase {
+class SimulatorTest: XCTestCase {
   
   func testLegalMoves() {
     let move01 = Move(x: 0, y: 1)

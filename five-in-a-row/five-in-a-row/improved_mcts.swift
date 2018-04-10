@@ -51,7 +51,7 @@ fileprivate class MCTSNodeFactory {
     if let node = nodePools[state] {
       return node
     } else {
-      let baseBlackWinningProbability = predictor.predictBlackPlayerWinning(state: state)
+      let baseBlackWinningProbability = try! predictor.predictBlackPlayerWinning(state: state)
       let newNode = MCTSNode(state: state,
                              baseBlackWinningProbability: baseBlackWinningProbability,
                              basePrioriGames: basePriorGames)

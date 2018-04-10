@@ -11,6 +11,9 @@
 		E36B9271207AD6370043D4F5 /* board.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E36B9270207AD6370043D4F5 /* board.mlmodel */; };
 		E3761CE3207BF2D300DBAB3F /* improved_mcts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3761CE2207BF2D200DBAB3F /* improved_mcts.swift */; };
 		E3761CE5207C140700DBAB3F /* mcts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3761CE4207C140700DBAB3F /* mcts.swift */; };
+		E3761CE7207D07B900DBAB3F /* predictorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3761CE6207D07B900DBAB3F /* predictorTest.swift */; };
+		E3761CE8207D088B00DBAB3F /* ml.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B926E207843C60043D4F5 /* ml.swift */; };
+		E3761CE9207D08C600DBAB3F /* board.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E36B9270207AD6370043D4F5 /* board.mlmodel */; };
 		E38420402072AFF500B9D510 /* game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384203F2072AFF500B9D510 /* game.swift */; };
 		E38420442072E5B300B9D510 /* simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* simulator.swift */; };
 		E38C4DD6207299E100ADE4A6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C4DD5207299E100ADE4A6 /* main.swift */; };
@@ -39,6 +42,7 @@
 		E36B9270207AD6370043D4F5 /* board.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = board.mlmodel; path = ml/board.mlmodel; sourceTree = SOURCE_ROOT; };
 		E3761CE2207BF2D200DBAB3F /* improved_mcts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = improved_mcts.swift; sourceTree = "<group>"; };
 		E3761CE4207C140700DBAB3F /* mcts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mcts.swift; sourceTree = "<group>"; };
+		E3761CE6207D07B900DBAB3F /* predictorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = predictorTest.swift; sourceTree = "<group>"; };
 		E384203F2072AFF500B9D510 /* game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = game.swift; sourceTree = "<group>"; };
 		E38420432072E5B300B9D510 /* simulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simulator.swift; sourceTree = "<group>"; };
 		E38C4DD2207299E100ADE4A6 /* five-in-a-row */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "five-in-a-row"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +113,7 @@
 				E3F7C92A207696C3003BF365 /* Info.plist */,
 				E3F7C92E2076AABB003BF365 /* gameTest.swift */,
 				E3F7C9332076FE11003BF365 /* simulatorTest.swift */,
+				E3761CE6207D07B900DBAB3F /* predictorTest.swift */,
 			);
 			path = Testing;
 			sourceTree = "<group>";
@@ -219,7 +224,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3761CE9207D08C600DBAB3F /* board.mlmodel in Sources */,
+				E3761CE8207D088B00DBAB3F /* ml.swift in Sources */,
 				E3F7C9352076FF2C003BF365 /* simulator.swift in Sources */,
+				E3761CE7207D07B900DBAB3F /* predictorTest.swift in Sources */,
 				E3F7C9342076FE11003BF365 /* simulatorTest.swift in Sources */,
 				E3F7C9302076ABDD003BF365 /* game.swift in Sources */,
 				E3F7C92F2076AABB003BF365 /* gameTest.swift in Sources */,

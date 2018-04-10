@@ -9,10 +9,12 @@ class GameSimulator {
     self.numberToWin = numberToWin
   }
   
+  // Returns the next state given current `state` and `move`.
   func nextState(state: State, move: Move) -> State {
     return State(move, state)
   }
   
+  // Returns all legal `Move`s given the `State` history.
   func legalMoves(stateHistory: [State]) -> [Move] {
     var moves = [Move]()
     
@@ -33,7 +35,7 @@ class GameSimulator {
     return moves
   }
   
-  // Given the stateHistory, return the winner.
+  // Returns the winner, given the stateHistory, 
   func winner(stateHistory: [State]) -> Player? {
     if stateHistory.isEmpty {
       return nil
