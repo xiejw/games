@@ -7,14 +7,17 @@ protocol Storage {
 class CSVStorage: Storage {
   
   let fileName: String
-  let focusedPlayer: Player
   let fs: FileHandle
   
-  init(fileName: String, focusedPlayer: Player) {
+  init(fileName: String, deleteFileIfExists: Bool) {
     self.fileName = fileName
-    self.focusedPlayer = focusedPlayer
     
     let filemgr = FileManager.default
+    
+    if deleteFileIfExists && filemgr.fileExists(atPath: fileName) {
+      print("File \(fileName) already exists. Delete it.")
+      try! filemgr.removeItem(atPath: fileName)
+    }
     
     if filemgr.fileExists(atPath: fileName) {
       print("File \(fileName) already exists. Append game to the end.")

@@ -11,10 +11,11 @@ assert K.image_data_format() != 'channels_first'
 
 # Global Configuration.
 boardSize = 8
-fname = "/Users/xiejw/Desktop/stage_1.txt"
+fname = "/Users/xiejw/Desktop/games_200k.txt"
 epochs = 12
 shortMode = False
 save_coreml = True
+cont_training = True
 
 class Dataset(object):
 
@@ -37,7 +38,7 @@ class Dataset(object):
       if not data:
         return None
 
-      win = int(data[0]) * 1.0
+      win = data[0]
       boardRawData = data[1:]
       board = np.zeros((boardSize, boardSize, 1))
       index = 0
@@ -75,10 +76,7 @@ class Dataset(object):
 
     # Summary of the data.
     num_of_samples = len(x_train)
-    num_of_winning = len([y for y in y_train if y == 1.0])
     print("Total samples ", num_of_samples)
-    print("Total samples with winning: {} ({})".format(
-      num_of_winning, num_of_winning * 1.0 / num_of_samples))
 
     num_of_test = int(0.2 * num_of_samples)
 
@@ -87,11 +85,7 @@ class Dataset(object):
     x_train = x_train[num_of_test:]
     y_train = y_train[num_of_test:]
 
-    num_of_winning_in_test = len([y for y in y_test if y == 1.0])
-
     print("Total test samples ", num_of_test)
-    print("Total test samples with winning: {} ({})".format(
-      num_of_winning_in_test, num_of_winning_in_test * 1.0 / num_of_test))
     return (x_train, y_train, x_test, y_test)
 
 
@@ -113,12 +107,14 @@ model.add(Flatten())
 model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
-	# Compile model
 model.compile(
-    loss='binary_crossentropy',
-    optimizer='adam', metrics=['accuracy'])
+    loss='mse', optimizer='adam')
 
 model.summary()
+
+if cont_training:
+    print("Loading weights.")
+    model.load_weights("model.h5")
 
 model.fit(x_train, y_train,
           batch_size=128,
@@ -129,6 +125,8 @@ predictions = model.predict(x_test[:10])
 for index, pred in enumerate(predictions):
   print("P {} R {} L {}".format(
     pred, y_test[index], ds.content[index].strip("\n")))
+
+model.save_weights("model.h5")
 
 if save_coreml:
   coreml_model = coremltools.converters.keras.convert(

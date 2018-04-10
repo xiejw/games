@@ -4,12 +4,19 @@ fileprivate class MCTSNode {
   
   var state: State
   var hasLearned: Bool = false
+  var basePrioriGames: Int
   
   var games: Int
   var rewards: Double
+  var realGames: Int {
+    get {
+      return games
+    }
+  }
   
   init(state: State, baseBlackWinningProbability: Double, basePrioriGames: Int) {
     self.state = state
+    self.basePrioriGames = basePrioriGames
 
     self.rewards = baseBlackWinningProbability * Double(basePrioriGames)
     self.games = basePrioriGames
@@ -34,7 +41,7 @@ fileprivate class MCTSNodeFactory {
   
   var nodePools = Dictionary<State, MCTSNode>()
   let predictor: StatePredictionWrapper
-  let basePriorGames = 10
+  let basePriorGames = 3
   
   init(predictor: StatePredictionWrapper) {
     self.predictor = predictor
@@ -93,7 +100,7 @@ class ImprovedMCTS: MCTSAlgorithm {
     
     // Find the best move.
     let legalMoves = gameSimulator.legalMoves(stateHistory: stateHistory)
-    let move = chooseAMove(explore: true, legalMoves: legalMoves, stateHistory: stateHistory)
+    let move = chooseAMove(explore: false, legalMoves: legalMoves, stateHistory: stateHistory)
     
     print(simulationStats)
     return move
@@ -102,6 +109,7 @@ class ImprovedMCTS: MCTSAlgorithm {
   // Run multiple simulations within a time constraint.
   fileprivate func runSimulations(stateHistory: [State], calculationTime: Double) -> SimuationStats {
     numUpdatedNodes = 0
+    
     let begin = Date().timeIntervalSince1970
     var games = 0
     var blackWins = 0
@@ -123,9 +131,14 @@ class ImprovedMCTS: MCTSAlgorithm {
     }
     print("End simulation at \(end)")
     print("Num of Updates \(numUpdatedNodes)")
+    print("Nonexplore moves \(self.nonExploreTimes)")
+    print("Explore moves \(self.exploreTimes)")
     
-    return SimuationStats(blackWins: blackWins, whiteWins: whiteWins,
-                          games: games, startTime: begin, endTime: end)
+    return SimuationStats(blackWins: blackWins,
+                          whiteWins: whiteWins,
+                          games: games,
+                          startTime: begin,
+                          endTime: end)
   }
   
   // Run one simulation and return the possible winner.
@@ -135,8 +148,8 @@ class ImprovedMCTS: MCTSAlgorithm {
     var visitedStates = Set<State>()
     
     var finalWinner: Player? = nil
-    var blackWinnerAward: Double? = nil
     
+    var sawNewNode = false
     while true {
       let legalMoves = gameSimulator.legalMoves(stateHistory: stateHistoryCopy)
       
@@ -148,30 +161,33 @@ class ImprovedMCTS: MCTSAlgorithm {
       nextState = gameSimulator.nextState(state: nextState, move: move)
       stateHistoryCopy.append(nextState)
       
-      visitedStates.insert(nextState)
+      let node = nodeFactory.getNode(state: nextState)
+      if node.isNewNode() {
+        sawNewNode = true
+        visitedStates.insert(nextState)
+      }
       
-
+      if !sawNewNode {
+        visitedStates.insert(nextState)
+      }
+    
       if let winner = gameSimulator.winner(stateHistory: stateHistoryCopy) {
         finalWinner = winner
         break
       }
-      let node = nodeFactory.getNode(state: nextState)
-      if node.isNewNode() {
-        blackWinnerAward = node.blackWinningProbability()
-        break
-      }
     }
     
+    let blackWinnerAward: Double
     if finalWinner != nil {
       blackWinnerAward = finalWinner == .BLACK ? 1.0 : 0.0
-    } else if blackWinnerAward == nil {
+    } else {
       blackWinnerAward = 0.0
     }
     
     // Update status.
     for state in visitedStates {
       let node = nodeFactory.getNode(state: state)
-      node.learn(blackWinningReward: blackWinnerAward!)
+      node.learn(blackWinningReward: blackWinnerAward)
       numUpdatedNodes += 1
     }
     return finalWinner
@@ -189,24 +205,65 @@ class ImprovedMCTS: MCTSAlgorithm {
       let nextState = gameSimulator.nextState(state: currentState, move: move)
       let node = nodeFactory.getNode(state: nextState)
       nodes.append(node)
-      totalPlays += node.games
+      totalPlays += node.realGames
     }
     
-    let sqrtTotalPlays = sqrt(Double(totalPlays)) * 1.41
+    let sqrtTotalPlays = sqrt(Double(totalPlays)) * 3
     
     var bestMove: Move? = nil
     var bestPlayOut = 0.0
+    var bestProb = 0.0
+    var nonExploreMove: Move? = nil
+    
+    var movePlayout: Dictionary<Move, Double>?
+    var moveProb: Dictionary<Move, Double>?
+    var topFiveMove: Set<Move>?
+    
+    if !explore {
+      movePlayout = Dictionary<Move, Double>()
+      moveProb = Dictionary<Move, Double>()
+      topFiveMove = Set<Move>()
+    }
     
     for (index, move) in legalMoves.enumerated() {
       let node = nodes[index]
-      let games = node.games
+      let games = node.realGames
       
       var playOut = node.blackWinningProbability()
       if nextPlayer == .WHITE {
         playOut = 1.0 - playOut
       }
+      
+      if playOut > bestProb {
+        bestProb = playOut
+        nonExploreMove = move
+      }
+
       if explore {
         playOut += sqrtTotalPlays / (1.0 + Double(games))
+      } else {
+        moveProb![move] = playOut
+        movePlayout![move] = playOut + sqrtTotalPlays / (1.0 + Double(games))
+        
+        if topFiveMove!.count < 5 {
+          topFiveMove!.insert(move)
+        } else {
+          // Maintain top 5
+          var currentMinMove = topFiveMove!.first!
+          var currentMin = moveProb![currentMinMove]!
+          
+          for moveInSet in topFiveMove! {
+            if moveProb![moveInSet]! < currentMin {
+              currentMinMove = moveInSet
+              currentMin = moveProb![moveInSet]!
+            }
+          }
+          
+          if moveProb![currentMinMove]! < playOut {
+            topFiveMove!.remove(currentMinMove)
+            topFiveMove!.insert(move)
+          }
+        }
       }
       
       if playOut > bestPlayOut {
@@ -214,6 +271,22 @@ class ImprovedMCTS: MCTSAlgorithm {
         bestMove = move
       }
     }
+    
+    if !explore {
+      for moveInSet in topFiveMove! {
+        print("Move \(moveInSet): Prob: \(moveProb![moveInSet]!): Explore \(movePlayout![moveInSet]!)")
+
+      }
+    }
+    
+    if nonExploreMove != bestMove {
+      self.exploreTimes += 1
+    } else {
+      self.nonExploreTimes += 1
+    }
     return bestMove!
   }
+  
+  var exploreTimes = 0
+  var nonExploreTimes = 0
 }
