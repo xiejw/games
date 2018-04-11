@@ -1,21 +1,38 @@
 import Foundation
 import CoreML
+import GameplayKit
+
+protocol Predictor {
+  func predictWinningProbability(state: State) -> (black: Double, white: Double)
+}
+
+class RandomPredictor: Predictor {
+
+  let dice3d6 = GKGaussianDistribution(randomSource: GKRandomSource(), lowestValue: 0, highestValue: 80)
+  
+  func predictWinningProbability(state: State) -> (black: Double, white: Double) {
+    let black = Double(dice3d6.nextInt()) / 100.0
+    let white = 0.8 - black
+    return (black, white)
+  }
+}
 
 // The wrapper class to predict the Black player winning probability.
-class StatePredictionWrapper {
+class StatePredictionWrapper: Predictor {
   
   var size: Int
+  
+  // The CoreML model.
+  let model = board()
   
   init(size: Int) {
     self.size = size
   }
-
-  // The CoreML model.
-  let model = board()
   
-  func predictBlackPlayerWinning(state: State) throws -> Double  {
+  func predictWinningProbability(state: State) -> (black: Double, white: Double) {
     let mlMultiArrayInput = try? MLMultiArray(shape:[1, 8, 8], dataType:MLMultiArrayDataType.double)
     let boardState = state.boardState(size: size)
+    // Flatten Board state matrix to c-style array.
     for x in 0..<size {
       for y in 0..<size {
         let value = NSNumber(floatLiteral: boardState[x][y])
@@ -23,7 +40,11 @@ class StatePredictionWrapper {
       }
     }
     
-    let output = try model.prediction(input: boardInput(board: mlMultiArrayInput!))
-    return Double(output.prob[0].floatValue)
+    let output = try! model.prediction(input: boardInput(board: mlMultiArrayInput!))
+    
+    // FIXME
+    let b = Double(output.black[0].floatValue)
+    let w = Double(output.white[0].floatValue)
+    return (b, w)
   }
 }

@@ -3,7 +3,7 @@ import Foundation
 let numberToWin = 5
 let size = 8
 let selfPlayTime = 2400.0
-let calculationTime = 60.0
+let calculationTime = 300.0
 let humanPlay = false
 let saveStates = true
 let fName = "/Users/xiejw/Desktop/games.txt"
@@ -17,10 +17,14 @@ if saveStates && !humanPlay {
   storage = CSVStorage(fileName: fName, deleteFileIfExists: false)
 }
 
+// let predictor = RandomPredictor()
+let predictor = StatePredictionWrapper(size: size)
 let ai = ImprovedMCTS(gameSimulator: simulator,
+                      predictor: predictor,
                       storage: storage)
 
 try! game.newMove(Move(x:3, y:3))
+try! game.newMove(Move(x:3, y:4))
 
 game.print()
 

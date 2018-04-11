@@ -2,23 +2,18 @@ import Foundation
 
 fileprivate class MCTSNode {
   
-  var state: State
   var hasLearned: Bool = false
-  var basePrioriGames: Int
   
   var games: Int
-  var rewards: Double
-  var realGames: Int {
-    get {
-      return games
-    }
-  }
+  var blackRewards: Double
+  var whiteRewards: Double
   
-  init(state: State, baseBlackWinningProbability: Double, basePrioriGames: Int) {
-    self.state = state
-    self.basePrioriGames = basePrioriGames
+  init(baseBlackWinningProbability: Double,
+       baseWhiteWinningProbability: Double,
+       basePrioriGames: Int) {
 
-    self.rewards = baseBlackWinningProbability * Double(basePrioriGames)
+    self.blackRewards = baseBlackWinningProbability * Double(basePrioriGames)
+    self.whiteRewards = baseWhiteWinningProbability * Double(basePrioriGames)
     self.games = basePrioriGames
   }
   
@@ -27,23 +22,33 @@ fileprivate class MCTSNode {
   }
   
   func blackWinningProbability() -> Double {
-    return rewards / Double(games)
+    return blackRewards / Double(games)
   }
   
-  func learn(blackWinningReward: Double) {
+  func whiteWinningProbability() -> Double {
+    return whiteRewards / Double(games)
+  }
+  
+  func learn(blackWinningReward: Double?, whiteWinningReward: Double?) {
+    precondition((blackWinningReward == nil) || (whiteWinningReward == nil))
     hasLearned = true
     games += 1
-    rewards += blackWinningReward
+    if blackWinningReward != nil {
+      blackRewards += blackWinningReward!
+    }
+    if whiteWinningReward != nil {
+      whiteRewards += whiteWinningReward!
+    }
   }
 }
 
 fileprivate class MCTSNodeFactory {
   
   var nodePools = Dictionary<State, MCTSNode>()
-  let predictor: StatePredictionWrapper
-  let basePriorGames = 3
+  let predictor: Predictor
+  let basePriorGames = 4
   
-  init(predictor: StatePredictionWrapper) {
+  init(predictor: Predictor) {
     self.predictor = predictor
   }
   
@@ -51,10 +56,11 @@ fileprivate class MCTSNodeFactory {
     if let node = nodePools[state] {
       return node
     } else {
-      let baseBlackWinningProbability = try! predictor.predictBlackPlayerWinning(state: state)
-      let newNode = MCTSNode(state: state,
-                             baseBlackWinningProbability: baseBlackWinningProbability,
-                             basePrioriGames: basePriorGames)
+      let baseWinningProbability = predictor.predictWinningProbability(state: state)
+      let newNode = MCTSNode(
+        baseBlackWinningProbability: baseWinningProbability.black,
+        baseWhiteWinningProbability: baseWinningProbability.white,
+        basePrioriGames: basePriorGames)
       nodePools[state] = newNode
       return newNode
     }
@@ -63,7 +69,9 @@ fileprivate class MCTSNodeFactory {
   func saveNodes(storage: Storage) {
     for (state, node) in nodePools {
       if !node.isNewNode() {
-        storage.save(state: state, blackWinnerProbability: node.blackWinningProbability())
+        storage.save(state: state,
+                     blackWinningProbability: node.blackWinningProbability(),
+                     whiteWinningProbability: node.whiteWinningProbability())
       }
     }
   }
@@ -77,10 +85,9 @@ class ImprovedMCTS: MCTSAlgorithm {
   var numUpdatedNodes = 0
   fileprivate let nodeFactory: MCTSNodeFactory
 
-  init(gameSimulator: GameSimulator, storage: Storage? = nil) {
+  init(gameSimulator: GameSimulator, predictor: Predictor, storage: Storage? = nil) {
     self.gameSimulator = gameSimulator
-    let predictor = StatePredictionWrapper(size: gameSimulator.size)
-    nodeFactory = MCTSNodeFactory(predictor: predictor)
+    self.nodeFactory = MCTSNodeFactory(predictor: predictor)
     self.storage = storage
   }
   
@@ -177,17 +184,18 @@ class ImprovedMCTS: MCTSAlgorithm {
       }
     }
     
-    let blackWinnerAward: Double
-    if finalWinner != nil {
-      blackWinnerAward = finalWinner == .BLACK ? 1.0 : 0.0
-    } else {
-      blackWinnerAward = 0.0
+    var blackWinningAward: Double? = nil
+    var whiteWinningAward: Double? = nil
+    if finalWinner == .BLACK {
+      blackWinningAward = 1.0
+    } else if finalWinner == .WHITE {
+      whiteWinningAward = 1.0
     }
     
     // Update status.
     for state in visitedStates {
       let node = nodeFactory.getNode(state: state)
-      node.learn(blackWinningReward: blackWinnerAward)
+      node.learn(blackWinningReward: blackWinningAward, whiteWinningReward: whiteWinningAward)
       numUpdatedNodes += 1
     }
     return finalWinner
@@ -200,70 +208,31 @@ class ImprovedMCTS: MCTSAlgorithm {
     let nextPlayer = currentState.nextPlayer
     
     var nodes = [MCTSNode]()
-    var totalPlays = 0
     for move in legalMoves {
       let nextState = gameSimulator.nextState(state: currentState, move: move)
       let node = nodeFactory.getNode(state: nextState)
       nodes.append(node)
-      totalPlays += node.realGames
     }
     
-    let sqrtTotalPlays = sqrt(Double(totalPlays)) * 3
+    if explore && arc4random_uniform(100) < 5 {
+      let randomMoveIndex = arc4random_uniform(UInt32(legalMoves.count))
+      self.exploreTimes += 1
+      return legalMoves[Int(randomMoveIndex)]
+    }
     
+    self.nonExploreTimes += 1
+
     var bestMove: Move? = nil
     var bestPlayOut = 0.0
-    var bestProb = 0.0
-    var nonExploreMove: Move? = nil
-    
-    var movePlayout: Dictionary<Move, Double>?
-    var moveProb: Dictionary<Move, Double>?
-    var topFiveMove: Set<Move>?
-    
-    if !explore {
-      movePlayout = Dictionary<Move, Double>()
-      moveProb = Dictionary<Move, Double>()
-      topFiveMove = Set<Move>()
-    }
     
     for (index, move) in legalMoves.enumerated() {
       let node = nodes[index]
-      let games = node.realGames
       
-      var playOut = node.blackWinningProbability()
-      if nextPlayer == .WHITE {
-        playOut = 1.0 - playOut
-      }
-      
-      if playOut > bestProb {
-        bestProb = playOut
-        nonExploreMove = move
-      }
-
-      if explore {
-        playOut += sqrtTotalPlays / (1.0 + Double(games))
+      var playOut: Double
+      if nextPlayer == .BLACK {
+        playOut = node.blackWinningProbability()
       } else {
-        moveProb![move] = playOut
-        movePlayout![move] = playOut + sqrtTotalPlays / (1.0 + Double(games))
-        
-        if topFiveMove!.count < 5 {
-          topFiveMove!.insert(move)
-        } else {
-          // Maintain top 5
-          var currentMinMove = topFiveMove!.first!
-          var currentMin = moveProb![currentMinMove]!
-          
-          for moveInSet in topFiveMove! {
-            if moveProb![moveInSet]! < currentMin {
-              currentMinMove = moveInSet
-              currentMin = moveProb![moveInSet]!
-            }
-          }
-          
-          if moveProb![currentMinMove]! < playOut {
-            topFiveMove!.remove(currentMinMove)
-            topFiveMove!.insert(move)
-          }
-        }
+        playOut = node.whiteWinningProbability()
       }
       
       if playOut > bestPlayOut {
@@ -271,19 +240,7 @@ class ImprovedMCTS: MCTSAlgorithm {
         bestMove = move
       }
     }
-    
-    if !explore {
-      for moveInSet in topFiveMove! {
-        print("Move \(moveInSet): Prob: \(moveProb![moveInSet]!): Explore \(movePlayout![moveInSet]!)")
-
-      }
-    }
-    
-    if nonExploreMove != bestMove {
-      self.exploreTimes += 1
-    } else {
-      self.nonExploreTimes += 1
-    }
+  
     return bestMove!
   }
   
