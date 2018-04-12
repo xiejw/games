@@ -23,7 +23,7 @@ class StatePredictionWrapper: Predictor {
   var size: Int
   
   // The CoreML model.
-  let model = board()
+  let model = WinnerPredictor()
   
   init(size: Int) {
     self.size = size
@@ -40,7 +40,7 @@ class StatePredictionWrapper: Predictor {
       }
     }
     
-    let output = try! model.prediction(input: boardInput(board: mlMultiArrayInput!))
+    let output = try! model.prediction(input: WinnerPredictorInput(board: mlMultiArrayInput!))
     
     // FIXME
     let b = Double(output.black[0].floatValue)

@@ -9,7 +9,7 @@ let saveStates = false // <-
 let fName = "/Users/xiejw/Desktop/games.txt"
 
 let game = Game(size: size, numberToWin: numberToWin)
-let simulator = GameSimulator(size: size, numberToWin: numberToWin)
+let board = Board(size: size, numberToWin: numberToWin)
 
 var storage: Storage? = nil
 if saveStates && !humanPlay {
@@ -18,7 +18,7 @@ if saveStates && !humanPlay {
 }
 
 // let predictor = RandomPredictor()
-let ai = ImprovedMCTS(gameSimulator: simulator,
+let ai = ImprovedMCTS(board: board,
                       predictorFn: { StatePredictionWrapper(size: size) },
                       storage: storage)
 
@@ -33,4 +33,4 @@ if !humanPlay {
 }
 
 // Play with human
-playWithHuman(game: game, ai: ai, simulator: simulator)
+playWithHuman(game: game, ai: ai, board: board)

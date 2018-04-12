@@ -40,7 +40,7 @@ func formatDate(timeIntervalSince1970: Double) -> String {
   return dateFormatter.string(from: Date(timeIntervalSince1970: timeIntervalSince1970))
 }
 
-func playWithHuman(game: Game, ai: ImprovedMCTS, simulator: GameSimulator) {
+func playWithHuman(game: Game, ai: ImprovedMCTS, board: Board) {
   while true {
     let nextPlayer = game.states.last!.nextPlayer
     print("Next player is \(nextPlayer)")
@@ -57,7 +57,7 @@ func playWithHuman(game: Game, ai: ImprovedMCTS, simulator: GameSimulator) {
     try! game.newMove(move)
     
     game.print()
-    if let winner = simulator.winner(stateHistory: game.states) {
+    if let winner = board.winner(stateHistory: game.states) {
       print("We have a winner \(winner)")
       break
     }

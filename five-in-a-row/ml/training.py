@@ -148,4 +148,4 @@ if save_coreml:
   coreml_model = coremltools.converters.keras.convert(
       model, input_names="board",
       output_names=["black", "white"])
-  coreml_model.save("board.mlmodel")
+  coreml_model.save("WinnerPredictor.mlmodel")

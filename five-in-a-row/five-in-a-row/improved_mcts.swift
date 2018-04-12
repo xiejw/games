@@ -122,7 +122,12 @@ fileprivate class MCTSNodeMerger {
   func merge(newPool: Dictionary<State, MCTSNode>) {
     self.queue.sync(flags: .barrier, execute: {
       print("Merge \(newPool.count) nodes")
+      var skipped = 0
       for (state, node) in newPool {
+        if node.isNewNode() {
+          skipped += 1
+          continue
+        }
         var currentRewards = self.rewardsPool[state]
         if currentRewards != nil {
           currentRewards!.merge(node: node)
@@ -135,7 +140,7 @@ fileprivate class MCTSNodeMerger {
           self.rewardsPool[state] = rewards
         }
       }
-      print("Merge \(newPool.count) nodes done")
+      print("Merge \(newPool.count) nodes done. Skipped \(skipped)")
     })
   }
   
@@ -156,7 +161,7 @@ fileprivate class MCTSNodeMerger {
 
 class ImprovedMCTS: MCTSAlgorithm {
   
-  var gameSimulator: GameSimulator
+  var board: Board
   var storage: Storage?
   var predictorFn: () -> Predictor
   
@@ -164,8 +169,8 @@ class ImprovedMCTS: MCTSAlgorithm {
   
   fileprivate let nodes: MCTSNodeMerger
 
-  init(gameSimulator: GameSimulator, predictorFn:  @escaping () -> Predictor, storage: Storage? = nil) {
-    self.gameSimulator = gameSimulator
+  init(board: Board, predictorFn:  @escaping () -> Predictor, storage: Storage? = nil) {
+    self.board = board
     self.predictorFn = predictorFn
     self.storage = storage
     
@@ -262,7 +267,7 @@ class ImprovedMCTS: MCTSAlgorithm {
     
     var sawNewNode = false
     while true {
-      let legalMoves = gameSimulator.legalMoves(stateHistory: stateHistoryCopy)
+      let legalMoves = board.legalMoves(stateHistory: stateHistoryCopy)
       
       if legalMoves.isEmpty {
         break
@@ -272,7 +277,7 @@ class ImprovedMCTS: MCTSAlgorithm {
                              legalMoves: legalMoves,
                              stateHistory: stateHistoryCopy,
                              nodeFactory: nodeFactory)
-      nextState = gameSimulator.nextState(state: nextState, move: move)
+      nextState = board.nextState(state: nextState, move: move)
       stateHistoryCopy.append(nextState)
       
       let node = nodeFactory.getNode(state: nextState)
@@ -285,7 +290,7 @@ class ImprovedMCTS: MCTSAlgorithm {
         visitedStates.insert(nextState)
       }
     
-      if let winner = gameSimulator.winner(stateHistory: stateHistoryCopy) {
+      if let winner = board.winner(stateHistory: stateHistoryCopy) {
         finalWinner = winner
         break
       }
@@ -317,7 +322,7 @@ class ImprovedMCTS: MCTSAlgorithm {
     
     var nodes = [MCTSNode]()
     for move in legalMoves {
-      let nextState = gameSimulator.nextState(state: currentState, move: move)
+      let nextState = board.nextState(state: currentState, move: move)
       let node = nodeFactory.getNode(state: nextState)
       nodes.append(node)
     }

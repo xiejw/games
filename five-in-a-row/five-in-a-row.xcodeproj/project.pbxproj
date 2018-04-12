@@ -8,21 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		E36B926F207843C60043D4F5 /* ml.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B926E207843C60043D4F5 /* ml.swift */; };
-		E36B9271207AD6370043D4F5 /* board.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E36B9270207AD6370043D4F5 /* board.mlmodel */; };
 		E3761CE3207BF2D300DBAB3F /* improved_mcts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3761CE2207BF2D200DBAB3F /* improved_mcts.swift */; };
 		E3761CE5207C140700DBAB3F /* mcts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3761CE4207C140700DBAB3F /* mcts.swift */; };
 		E3761CE7207D07B900DBAB3F /* predictorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3761CE6207D07B900DBAB3F /* predictorTest.swift */; };
 		E3761CE8207D088B00DBAB3F /* ml.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B926E207843C60043D4F5 /* ml.swift */; };
-		E3761CE9207D08C600DBAB3F /* board.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E36B9270207AD6370043D4F5 /* board.mlmodel */; };
 		E38420402072AFF500B9D510 /* game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384203F2072AFF500B9D510 /* game.swift */; };
-		E38420442072E5B300B9D510 /* simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* simulator.swift */; };
+		E38420442072E5B300B9D510 /* board.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* board.swift */; };
 		E38C4DD6207299E100ADE4A6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C4DD5207299E100ADE4A6 /* main.swift */; };
+		E3AB8C8D207FB7DA0032E116 /* WinnerPredictor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E3AB8C8C207FB7DA0032E116 /* WinnerPredictor.mlmodel */; };
 		E3B6B8E52077314C00B0F81A /* storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B6B8E42077314C00B0F81A /* storage.swift */; };
 		E3F7C92F2076AABB003BF365 /* gameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C92E2076AABB003BF365 /* gameTest.swift */; };
 		E3F7C9302076ABDD003BF365 /* game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384203F2072AFF500B9D510 /* game.swift */; };
 		E3F7C9322076F262003BF365 /* system.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9312076F262003BF365 /* system.swift */; };
 		E3F7C9342076FE11003BF365 /* simulatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9332076FE11003BF365 /* simulatorTest.swift */; };
-		E3F7C9352076FF2C003BF365 /* simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* simulator.swift */; };
+		E3F7C9352076FF2C003BF365 /* board.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* board.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,14 +38,14 @@
 
 /* Begin PBXFileReference section */
 		E36B926E207843C60043D4F5 /* ml.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ml.swift; sourceTree = "<group>"; };
-		E36B9270207AD6370043D4F5 /* board.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = board.mlmodel; path = ml/board.mlmodel; sourceTree = SOURCE_ROOT; };
 		E3761CE2207BF2D200DBAB3F /* improved_mcts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = improved_mcts.swift; sourceTree = "<group>"; };
 		E3761CE4207C140700DBAB3F /* mcts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mcts.swift; sourceTree = "<group>"; };
 		E3761CE6207D07B900DBAB3F /* predictorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = predictorTest.swift; sourceTree = "<group>"; };
 		E384203F2072AFF500B9D510 /* game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = game.swift; sourceTree = "<group>"; };
-		E38420432072E5B300B9D510 /* simulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simulator.swift; sourceTree = "<group>"; };
+		E38420432072E5B300B9D510 /* board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = board.swift; sourceTree = "<group>"; };
 		E38C4DD2207299E100ADE4A6 /* five-in-a-row */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "five-in-a-row"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E38C4DD5207299E100ADE4A6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		E3AB8C8C207FB7DA0032E116 /* WinnerPredictor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = WinnerPredictor.mlmodel; path = ml/WinnerPredictor.mlmodel; sourceTree = SOURCE_ROOT; };
 		E3B6B8E42077314C00B0F81A /* storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = storage.swift; sourceTree = "<group>"; };
 		E3F7C926207696C3003BF365 /* Testing.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Testing.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3F7C92A207696C3003BF365 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,12 +96,12 @@
 				E3761CE2207BF2D200DBAB3F /* improved_mcts.swift */,
 				E38C4DD5207299E100ADE4A6 /* main.swift */,
 				E384203F2072AFF500B9D510 /* game.swift */,
-				E38420432072E5B300B9D510 /* simulator.swift */,
+				E38420432072E5B300B9D510 /* board.swift */,
 				E3F7C9312076F262003BF365 /* system.swift */,
 				E3B6B8E42077314C00B0F81A /* storage.swift */,
 				E36B926E207843C60043D4F5 /* ml.swift */,
-				E36B9270207AD6370043D4F5 /* board.mlmodel */,
 				E3761CE4207C140700DBAB3F /* mcts.swift */,
+				E3AB8C8C207FB7DA0032E116 /* WinnerPredictor.mlmodel */,
 			);
 			path = "five-in-a-row";
 			sourceTree = "<group>";
@@ -212,8 +211,8 @@
 				E3F7C9322076F262003BF365 /* system.swift in Sources */,
 				E36B926F207843C60043D4F5 /* ml.swift in Sources */,
 				E3B6B8E52077314C00B0F81A /* storage.swift in Sources */,
-				E36B9271207AD6370043D4F5 /* board.mlmodel in Sources */,
-				E38420442072E5B300B9D510 /* simulator.swift in Sources */,
+				E38420442072E5B300B9D510 /* board.swift in Sources */,
+				E3AB8C8D207FB7DA0032E116 /* WinnerPredictor.mlmodel in Sources */,
 				E3761CE3207BF2D300DBAB3F /* improved_mcts.swift in Sources */,
 				E3761CE5207C140700DBAB3F /* mcts.swift in Sources */,
 				E38C4DD6207299E100ADE4A6 /* main.swift in Sources */,
@@ -224,9 +223,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3761CE9207D08C600DBAB3F /* board.mlmodel in Sources */,
 				E3761CE8207D088B00DBAB3F /* ml.swift in Sources */,
-				E3F7C9352076FF2C003BF365 /* simulator.swift in Sources */,
+				E3F7C9352076FF2C003BF365 /* board.swift in Sources */,
 				E3761CE7207D07B900DBAB3F /* predictorTest.swift in Sources */,
 				E3F7C9342076FE11003BF365 /* simulatorTest.swift in Sources */,
 				E3F7C9302076ABDD003BF365 /* game.swift in Sources */,
