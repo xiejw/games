@@ -28,16 +28,21 @@ class ImprovedMCTS: MCTSAlgorithm {
   }
   
   func getNextMove(stateHistory: [State], calculationTime: Double) -> Move? {
-//    let simulationStats = runSimulations(stateHistory: stateHistory,
-//                                         calculationTime: calculationTime)
-//
-//
-//    // Find the best move.
-//    let legalMoves = gameSimulator.legalMoves(stateHistory: stateHistory)
-//    let move = chooseAMove(explore: false, legalMoves: legalMoves, stateHistory: stateHistory)
-//
-//    print(simulationStats)
-//    return move
+    let simulationStats = runSimulations(stateHistory: stateHistory,
+                                         calculationTime: calculationTime)
+
+
+    // Find the best move.
+    let legalMoves = board.legalMoves(stateHistory: stateHistory)
+    let currentRewardsPool = self.nodes.getRewards()
+    let nodeFactory = MCTSNodeFactory(predictor: self.predictorFn(), rewardsPool: currentRewardsPool)
+    let move = chooseAMove(explore: false,
+                           legalMoves: legalMoves,
+                           stateHistory: stateHistory,
+                           nodeFactory: nodeFactory)
+    
+    print(simulationStats)
+    return move
     return nil
   }
   
