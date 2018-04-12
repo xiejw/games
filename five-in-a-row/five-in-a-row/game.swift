@@ -84,9 +84,10 @@ class State: Hashable {
     
     hashTable.sort(by: <)
     
-    for stone in hashTable[0..<min(5, hashTable.count)] {
-      lazyHashValue *= 256
+    for stone in hashTable[0..<hashTable.count] {
+      lazyHashValue *= 255
       lazyHashValue += stone.move.hashValue
+      lazyHashValue = lazyHashValue % 65123
     }
   }
   

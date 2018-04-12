@@ -8,13 +8,21 @@ fileprivate class MCTSNode {
   var blackRewards: Double
   var whiteRewards: Double
   
-  init(baseBlackWinningProbability: Double,
-       baseWhiteWinningProbability: Double,
+  let baseBlackRewards: Double
+  let baseWhiteRewards: Double
+  let basePrioriGames: Int
+  
+  init(baseBlackRewards: Double,
+       baseWhiteRewards: Double,
        basePrioriGames: Int) {
 
-    self.blackRewards = baseBlackWinningProbability * Double(basePrioriGames)
-    self.whiteRewards = baseWhiteWinningProbability * Double(basePrioriGames)
+    self.blackRewards = baseBlackRewards
+    self.whiteRewards = baseWhiteRewards
     self.games = basePrioriGames
+    
+    self.baseBlackRewards = baseBlackRewards
+    self.baseWhiteRewards = baseWhiteRewards
+    self.basePrioriGames = basePrioriGames
   }
   
   func isNewNode() -> Bool {
@@ -31,13 +39,13 @@ fileprivate class MCTSNode {
   
   func learn(blackWinningReward: Double?, whiteWinningReward: Double?) {
     precondition((blackWinningReward == nil) || (whiteWinningReward == nil))
-    hasLearned = true
-    games += 1
+    self.hasLearned = true
+    self.games += 1
     if blackWinningReward != nil {
-      blackRewards += blackWinningReward!
+      self.blackRewards += blackWinningReward!
     }
     if whiteWinningReward != nil {
-      whiteRewards += whiteWinningReward!
+      self.whiteRewards += whiteWinningReward!
     }
   }
 }
@@ -48,30 +56,99 @@ fileprivate class MCTSNodeFactory {
   let predictor: Predictor
   let basePriorGames = 4
   
-  init(predictor: Predictor) {
+  init(predictor: Predictor, rewardsPool: Dictionary<State, Rewards>) {
     self.predictor = predictor
-  }
-  
-  func getNode(state: State) -> MCTSNode {
-    if let node = nodePools[state] {
-      return node
-    } else {
-      let baseWinningProbability = predictor.predictWinningProbability(state: state)
-      let newNode = MCTSNode(
-        baseBlackWinningProbability: baseWinningProbability.black,
-        baseWhiteWinningProbability: baseWinningProbability.white,
-        basePrioriGames: basePriorGames)
-      nodePools[state] = newNode
-      return newNode
+    for (state, rewards) in rewardsPool {
+      self.nodePools[state] = MCTSNode(
+        baseBlackRewards: rewards.blackRewards,
+        baseWhiteRewards: rewards.whiteRewards,
+        basePrioriGames: rewards.totalGames)
     }
   }
   
+  func getNodePool() -> Dictionary<State, MCTSNode> {
+    return nodePools
+  }
+  
+  func getNode(state: State) -> MCTSNode {
+    let node = self.nodePools[state]
+    if node != nil  {
+      return node!
+    }
+    let baseWinningProbability = self.predictor.predictWinningProbability(state: state)
+    let newNode = MCTSNode(
+      baseBlackRewards: baseWinningProbability.black * Double(self.basePriorGames),
+      baseWhiteRewards: baseWinningProbability.white * Double(self.basePriorGames),
+      basePrioriGames: self.basePriorGames)
+    self.nodePools[state] = newNode
+    return newNode
+  }
+}
+
+fileprivate struct Rewards {
+  var blackRewards: Double = 0
+  var whiteRewards: Double = 0
+  var totalGames: Int = 0
+  var hasLearned: Bool = false
+  
+  mutating func merge(node: MCTSNode) {
+    blackRewards += node.blackRewards - node.baseBlackRewards
+    whiteRewards += node.whiteRewards - node.baseWhiteRewards
+    totalGames += node.games - node.basePrioriGames
+    if node.games > node.basePrioriGames {
+      hasLearned = true
+    }
+  }
+}
+
+// Thread safe. Used to distribute and collect simulation results.
+fileprivate class MCTSNodeMerger {
+  
+  var rewardsPool = Dictionary<State, Rewards>()
+  var queue: DispatchQueue
+  
+  init() {
+    self.queue = DispatchQueue(label: "nodeMerger", attributes: .concurrent)
+  }
+  
+  func getRewards() -> Dictionary<State, Rewards> {
+    var returnRewardsDict: Dictionary<State, Rewards>? = nil
+    self.queue.sync {
+      returnRewardsDict = rewardsPool
+    }
+    return returnRewardsDict!
+  }
+  
+  func merge(newPool: Dictionary<State, MCTSNode>) {
+    self.queue.sync(flags: .barrier, execute: {
+      print("Merge \(newPool.count) nodes")
+      for (state, node) in newPool {
+        var currentRewards = self.rewardsPool[state]
+        if currentRewards != nil {
+          currentRewards!.merge(node: node)
+        } else {
+          let hasLearned = node.games > node.basePrioriGames
+          let rewards = Rewards(blackRewards: node.blackRewards,
+                                whiteRewards: node.whiteRewards,
+                                totalGames: node.games,
+                                hasLearned: hasLearned)
+          self.rewardsPool[state] = rewards
+        }
+      }
+      print("Merge \(newPool.count) nodes done")
+    })
+  }
+  
   func saveNodes(storage: Storage) {
-    for (state, node) in nodePools {
-      if !node.isNewNode() {
-        storage.save(state: state,
-                     blackWinningProbability: node.blackWinningProbability(),
-                     whiteWinningProbability: node.whiteWinningProbability())
+    self.queue.sync {
+      for (state, rewards) in rewardsPool {
+        if rewards.hasLearned {
+          let black = rewards.blackRewards / Double(rewards.totalGames)
+          let white = rewards.whiteRewards / Double(rewards.totalGames)
+          storage.save(state: state,
+                       blackWinningProbability: black,
+                       whiteWinningProbability: white)
+        }
       }
     }
   }
@@ -81,14 +158,18 @@ class ImprovedMCTS: MCTSAlgorithm {
   
   var gameSimulator: GameSimulator
   var storage: Storage?
+  var predictorFn: () -> Predictor
   
   var numUpdatedNodes = 0
-  fileprivate let nodeFactory: MCTSNodeFactory
+  
+  fileprivate let nodes: MCTSNodeMerger
 
-  init(gameSimulator: GameSimulator, predictor: Predictor, storage: Storage? = nil) {
+  init(gameSimulator: GameSimulator, predictorFn:  @escaping () -> Predictor, storage: Storage? = nil) {
     self.gameSimulator = gameSimulator
-    self.nodeFactory = MCTSNodeFactory(predictor: predictor)
+    self.predictorFn = predictorFn
     self.storage = storage
+    
+    self.nodes = MCTSNodeMerger()
   }
   
   func selfPlay(stateHistory: [State], calculationTime: Double) {
@@ -96,21 +177,22 @@ class ImprovedMCTS: MCTSAlgorithm {
                                          calculationTime: calculationTime)
     print(simulationStats)
     if storage != nil {
-      nodeFactory.saveNodes(storage: storage!)
+      nodes.saveNodes(storage: storage!)
     }
   }
   
   func getNextMove(stateHistory: [State], calculationTime: Double) -> Move? {
-    let simulationStats = runSimulations(stateHistory: stateHistory,
-                                         calculationTime: calculationTime)
-
-    
-    // Find the best move.
-    let legalMoves = gameSimulator.legalMoves(stateHistory: stateHistory)
-    let move = chooseAMove(explore: false, legalMoves: legalMoves, stateHistory: stateHistory)
-    
-    print(simulationStats)
-    return move
+//    let simulationStats = runSimulations(stateHistory: stateHistory,
+//                                         calculationTime: calculationTime)
+//
+//
+//    // Find the best move.
+//    let legalMoves = gameSimulator.legalMoves(stateHistory: stateHistory)
+//    let move = chooseAMove(explore: false, legalMoves: legalMoves, stateHistory: stateHistory)
+//
+//    print(simulationStats)
+//    return move
+    return nil
   }
   
   // Run multiple simulations within a time constraint.
@@ -124,32 +206,54 @@ class ImprovedMCTS: MCTSAlgorithm {
 
     print("Start simulation at \(formatDate(timeIntervalSince1970: begin)).")
     print("Estimator calculation time \(calculationTime) secs.")
-    var end = NSDate().timeIntervalSince1970 - begin
-    while  end < calculationTime {
-      if let player = runSimulation(stateHistory: stateHistory) {
-        if player == .BLACK {
-          blackWins += 1
-        } else {
-          whiteWins += 1
+    let dispatchGroup = DispatchGroup()
+    let dispatchQueue = DispatchQueue(label: "simulations", attributes: .concurrent)
+
+    let currentRewardsPool = self.nodes.getRewards()
+    
+    for i in 0..<8 {
+      dispatchGroup.enter()
+      dispatchQueue.async {
+        let nodeFactory = MCTSNodeFactory(predictor: self.predictorFn(), rewardsPool: currentRewardsPool)
+        var end = NSDate().timeIntervalSince1970 - begin
+        while  end < calculationTime {
+          let player = self.runSimulation(stateHistory: stateHistory, nodeFactory: nodeFactory)
+          dispatchGroup.enter()
+          dispatchQueue.async(flags: .barrier) {
+            if player == .BLACK {
+              blackWins += 1
+            } else if player == .WHITE {
+              whiteWins += 1
+            }
+            games += 1
+            dispatchGroup.leave()
+          }
+          end = NSDate().timeIntervalSince1970 - begin
         }
+        print("I am done \(i)")
+        self.nodes.merge(newPool: nodeFactory.getNodePool())
+        print("I am merged \(i)")
+        dispatchGroup.leave()
       }
-      games += 1
-      end = NSDate().timeIntervalSince1970 - begin
     }
-    print("End simulation at \(end)")
+    dispatchGroup.wait()
     print("Num of Updates \(numUpdatedNodes)")
     print("Nonexplore moves \(self.nonExploreTimes)")
     print("Explore moves \(self.exploreTimes)")
     
-    return SimuationStats(blackWins: blackWins,
-                          whiteWins: whiteWins,
-                          games: games,
-                          startTime: begin,
-                          endTime: end)
+    var stats: SimuationStats? = nil
+    dispatchQueue.sync {
+      stats = SimuationStats(blackWins: blackWins,
+                             whiteWins: whiteWins,
+                             games: games,
+                             startTime: begin,
+                             endTime: begin + calculationTime)
+    }
+    return stats!
   }
   
   // Run one simulation and return the possible winner.
-  fileprivate func runSimulation(stateHistory: [State]) -> Player? {
+  fileprivate func runSimulation(stateHistory: [State], nodeFactory: MCTSNodeFactory) -> Player? {
     var stateHistoryCopy = stateHistory
     var nextState = stateHistoryCopy.last!
     var visitedStates = Set<State>()
@@ -164,7 +268,10 @@ class ImprovedMCTS: MCTSAlgorithm {
         break
       }
       // Choose a move.
-      let move = chooseAMove(explore: true, legalMoves: legalMoves, stateHistory: stateHistoryCopy)
+      let move = chooseAMove(explore: true,
+                             legalMoves: legalMoves,
+                             stateHistory: stateHistoryCopy,
+                             nodeFactory: nodeFactory)
       nextState = gameSimulator.nextState(state: nextState, move: move)
       stateHistoryCopy.append(nextState)
       
@@ -202,7 +309,8 @@ class ImprovedMCTS: MCTSAlgorithm {
   }
   
   // Choose a Move from legalMoves and stateHistory.
-  fileprivate func chooseAMove(explore: Bool, legalMoves: [Move], stateHistory: [State]) -> Move {
+  fileprivate func chooseAMove(explore: Bool, legalMoves: [Move], stateHistory: [State],
+                               nodeFactory: MCTSNodeFactory) -> Move {
 
     let currentState = stateHistory.last!
     let nextPlayer = currentState.nextPlayer

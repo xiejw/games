@@ -2,10 +2,10 @@ import Foundation
 
 let numberToWin = 5
 let size = 8
-let selfPlayTime = 2400.0
+let selfPlayTime = 30.0 // <-
 let calculationTime = 300.0
 let humanPlay = false
-let saveStates = true
+let saveStates = false // <-
 let fName = "/Users/xiejw/Desktop/games.txt"
 
 let game = Game(size: size, numberToWin: numberToWin)
@@ -18,9 +18,8 @@ if saveStates && !humanPlay {
 }
 
 // let predictor = RandomPredictor()
-let predictor = StatePredictionWrapper(size: size)
 let ai = ImprovedMCTS(gameSimulator: simulator,
-                      predictor: predictor,
+                      predictorFn: { StatePredictionWrapper(size: size) },
                       storage: storage)
 
 try! game.newMove(Move(x:3, y:3))
@@ -34,26 +33,4 @@ if !humanPlay {
 }
 
 // Play with human
-
-while true {
-  let nextPlayer = game.states.last!.nextPlayer
-  print("Next player is \(nextPlayer)")
-
-  var move: Move
-  if nextPlayer == .WHITE && humanPlay {
-    move = getMoveFromUser(validateFn: {(move: Move) -> Error? in
-      return game.validateNewMove(move)
-    })
-  } else {
-    move = ai.getNextMove(stateHistory: game.states, calculationTime: calculationTime)!
-  }
-  print("Push move \(move)")
-  try! game.newMove(move)
-
-  game.print()
-  if let winner = simulator.winner(stateHistory: game.states) {
-    print("We have a winner \(winner)")
-    break
-  }
-}
-
+playWithHuman(game: game, ai: ai, simulator: simulator)
