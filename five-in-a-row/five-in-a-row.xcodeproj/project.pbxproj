@@ -16,6 +16,7 @@
 		E38420442072E5B300B9D510 /* board.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* board.swift */; };
 		E38C4DD6207299E100ADE4A6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C4DD5207299E100ADE4A6 /* main.swift */; };
 		E3AB8C8D207FB7DA0032E116 /* WinnerPredictor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E3AB8C8C207FB7DA0032E116 /* WinnerPredictor.mlmodel */; };
+		E3AB8C8F207FB8780032E116 /* simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AB8C8E207FB8780032E116 /* simulator.swift */; };
 		E3B6B8E52077314C00B0F81A /* storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B6B8E42077314C00B0F81A /* storage.swift */; };
 		E3F7C92F2076AABB003BF365 /* gameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C92E2076AABB003BF365 /* gameTest.swift */; };
 		E3F7C9302076ABDD003BF365 /* game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384203F2072AFF500B9D510 /* game.swift */; };
@@ -46,6 +47,7 @@
 		E38C4DD2207299E100ADE4A6 /* five-in-a-row */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "five-in-a-row"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E38C4DD5207299E100ADE4A6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		E3AB8C8C207FB7DA0032E116 /* WinnerPredictor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = WinnerPredictor.mlmodel; path = ml/WinnerPredictor.mlmodel; sourceTree = SOURCE_ROOT; };
+		E3AB8C8E207FB8780032E116 /* simulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simulator.swift; sourceTree = "<group>"; };
 		E3B6B8E42077314C00B0F81A /* storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = storage.swift; sourceTree = "<group>"; };
 		E3F7C926207696C3003BF365 /* Testing.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Testing.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3F7C92A207696C3003BF365 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				E3761CE2207BF2D200DBAB3F /* improved_mcts.swift */,
+				E3AB8C8E207FB8780032E116 /* simulator.swift */,
 				E38C4DD5207299E100ADE4A6 /* main.swift */,
 				E384203F2072AFF500B9D510 /* game.swift */,
 				E38420432072E5B300B9D510 /* board.swift */,
@@ -207,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3AB8C8F207FB8780032E116 /* simulator.swift in Sources */,
 				E38420402072AFF500B9D510 /* game.swift in Sources */,
 				E3F7C9322076F262003BF365 /* system.swift in Sources */,
 				E36B926F207843C60043D4F5 /* ml.swift in Sources */,

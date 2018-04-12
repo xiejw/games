@@ -2,10 +2,10 @@ import Foundation
 
 let numberToWin = 5
 let size = 8
-let selfPlayTime = 30.0 // <-
+let selfPlayTime = 300.0 // <-
 let calculationTime = 300.0
 let humanPlay = false
-let saveStates = false // <-
+let saveStates = true // <-
 let fName = "/Users/xiejw/Desktop/games.txt"
 
 let game = Game(size: size, numberToWin: numberToWin)
