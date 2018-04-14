@@ -18,19 +18,18 @@ if saveStates && !humanPlay {
 }
 
 // let predictor = RandomPredictor()
-let ai = ImprovedMCTS(board: board,
-                      predictorFn: { StatePredictionWrapper(size: size) },
-                      storage: storage)
+//let ai = ImprovedMCTS(board: board,
+//                      predictorFn: { StatePredictionWrapper(size: size) },
+//                      storage: storage)
 
 try! game.newMove(Move(x:3, y:3))
-try! game.newMove(Move(x:3, y:4))
 
 game.print()
 
 if !humanPlay {
-  ai.selfPlay(stateHistory: game.states, calculationTime: selfPlayTime)
+  selfPlays(game: game, board: board, policies: [RandomPolicy(name: "policy_1"), RandomPolicy(name: "policy_2")], playTimeInSecs: 10)
   exit(0)
 }
 
 // Play with human
-playWithHuman(game: game, ai: ai, board: board)
+// playWithHuman(game: game, ai: ai, board: board)

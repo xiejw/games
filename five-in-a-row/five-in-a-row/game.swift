@@ -1,3 +1,5 @@
+// Defines all basic structure required by the game,
+// including Move, State, Game.
 import Foundation
 
 // Represents the current move.

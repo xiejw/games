@@ -1,3 +1,4 @@
+// Define a Board judging the winner and legal moves according the state history.
 import Foundation
 
 class Board {

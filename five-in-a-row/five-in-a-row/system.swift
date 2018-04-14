@@ -40,26 +40,27 @@ func formatDate(timeIntervalSince1970: Double) -> String {
   return dateFormatter.string(from: Date(timeIntervalSince1970: timeIntervalSince1970))
 }
 
-func playWithHuman(game: Game, ai: ImprovedMCTS, board: Board) {
-  while true {
-    let nextPlayer = game.states.last!.nextPlayer
-    print("Next player is \(nextPlayer)")
-    
-    var move: Move
-    if nextPlayer == .WHITE && humanPlay {
-      move = getMoveFromUser(validateFn: {(move: Move) -> Error? in
-        return game.validateNewMove(move)
-      })
-    } else {
-      move = ai.getNextMove(stateHistory: game.states, calculationTime: calculationTime)!
-    }
-    print("Push move \(move)")
-    try! game.newMove(move)
-    
-    game.print()
-    if let winner = board.winner(stateHistory: game.states) {
-      print("We have a winner \(winner)")
-      break
-    }
-  }
-}
+//func playWithHuman(game: Game, ai: ImprovedMCTS, board: Board) {
+//  while true {
+//    let nextPlayer = game.states.last!.nextPlayer
+//    print("Next player is \(nextPlayer)")
+//
+//    var move: Move
+//    if nextPlayer == .WHITE && humanPlay {
+//      move = getMoveFromUser(validateFn: {(move: Move) -> Error? in
+//        return game.validateNewMove(move)
+//      })
+//    } else {
+//      move = ai.getNextMove(stateHistory: game.states, calculationTime: calculationTime)!
+//    }
+//    print("Push move \(move)")
+//    try! game.newMove(move)
+//
+//    game.print()
+//    if let winner = board.winner(stateHistory: game.states) {
+//      print("We have a winner \(winner)")
+//      break
+//    }
+//  }
+//}
+
