@@ -8,7 +8,7 @@ let humanPlay = false
 let saveStates = true // <-
 let fName = "/Users/xiejw/Desktop/games.txt"
 
-let game = Game(size: size, numberToWin: numberToWin)
+
 let board = Board(size: size, numberToWin: numberToWin)
 
 var storage: Storage? = nil
@@ -22,14 +22,22 @@ if saveStates && !humanPlay {
 //                      predictorFn: { StatePredictionWrapper(size: size) },
 //                      storage: storage)
 
-try! game.newMove(Move(x:3, y:3))
-
-game.print()
-
-let policy = DistributionBasedPolicy(name: "dist_based", size: size, distributionGenerator: DistributionPredictionWrapper(size: size))
 
 if !humanPlay {
-  selfPlays(game: game, board: board, policies: [policy, RandomPolicy(name: "random_policy")], playTimeInSecs: 10)
+  func gameFn() -> Game {
+    let game = Game(size: size, numberToWin: numberToWin)
+    try! game.newMove(Move(x:3, y:3))
+    return game
+  }
+  
+  func policyFn() -> [Policy] {
+    let policy = DistributionBasedPolicy(name: "dist_based", size: size,
+                                         distributionGenerator: DistributionPredictionWrapper(size: size))
+    let randomPolicy = RandomPolicy(name: "random_policy")
+    return [policy, randomPolicy]
+  }
+
+  selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, playTimeInSecs: 10)
   exit(0)
 }
 

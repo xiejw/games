@@ -1,29 +1,46 @@
 // Provides the tooling to play one Game or multiple Games.
 import Foundation
 
-func selfPlays(game: Game, board: Board, policies: [Policy], playTimeInSecs: Double) {
-  precondition(policies.count == 2)
-  precondition(policies[0].getName() != policies[1].getName())
+func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy], board: Board,  playTimeInSecs: Double) {
   
-  let stats = PlayStats(policies: policies)
+  let defaultPolicies = policyFn()
+  precondition(defaultPolicies.count == 2)
+  precondition(defaultPolicies[0].getName() != defaultPolicies[1].getName())
+  
+  let finalStats = PlayStats(policies: defaultPolicies, name: "final")
   
   let begin = Date().timeIntervalSince1970
   print("Start games at \(formatDate(timeIntervalSince1970: begin)).")
   print("Estimator playing time \(playTimeInSecs) secs.")
   
-  while true {
-    // Stopping condition.
-    let end = NSDate().timeIntervalSince1970 - begin
-    if end >= playTimeInSecs {
-      break
+  let queue = DispatchQueue(label: "games", attributes: .concurrent)
+  let group = DispatchGroup()
+  
+  for i in 0..<8 {
+    group.enter()
+    queue.async {
+      let game = gameFn()
+      let policies = policyFn()
+      let stats = PlayStats(policies: policies, name: "sub-branch-\(i)")
+
+      while true {
+        // Stopping condition.
+        let end = NSDate().timeIntervalSince1970 - begin
+        if end >= playTimeInSecs {
+          break
+        }
+        
+        let (blackPlayerPolicy, whitePlayerPolicy) = randomPermutation(policies: policies)
+        let winner = selfPlay(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
+        stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
+      }
+      finalStats.merge(stats)
+      group.leave()
     }
-    
-    let (blackPlayerPolicy, whitePlayerPolicy) = randomPermutation(policies: policies)
-    let winner = selfPlay(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
-    stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
   }
+  group.wait()
   print("End games at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
-  stats.summarize()
+  finalStats.summarize()
 }
 
 // Play one game.
@@ -81,9 +98,11 @@ fileprivate class PlayStats {
   
   var policyAssignedAsBlack = Dictionary<String, Int>()
   
+  var queue: DispatchQueue
+  
   let policies: [Policy]
   
-  init(policies: [Policy]) {
+  init(policies: [Policy], name: String) {
     self.policies = policies
     precondition(policies.count == 2)
     precondition(policies[0].getName() != policies[1].getName())
@@ -95,11 +114,14 @@ fileprivate class PlayStats {
     
     policyAssignedAsBlack[policies[0].getName()] = 0
     policyAssignedAsBlack[policies[1].getName()] = 0
+    
+    queue = DispatchQueue(label: name + "stat", attributes: .concurrent)
   }
   
+  // Not thread safe
   func update(winner: Player?, blackPlayerPolicy: Policy, whitePlayerPolicy: Policy) {
-    totalGames += 1
-    policyAssignedAsBlack[blackPlayerPolicy.getName()]! += 1
+    self.totalGames += 1
+    self.policyAssignedAsBlack[blackPlayerPolicy.getName()]! += 1
     
     if winner == nil {
       // Nothing more to update
@@ -107,22 +129,39 @@ fileprivate class PlayStats {
     }
     
     if winner! == .BLACK {
-      blackWins[blackPlayerPolicy.getName()]! += 1
-      blackTotalWins += 1
+      self.blackWins[blackPlayerPolicy.getName()]! += 1
+      self.blackTotalWins += 1
     } else {
-      whiteWins[whitePlayerPolicy.getName()]! += 1
-      whiteTotalWins += 1
+      self.whiteWins[whitePlayerPolicy.getName()]! += 1
+      self.whiteTotalWins += 1
     }
   }
   
+  func merge(_ anotherStats: PlayStats) {
+    queue.sync(flags: .barrier, execute: {
+      self.totalGames += anotherStats.totalGames
+      self.blackTotalWins += anotherStats.blackTotalWins
+      self.whiteTotalWins += anotherStats.whiteTotalWins
+      
+      for policy in self.policies {
+        let name = policy.getName()
+        self.blackWins[name]! += anotherStats.blackWins[name]!
+        self.whiteWins[name]! += anotherStats.whiteWins[name]!
+        self.policyAssignedAsBlack[name]! += anotherStats.policyAssignedAsBlack[name]!
+      }
+    })
+  }
+  
   func summarize() {
-    print("Total games: \(totalGames)")
-    print("Total black wins: \(blackTotalWins)")
-    print("Total white wins: \(whiteTotalWins)")
-    
-    for policy in policies {
-      let name = policy.getName()
-      print("For policy \(name): as black \(policyAssignedAsBlack[name]!), black wins \(blackWins[name]!), white wins \(whiteWins[name]!)")
+    queue.sync {
+      print("Total games: \(self.totalGames)")
+      print("Total black wins: \(self.blackTotalWins)")
+      print("Total white wins: \(self.whiteTotalWins)")
+      
+      for policy in self.policies {
+        let name = policy.getName()
+        print("For policy \(name): as black \(self.policyAssignedAsBlack[name]!), black wins \(self.blackWins[name]!), white wins \(self.whiteWins[name]!)")
+      }
     }
   }
 }
