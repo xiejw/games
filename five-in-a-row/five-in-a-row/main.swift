@@ -26,8 +26,10 @@ try! game.newMove(Move(x:3, y:3))
 
 game.print()
 
+let policy = DistributionBasedPolicy(name: "dist_based", size: size, distributionGenerator: DistributionPredictionWrapper(size: size))
+
 if !humanPlay {
-  selfPlays(game: game, board: board, policies: [RandomPolicy(name: "policy_1"), RandomPolicy(name: "policy_2")], playTimeInSecs: 10)
+  selfPlays(game: game, board: board, policies: [policy, RandomPolicy(name: "random_policy")], playTimeInSecs: 10)
   exit(0)
 }
 
