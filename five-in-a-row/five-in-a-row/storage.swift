@@ -1,13 +1,10 @@
 import Foundation
 
-protocol Storage {
-  func save(state: State, blackWinningProbability: Double, whiteWinningProbability: Double)
-}
-
-class CSVStorage: Storage {
+class CSVStorage {
   
   let fileName: String
   let fs: FileHandle
+  let queue = DispatchQueue(label: "storage")
   
   init(fileName: String, deleteFileIfExists: Bool) {
     self.fileName = fileName
@@ -35,14 +32,18 @@ class CSVStorage: Storage {
   
   let newline = "\n".data(using: .utf8)!
   
-  func save(state: State, blackWinningProbability: Double, whiteWinningProbability: Double) {
-    var result = [String]()
-    result.append(String(blackWinningProbability))
-    result.append(String(whiteWinningProbability))
-    result.append(state.toString())
-    
-    fs.seekToEndOfFile()
-    fs.write(result.joined(separator: ",").data(using: .utf8)!)
-    fs.write(newline)
+  func save(state: State, nextPlayer: Player, move: Move, win: Bool) {
+    queue.sync(flags: .barrier, execute: {
+      var result = [String]()
+      result.append(String(win ? 1.0 : -1.0))
+      result.append(String(nextPlayer == .BLACK ? 1 : 0))
+      result.append(String(move.x))
+      result.append(String(move.y))
+      result.append(state.toString())
+      
+      self.fs.seekToEndOfFile()
+      self.fs.write(result.joined(separator: ",").data(using: .utf8)!)
+      self.fs.write(self.newline)
+    })
   }
 }

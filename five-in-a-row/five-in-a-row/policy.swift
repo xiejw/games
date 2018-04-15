@@ -4,6 +4,7 @@ import Foundation
 protocol Policy {
   func getName() -> String
   func getNextMove(stateHistory: [State], legalMoves: [Move]) -> Move
+  func shouldRecord() -> Bool
 }
 
 class RandomPolicy: Policy {
@@ -21,6 +22,10 @@ class RandomPolicy: Policy {
   func getNextMove(stateHistory: [State], legalMoves: [Move]) -> Move {
     return randomMove(moves: legalMoves)
   }
+  
+  func shouldRecord() -> Bool {
+    return false
+  }
 }
 
 class DistributionBasedPolicy: Policy {
@@ -28,15 +33,21 @@ class DistributionBasedPolicy: Policy {
   let name: String
   let size: Int
   let distributionGenerator: DistributionPredictionWrapper
+  let record: Bool
   
-  init(name: String, size: Int, distributionGenerator: DistributionPredictionWrapper) {
+  init(name: String, size: Int, distributionGenerator: DistributionPredictionWrapper, shouldRecord: Bool = true) {
     self.name = name
     self.size = size
     self.distributionGenerator = distributionGenerator
+    self.record = shouldRecord
   }
   
   func getName() -> String {
     return name
+  }
+  
+  func shouldRecord() -> Bool {
+    return record
   }
   
   func getNextMove(stateHistory: [State], legalMoves: [Move]) -> Move {

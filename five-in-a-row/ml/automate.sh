@@ -1,6 +1,6 @@
 #!/bin/sh
 
-counter=10
+counter=200
 
 while [ $counter -gt 0 ]
 do
@@ -10,8 +10,9 @@ do
   xcodebuild -project five-in-a-row.xcodeproj   build && \
   /Users/xiejw/Workspace/games/five-in-a-row/build/Release/five-in-a-row && \
   cd ml && \
-  tail -n 400000 ~/Desktop/games.txt > ~/Desktop/games_200k.txt && \
-  python training.py
+  python rl_rollout.py && \
+  cat ~/Desktop/games.txt >> ~/Desktop/games_history.txt  && \
+  rm ~/Desktop/games.txt
 
   counter=$(($counter-1))
 done

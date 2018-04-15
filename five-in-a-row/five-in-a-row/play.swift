@@ -1,7 +1,8 @@
 // Provides the tooling to play one Game or multiple Games.
 import Foundation
 
-func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy], board: Board,  playTimeInSecs: Double) {
+func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy], board: Board, storage: CSVStorage?,
+               playTimeInSecs: Double, verbose: Int) {
   
   let defaultPolicies = policyFn()
   precondition(defaultPolicies.count == 2)
@@ -22,6 +23,9 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
       let game = gameFn()
       let policies = policyFn()
       let stats = PlayStats(policies: policies, name: "sub-branch-\(i)")
+      var playRecords = Dictionary<Player, [PlayRecord]>()
+      playRecords[.BLACK] = [PlayRecord]()
+      playRecords[.WHITE] = [PlayRecord]()
 
       while true {
         // Stopping condition.
@@ -31,10 +35,38 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
         }
         
         let (blackPlayerPolicy, whitePlayerPolicy) = randomPermutation(policies: policies)
-        let winner = selfPlay(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
+        let (winner, history) = selfPlay(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
         stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
+        
+        if winner != nil && blackPlayerPolicy.shouldRecord() {
+          let blackWin = winner == .BLACK
+          for item in history[.BLACK]! {
+            playRecords[.BLACK]!.append(PlayRecord(history: item, win: blackWin))
+          }
+        }
+        
+        if winner != nil && whitePlayerPolicy.shouldRecord() {
+          let whitekWin = winner == .WHITE
+          for item in history[.WHITE]! {
+            playRecords[.WHITE]!.append(PlayRecord(history: item, win: whitekWin))
+          }
+        }
+      }
+      
+      if verbose > 0 {
+        print("Finish games ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
       }
       finalStats.merge(stats)
+      if storage != nil {
+        for player in [Player.BLACK, Player.WHITE] {
+          for record in playRecords[player]! {
+            storage!.save(state: record.history.state, nextPlayer: player, move: record.history.move, win: record.win)
+          }
+        }
+      }
+      if verbose > 0 {
+        print("Finish recording ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
+      }
       group.leave()
     }
   }
@@ -45,8 +77,11 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
 
 // Play one game.
 func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPolicy: Policy,
-              verbose: Bool = false) -> Player? {
+              verbose: Bool = false) -> (Player?, Dictionary<Player, [PlayHistory]>) {
   var finalWinner: Player? = nil
+  var history = Dictionary<Player, [PlayHistory]>()
+  history[.BLACK] = [PlayHistory]()
+  history[.WHITE] = [PlayHistory]()
   
   while true {
     let stateHistory = game.states
@@ -58,7 +93,8 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
       break
     }
     
-    let nextPlayer = stateHistory.last!.nextPlayer
+    let currentState = stateHistory.last!
+    let nextPlayer = currentState.nextPlayer
     if verbose {
       print("Next player: \(nextPlayer)")
     }
@@ -69,6 +105,8 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
     } else {
       move = blackPlayerPolicy.getNextMove(stateHistory: stateHistory, legalMoves: legalMoves)
     }
+    
+    history[nextPlayer]!.append(PlayHistory(state: currentState, move: move))
     
     try! game.newMove(move)
     
@@ -85,7 +123,17 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
     }
   }
   
-  return finalWinner
+  return (finalWinner, history)
+}
+
+struct PlayHistory {
+  var state: State
+  var move: Move
+}
+
+struct PlayRecord {
+  var history: PlayHistory
+  var win: Bool
 }
 
 fileprivate class PlayStats {

@@ -3,6 +3,7 @@ import numpy as np
 from dataset import Dataset
 
 import coremltools
+import keras
 from keras.models import Model
 from keras.layers import Dense, Dropout, Flatten, Input, Concatenate
 from keras.layers import Conv2D, MaxPooling2D
@@ -13,7 +14,6 @@ assert K.image_data_format() != 'channels_first'
 # Global Configuration.
 boardSize = 8
 fname = "/Users/xiejw/Desktop/games.txt"
-epochs = 12
 shortMode = False
 
 save_coreml = True
@@ -51,14 +51,15 @@ def reward_loss(y_true, y_pred):
     reward = K.batch_dot(y_true, y_pred, axes=-1)
     return -1.0 * K.mean(reward, axis=-1)
 
-model.compile(loss=reward_loss, optimizer='sgd')
+model.compile(loss=reward_loss, optimizer=keras.optimizers.SGD(lr=0.1))
 model.summary()
 
 if cont_training:
   print("Loading weights.")
   model.load_weights("distribution.h5")
 
-model.fit([board_l, next_player_l], reward_l, batch_size=128, epochs=1)
+model.fit([board_l, next_player_l], reward_l, batch_size=128, epochs=10)
+print("Saving weights.")
 model.save_weights("distribution.h5")
 
 preds = model.predict([board_l[:1], next_player_l[:1]])

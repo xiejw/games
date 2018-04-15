@@ -2,7 +2,7 @@ import Foundation
 
 let numberToWin = 5
 let size = 8
-let selfPlayTime = 300.0 // <-
+let selfPlayTime = 30.0 // <-
 let calculationTime = 300.0
 let humanPlay = false
 let saveStates = true // <-
@@ -11,17 +11,11 @@ let fName = "/Users/xiejw/Desktop/games.txt"
 
 let board = Board(size: size, numberToWin: numberToWin)
 
-var storage: Storage? = nil
+var storage: CSVStorage? = nil
 if saveStates && !humanPlay {
   print("Saving games into \(fName)")
   storage = CSVStorage(fileName: fName, deleteFileIfExists: false)
 }
-
-// let predictor = RandomPredictor()
-//let ai = ImprovedMCTS(board: board,
-//                      predictorFn: { StatePredictionWrapper(size: size) },
-//                      storage: storage)
-
 
 if !humanPlay {
   func gameFn() -> Game {
@@ -37,7 +31,7 @@ if !humanPlay {
     return [policy, randomPolicy]
   }
 
-  selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, playTimeInSecs: 10)
+  selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, storage: storage, playTimeInSecs: selfPlayTime, verbose: 0)
   exit(0)
 }
 
