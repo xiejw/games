@@ -9,13 +9,13 @@ class SimulatorTest: XCTestCase {
     let state1 = State(move01)
     let state2 = State(move11, state1)
     
-    let ai = GameSimulator(size: 2)
+    let ai = Board(size: 2)
     let moves = ai.legalMoves(stateHistory: [state1, state2])
     XCTAssertEqual([Move(x: 0, y:0), Move(x: 1, y: 0)], moves)
   }
   
   func testNoWinnerForEmptyBoard() {
-    let ai = GameSimulator(size: 4)
+    let ai = Board(size: 4)
     let winner = ai.winner(stateHistory: [State]())
     XCTAssertNil(winner)
   }
@@ -29,7 +29,7 @@ class SimulatorTest: XCTestCase {
     let state2 = State(move11, state1)
     let state3 = State(move02, state2)
     
-    let ai = GameSimulator(size: 4, numberToWin: 2)
+    let ai = Board(size: 4, numberToWin: 2)
     let winner = ai.winner(stateHistory: [state1, state2, state3])
     XCTAssertNil(winner)
   }
@@ -43,7 +43,7 @@ class SimulatorTest: XCTestCase {
     let state2 = State(move11, state1)
     let state3 = State(move02, state2)
     
-    let ai = GameSimulator(size: 4, numberToWin: 2)
+    let ai = Board(size: 4, numberToWin: 2)
     let winner = ai.winner(stateHistory: [state1, state2, state3])
     XCTAssertEqual(Player.BLACK, winner)
   }
@@ -59,7 +59,7 @@ class SimulatorTest: XCTestCase {
     let state3 = State(move02, state2)
     let state4 = State(move21, state3)
     
-    let ai = GameSimulator(size: 4, numberToWin: 2)
+    let ai = Board(size: 4, numberToWin: 2)
     let winner = ai.winner(stateHistory: [state1, state2, state3, state4])
     XCTAssertEqual(Player.WHITE, winner)
   }
@@ -75,7 +75,7 @@ class SimulatorTest: XCTestCase {
     let state3 = State(move02, state2)
     let state4 = State(move22, state3)
     
-    let ai = GameSimulator(size: 4, numberToWin: 2)
+    let ai = Board(size: 4, numberToWin: 2)
     let winner = ai.winner(stateHistory: [state1, state2, state3, state4])
     XCTAssertEqual(Player.WHITE, winner)
   }
@@ -91,7 +91,7 @@ class SimulatorTest: XCTestCase {
     let state3 = State(move02, state2)
     let state4 = State(move22, state3)
     
-    let ai = GameSimulator(size: 4, numberToWin: 2)
+    let ai = Board(size: 4, numberToWin: 2)
     let winner = ai.winner(stateHistory: [state1, state2, state3, state4])
     XCTAssertEqual(Player.WHITE, winner)
   }

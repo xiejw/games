@@ -41,34 +41,44 @@ middel_layer = Concatenate()([board_layer, next_player_layer])
 middel_layer = Dense(256, activation='relu')(middel_layer)
 middel_layer = Dropout(0.2)(middel_layer)
 middel_layer = Dense(256, activation='relu')(middel_layer)
-middel_layer = Dropout(0.2)(middel_layer)
-final_layer = Dense(boardSize * boardSize, activation='softmax')(middel_layer)
+final_layer = Dropout(0.2)(middel_layer)
 
-model = Model([input_layer, next_player_layer], final_layer)
+probability_output_shape = boardSize * boardSize
+probability_output = Dense(
+        probability_output_shape, activation='softmax', name='prob')(
+                final_layer)
+reward_output_layer = Dense(128, activation='relu')(final_layer)
+reward_output = Dense(1, name='reward')(reward_output_layer)
 
-def reward_loss(y_true, y_pred):
-    y_true = K.reshape(y_true, shape=(-1, boardSize * boardSize))
-    reward = K.batch_dot(y_true, y_pred, axes=-1)
-    return -1.0 * K.mean(reward, axis=-1)
+inputs = [input_layer, next_player_layer]
+outputs = [probability_output, reward_output]
 
-model.compile(loss=reward_loss, optimizer=keras.optimizers.SGD(lr=0.1))
+model = Model(inputs, outputs)
+
+model.compile(loss=['categorical_crossentropy', 'mse'], optimizer='adam')
 model.summary()
 
-if cont_training:
-  print("Loading weights.")
-  model.load_weights("distribution.h5")
+# if cont_training:
+#   print("Loading weights.")
+#   model.load_weights("distribution.h5")
 
-model.fit([board_l, next_player_l], reward_l, batch_size=128, epochs=10)
+# print "=======", ds.content[0]
+# preds = model.predict([board_l[:1], next_player_l[:1]])
+# pred = preds[0]
+# print("Predictions {}".format(pred))
+# print("Sum {}".format(np.sum(pred)))
+#
+# model.fit([board_l, next_player_l], reward_l, batch_size=None, steps_per_epoch=1, epochs=1)
 print("Saving weights.")
 model.save_weights("distribution.h5")
 
-preds = model.predict([board_l[:1], next_player_l[:1]])
-pred = preds[0]
-print("Predictions {}".format(pred))
-print("Sum {}".format(np.sum(pred)))
+# preds = model.predict([board_l[:1], next_player_l[:1]])
+# pred = preds[0]
+# print("Predictions {}".format(pred))
+# print("Sum {}".format(np.sum(pred)))
 
 if save_coreml:
   coreml_model = coremltools.converters.keras.convert(
       model, input_names=["board", "next_player"],
-      output_names="distribution")
+      output_names=["distribution", "reward"])
   coreml_model.save("Distribution.mlmodel")

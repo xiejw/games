@@ -13,7 +13,7 @@ class Dataset(object):
 
     with open(fname) as f:
       content = f.readlines()
-    random.shuffle(content)
+    # random.shuffle(content)
     self.content = content
 
     def parseLine(line):

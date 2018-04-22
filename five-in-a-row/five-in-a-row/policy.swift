@@ -53,7 +53,7 @@ class DistributionBasedPolicy: Policy {
   func getNextMove(stateHistory: [State], legalMoves: [Move]) -> Move {
     let lastState = stateHistory.last!
     let nextPlayer = lastState.nextPlayer
-    let probabilities = distributionGenerator.predictDistribution(state: lastState, nextPlayer: nextPlayer)
+    let (probabilities, _) = distributionGenerator.predictDistributionAndReward(state: lastState, nextPlayer: nextPlayer)
     
     var validflattenIndices = [Int]()
     var legalProbs = [Double]()
