@@ -70,7 +70,7 @@ class DistributionBasedPolicy: Policy {
 }
 
 
-fileprivate func sampleFromProbabilities(probabilities: [Double]) -> Int {
+func sampleFromProbabilities(probabilities: [Double]) -> Int {
   var pmf = [Double]()
   var currentSum = 0.0
   for prob in probabilities {

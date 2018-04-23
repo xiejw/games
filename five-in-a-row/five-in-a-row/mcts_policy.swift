@@ -41,14 +41,21 @@ class Node {
     return (bestValue, bestMove!)
   }
   
-  func learn(_ reward: Double)  {
-    // FIXME
+  func learn(_ reward: Double, move: Move)  {
+    qValueTotal[move]! += reward
+    visitCount[move]! += 1
     totalCount += 1
   }
   
   func getBestMove() -> Move {
-    // FIXME: make this real.
-    return Move(x: 1, y:1)
+    var moves = [Move]()
+    var probabilities = [Double]()
+    for (move, count) in visitCount {
+      probabilities.append(Double(count))
+      moves.append(move)
+    }
+    let index = sampleFromProbabilities(probabilities: probabilities)
+    return moves[index]
   }
 }
 
@@ -134,10 +141,10 @@ class MCTSBasedPolicy: Policy {
   
   func runSimulationsAndGetNextMove(originalStateHistory: [State]) -> Move {
     let nodeFactory = NodeFactory(distributionGenerator: distributionGenerator, size: size)
-    var nextState: State
     
     for _ in 0..<perMoveSimulationTimes {
-      var visitedNode = [Node]()
+      var visitedNodes = [Node]()
+      var selectedMoves = [Move]()
       var stateHistory = originalStateHistory
       // Keep transvese until new node.
       while true {
@@ -146,13 +153,14 @@ class MCTSBasedPolicy: Policy {
         let (node, reward) = nodeFactory.getNextNode(state: nextState, legalMoves: legalMoves)
         
         if reward != nil {
-          for node in visitedNode {
-            node.learn(reward!)
+          for (index, node) in visitedNodes.enumerated() {
+            node.learn(reward!, move: selectedMoves[index])
           }
           break
         }
-        visitedNode.append(node)
         let (_, move) = node.getNextMoveWithExploration()
+        visitedNodes.append(node)
+        selectedMoves.append(move)
         stateHistory.append(board.nextState(state: nextState, move: move))
       }
     }
