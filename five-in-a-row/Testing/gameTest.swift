@@ -1,6 +1,6 @@
 import XCTest
 
-class BoardTest : XCTestCase {
+class GameTest : XCTestCase {
   
   func testMoveEquality() {
     let move1 = Move(x: 2, y: 3)

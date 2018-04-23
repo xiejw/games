@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E36B926F207843C60043D4F5 /* ml.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B926E207843C60043D4F5 /* ml.swift */; };
-		E3761CE7207D07B900DBAB3F /* predictorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3761CE6207D07B900DBAB3F /* predictorTest.swift */; };
+		E3761CE7207D07B900DBAB3F /* mctsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3761CE6207D07B900DBAB3F /* mctsTest.swift */; };
 		E3761CE8207D088B00DBAB3F /* ml.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B926E207843C60043D4F5 /* ml.swift */; };
 		E3818D492082713500EE6066 /* policy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3818D482082713500EE6066 /* policy.swift */; };
 		E3818D4B2082726700EE6066 /* play.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3818D4A2082726700EE6066 /* play.swift */; };
@@ -20,9 +20,12 @@
 		E3F7C92F2076AABB003BF365 /* gameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C92E2076AABB003BF365 /* gameTest.swift */; };
 		E3F7C9302076ABDD003BF365 /* game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384203F2072AFF500B9D510 /* game.swift */; };
 		E3F7C9322076F262003BF365 /* system.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9312076F262003BF365 /* system.swift */; };
-		E3F7C9342076FE11003BF365 /* simulatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9332076FE11003BF365 /* simulatorTest.swift */; };
+		E3F7C9342076FE11003BF365 /* boardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9332076FE11003BF365 /* boardTest.swift */; };
 		E3F7C9352076FF2C003BF365 /* board.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* board.swift */; };
 		E3FF0829208C1EF500BD99CB /* Distribution.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E3818D4C2082C59A00EE6066 /* Distribution.mlmodel */; };
+		E3FF082B208C212500BD99CB /* mcts_policy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FF082A208C212500BD99CB /* mcts_policy.swift */; };
+		E3FF082C208D8C4900BD99CB /* mcts_policy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FF082A208C212500BD99CB /* mcts_policy.swift */; };
+		E3FF082D208D8C7400BD99CB /* policy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3818D482082713500EE6066 /* policy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,7 +42,7 @@
 
 /* Begin PBXFileReference section */
 		E36B926E207843C60043D4F5 /* ml.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ml.swift; sourceTree = "<group>"; };
-		E3761CE6207D07B900DBAB3F /* predictorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = predictorTest.swift; sourceTree = "<group>"; };
+		E3761CE6207D07B900DBAB3F /* mctsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mctsTest.swift; sourceTree = "<group>"; };
 		E3818D482082713500EE6066 /* policy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = policy.swift; sourceTree = "<group>"; };
 		E3818D4A2082726700EE6066 /* play.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = play.swift; sourceTree = "<group>"; };
 		E3818D4C2082C59A00EE6066 /* Distribution.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Distribution.mlmodel; path = ml/Distribution.mlmodel; sourceTree = SOURCE_ROOT; };
@@ -52,7 +55,8 @@
 		E3F7C92A207696C3003BF365 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3F7C92E2076AABB003BF365 /* gameTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameTest.swift; sourceTree = "<group>"; };
 		E3F7C9312076F262003BF365 /* system.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = system.swift; sourceTree = "<group>"; };
-		E3F7C9332076FE11003BF365 /* simulatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simulatorTest.swift; sourceTree = "<group>"; };
+		E3F7C9332076FE11003BF365 /* boardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = boardTest.swift; sourceTree = "<group>"; };
+		E3FF082A208C212500BD99CB /* mcts_policy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mcts_policy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 				E3818D482082713500EE6066 /* policy.swift */,
 				E3818D4A2082726700EE6066 /* play.swift */,
 				E3818D4C2082C59A00EE6066 /* Distribution.mlmodel */,
+				E3FF082A208C212500BD99CB /* mcts_policy.swift */,
 			);
 			path = "five-in-a-row";
 			sourceTree = "<group>";
@@ -112,8 +117,8 @@
 			children = (
 				E3F7C92A207696C3003BF365 /* Info.plist */,
 				E3F7C92E2076AABB003BF365 /* gameTest.swift */,
-				E3F7C9332076FE11003BF365 /* simulatorTest.swift */,
-				E3761CE6207D07B900DBAB3F /* predictorTest.swift */,
+				E3F7C9332076FE11003BF365 /* boardTest.swift */,
+				E3761CE6207D07B900DBAB3F /* mctsTest.swift */,
 			);
 			path = Testing;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				E3818D492082713500EE6066 /* policy.swift in Sources */,
 				E3B6B8E52077314C00B0F81A /* storage.swift in Sources */,
 				E38420442072E5B300B9D510 /* board.swift in Sources */,
+				E3FF082B208C212500BD99CB /* mcts_policy.swift in Sources */,
 				E38C4DD6207299E100ADE4A6 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,11 +230,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3FF082D208D8C7400BD99CB /* policy.swift in Sources */,
+				E3FF082C208D8C4900BD99CB /* mcts_policy.swift in Sources */,
 				E3FF0829208C1EF500BD99CB /* Distribution.mlmodel in Sources */,
 				E3761CE8207D088B00DBAB3F /* ml.swift in Sources */,
 				E3F7C9352076FF2C003BF365 /* board.swift in Sources */,
-				E3761CE7207D07B900DBAB3F /* predictorTest.swift in Sources */,
-				E3F7C9342076FE11003BF365 /* simulatorTest.swift in Sources */,
+				E3761CE7207D07B900DBAB3F /* mctsTest.swift in Sources */,
+				E3F7C9342076FE11003BF365 /* boardTest.swift in Sources */,
 				E3F7C9302076ABDD003BF365 /* game.swift in Sources */,
 				E3F7C92F2076AABB003BF365 /* gameTest.swift in Sources */,
 			);

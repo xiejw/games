@@ -69,6 +69,7 @@ class DistributionBasedPolicy: Policy {
   }
 }
 
+
 fileprivate func sampleFromProbabilities(probabilities: [Double]) -> Int {
   var pmf = [Double]()
   var currentSum = 0.0

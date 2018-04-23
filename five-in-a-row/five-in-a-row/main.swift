@@ -5,7 +5,7 @@ let size = 8
 let selfPlayTime = 30.0 // <-
 let calculationTime = 300.0
 let humanPlay = false
-let saveStates = true // <-
+let saveStates = false // <-
 let fName = "/Users/xiejw/Desktop/games.txt"
 
 
