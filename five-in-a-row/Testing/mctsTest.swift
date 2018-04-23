@@ -72,7 +72,7 @@ class MCTSTest: XCTestCase {
     XCTAssertEqual(move11, move)
     
     let newReward = 1.0
-    node.learn(newReward, move: move10)
+    node.backup(newReward, move: move10)
     
     XCTAssertEqual(2, node.qValueTotal.count)
     XCTAssertEqual(newReward, node.qValueTotal[move10]!)

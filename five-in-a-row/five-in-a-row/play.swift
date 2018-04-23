@@ -17,7 +17,7 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
   let queue = DispatchQueue(label: "games", attributes: .concurrent)
   let group = DispatchGroup()
   
-  for i in 0..<1 {
+  for i in 0..<8 {
     group.enter()
     queue.async {
       let game = gameFn()

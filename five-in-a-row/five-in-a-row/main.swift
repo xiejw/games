@@ -25,10 +25,18 @@ if !humanPlay {
   }
   
   func policyFn() -> [Policy] {
-    let policy = DistributionBasedPolicy(name: "dist_based", size: size,
-                                         distributionGenerator: DistributionPredictionWrapper(size: size))
-    let randomPolicy = RandomPolicy(name: "random_policy")
-    return [policy, randomPolicy]
+    let policy_500 = MCTSBasedPolicy(name: "mcts_500", size: size,
+                                 distributionGenerator: DistributionPredictionWrapper(size: size),
+                                 board: board, perMoveSimulationTimes: 500)
+    
+    let policy_100 = MCTSBasedPolicy(name: "mcts_100", size: size,
+                                 distributionGenerator: DistributionPredictionWrapper(size: size),
+                                 board: board, perMoveSimulationTimes: 100)
+    
+//    let policy = DistributionBasedPolicy(name: "dist_based", size: size,
+//                                         distributionGenerator: DistributionPredictionWrapper(size: size))
+//    let randomPolicy = RandomPolicy(name: "random_policy")
+    return [policy_500, policy_100]
   }
 
   selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, storage: storage, playTimeInSecs: selfPlayTime, verbose: 0)
