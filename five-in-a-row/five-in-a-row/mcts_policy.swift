@@ -27,11 +27,11 @@ class MCTSBasedPolicy: Policy {
     return record
   }
   
-  func getNextMove(stateHistory: [State], legalMoves: [Move]) -> Move {
+  func getNextMove(stateHistory: [State], legalMoves: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
     return runSimulationsAndGetNextMove(originalStateHistory: stateHistory)
   }
   
-  func runSimulationsAndGetNextMove(originalStateHistory: [State]) -> Move {
+  func runSimulationsAndGetNextMove(originalStateHistory: [State]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
     // We create a new cache each time and share between all simulations.
     let nodeFactory = NodeFactory(distributionGenerator: distributionGenerator, size: size)
     

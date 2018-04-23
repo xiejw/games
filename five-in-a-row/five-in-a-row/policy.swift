@@ -3,7 +3,8 @@ import Foundation
 
 protocol Policy {
   func getName() -> String
-  func getNextMove(stateHistory: [State], legalMoves: [Move]) -> Move
+  // policyDistribution[i] is the unnormalized distribution for move legalMoves[i]
+  func getNextMove(stateHistory: [State], legalMoves: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double])
   func shouldRecord() -> Bool
 }
 
@@ -19,8 +20,13 @@ class RandomPolicy: Policy {
     return name
   }
   
-  func getNextMove(stateHistory: [State], legalMoves: [Move]) -> Move {
-    return randomMove(moves: legalMoves)
+  func getNextMove(stateHistory: [State], legalMoves: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
+    var policyDistribution = [Double]()
+    let prob = 1.0
+    for _ in 0..<legalMoves.count {
+      policyDistribution.append(prob)
+    }
+    return (randomMove(moves: legalMoves), policyDistribution)
   }
   
   func shouldRecord() -> Bool {
@@ -50,7 +56,7 @@ class DistributionBasedPolicy: Policy {
     return record
   }
   
-  func getNextMove(stateHistory: [State], legalMoves: [Move]) -> Move {
+  func getNextMove(stateHistory: [State], legalMoves: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
     let lastState = stateHistory.last!
     let nextPlayer = lastState.nextPlayer
     let (probabilities, _) = distributionGenerator.predictDistributionAndReward(state: lastState, nextPlayer: nextPlayer)
@@ -65,7 +71,7 @@ class DistributionBasedPolicy: Policy {
     
     let sampleFlattenIndex = sampleFromProbabilities(probabilities: legalProbs)
     let flattenIndex = validflattenIndices[sampleFlattenIndex]
-    return Move(x: flattenIndex / size, y: flattenIndex % size)
+    return (Move(x: flattenIndex / size, y: flattenIndex % size), legalProbs)
   }
 }
 

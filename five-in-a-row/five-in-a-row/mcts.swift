@@ -5,9 +5,11 @@ class Node {
   var visitCount = Dictionary<Move, Int>()
   var prioryProbability = Dictionary<Move, Double>()
   
+  let legalMoves: [Move]
   var totalCount = 0.0
   
   init(nonNormalizedProbability: [Double], legalMoves: [Move], size: Int) {
+    self.legalMoves = legalMoves
     var normalizedProbabiity = [Double]()
     var sum = 0.0
     for move in legalMoves {
@@ -15,6 +17,7 @@ class Node {
       normalizedProbabiity.append(prob)
       sum += prob
     }
+    
     
     for (index, move) in legalMoves.enumerated() {
       prioryProbability[move] = normalizedProbabiity[index] / sum
@@ -48,15 +51,13 @@ class Node {
     totalCount += 1
   }
   
-  func getBestMove() -> Move {
-    var moves = [Move]()
+  func getBestMove() -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
     var probabilities = [Double]()
-    for (move, count) in visitCount {
-      probabilities.append(Double(count))
-      moves.append(move)
+    for move in legalMoves {
+      probabilities.append(Double(visitCount[move]!))
     }
     let index = sampleFromProbabilities(probabilities: probabilities)
-    return moves[index]
+    return (legalMoves[index], probabilities)
   }
 }
 

@@ -38,17 +38,27 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
         let (winner, history) = selfPlay(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
         stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
         
-        if winner != nil && blackPlayerPolicy.shouldRecord() {
-          let blackWin = winner == .BLACK
+        if blackPlayerPolicy.shouldRecord() {
+          let reward: Double
+          if winner == nil {
+            reward = 0.0
+          } else {
+            reward = winner == .BLACK ? 1.0 : -1.0
+          }
           for item in history[.BLACK]! {
-            playRecords[.BLACK]!.append(PlayRecord(history: item, win: blackWin))
+            playRecords[.BLACK]!.append(PlayRecord(history: item, reward: reward))
           }
         }
         
-        if winner != nil && whitePlayerPolicy.shouldRecord() {
-          let whitekWin = winner == .WHITE
+        if whitePlayerPolicy.shouldRecord() {
+          let reward: Double
+          if winner == nil {
+            reward = 0.0
+          } else {
+            reward = winner == .WHITE ? 1.0 : -1.0
+          }
           for item in history[.WHITE]! {
-            playRecords[.WHITE]!.append(PlayRecord(history: item, win: whitekWin))
+            playRecords[.WHITE]!.append(PlayRecord(history: item, reward: reward))
           }
         }
       }
@@ -60,7 +70,9 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
       if storage != nil {
         for player in [Player.BLACK, Player.WHITE] {
           for record in playRecords[player]! {
-            storage!.save(state: record.history.state, nextPlayer: player, move: record.history.move, win: record.win)
+            storage!.save(state: record.history.state, nextPlayer: player,
+                          legalMoves: record.history.legalMoves, distribution: record.history.unnormalizedProb,
+                          reward: record.reward)
           }
         }
       }
@@ -100,13 +112,15 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
     }
     
     var move: Move
+    var unnormalizedProb: [Double]
     if nextPlayer == .WHITE {
-      move = whitePlayerPolicy.getNextMove(stateHistory: stateHistory, legalMoves: legalMoves)
+      (move, unnormalizedProb) = whitePlayerPolicy.getNextMove(stateHistory: stateHistory, legalMoves: legalMoves)
     } else {
-      move = blackPlayerPolicy.getNextMove(stateHistory: stateHistory, legalMoves: legalMoves)
+      (move, unnormalizedProb) = blackPlayerPolicy.getNextMove(stateHistory: stateHistory, legalMoves: legalMoves)
     }
     
-    history[nextPlayer]!.append(PlayHistory(state: currentState, move: move))
+    let historyItem = PlayHistory(state: currentState, move: move, legalMoves: legalMoves, unnormalizedProb: unnormalizedProb)
+    history[nextPlayer]!.append(historyItem)
     
     try! game.newMove(move)
     
@@ -129,11 +143,13 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
 struct PlayHistory {
   var state: State
   var move: Move
+  var legalMoves: [Move]
+  var unnormalizedProb: [Double]
 }
 
 struct PlayRecord {
   var history: PlayHistory
-  var win: Bool
+  var reward: Double
 }
 
 fileprivate class PlayStats {

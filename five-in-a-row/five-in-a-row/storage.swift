@@ -32,13 +32,31 @@ class CSVStorage {
   
   let newline = "\n".data(using: .utf8)!
   
-  func save(state: State, nextPlayer: Player, move: Move, win: Bool) {
+  // Spec: R,NP,DIST,STATE
+  // R, Double: Reward {win: 1.0, lose: -1.0 lose, tie: 0.0}
+  // NP, INT: Next player { black: 1, white: 0 }
+  // DIST, [(INT, INT, DOULE)]: unnormalized distribution (move.x, move.y, distribution), joined by #
+  // STATE, [INT]: State of the board, state.toString
+  func save(state: State, nextPlayer: Player, legalMoves: [Move], distribution: [Double], reward: Double) {
     queue.sync(flags: .barrier, execute: {
       var result = [String]()
-      result.append(String(win ? 1.0 : -1.0))
+      
+      // R
+      result.append(String(reward))
+    
+      // NP
       result.append(String(nextPlayer == .BLACK ? 1 : 0))
-      result.append(String(move.x))
-      result.append(String(move.y))
+      
+      // DIST
+      var stringDist = [String]()
+      for (index, move) in legalMoves.enumerated() {
+        stringDist.append(String(move.x))
+        stringDist.append(String(move.y))
+        stringDist.append(String(distribution[index]))
+      }
+      result.append(stringDist.joined(separator: "#"))
+      
+      // DIST
       result.append(state.toString())
       
       self.fs.seekToEndOfFile()

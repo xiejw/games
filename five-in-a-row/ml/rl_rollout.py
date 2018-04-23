@@ -14,14 +14,15 @@ assert K.image_data_format() != 'channels_first'
 # Global Configuration.
 boardSize = 8
 fname = "/Users/xiejw/Desktop/games.txt"
-shortMode = False
 
 save_coreml = True
 cont_training = True
 
 # Get data
-ds = Dataset(fname, boardSize, shortMode)
-board_l, next_player_l, reward_l = ds.get_data()
+ds = Dataset(fname, boardSize, shuffle=True)
+train_data, test_data = ds.get_data()
+print("Training data: {}".format(len(train_data.get_reward())))
+print("Test data: {}".format(len(test_data.get_reward())))
 
 # Build model
 input_shape = (boardSize, boardSize, 1)
@@ -58,9 +59,9 @@ model = Model(inputs, outputs)
 model.compile(loss=['categorical_crossentropy', 'mse'], optimizer='adam')
 model.summary()
 
-# if cont_training:
-#   print("Loading weights.")
-#   model.load_weights("distribution.h5")
+if cont_training:
+  print("Loading weights.")
+  model.load_weights("distribution.h5")
 
 # print "=======", ds.content[0]
 # preds = model.predict([board_l[:1], next_player_l[:1]])
@@ -68,7 +69,10 @@ model.summary()
 # print("Predictions {}".format(pred))
 # print("Sum {}".format(np.sum(pred)))
 #
-# model.fit([board_l, next_player_l], reward_l, batch_size=None, steps_per_epoch=1, epochs=1)
+model.fit(
+        [train_data.get_board(), train_data.get_nplayer()],
+        [train_data.get_dist(), train_data.get_reward()],
+        batch_size=128, epochs=12)
 print("Saving weights.")
 model.save_weights("distribution.h5")
 

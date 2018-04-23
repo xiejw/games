@@ -94,7 +94,10 @@ class MCTSTest: XCTestCase {
     
     // Though best move is randonly sampled, as the visited count for move11 is zero, the result
     // is deterministic.
-    XCTAssertEqual(move10, node.getBestMove())
+    let (bestMove, unnormalizedProb) = node.getBestMove()
+    XCTAssertEqual(move10, bestMove)
+    // unnormalizedProb is about the visited counts.
+    XCTAssertEqual([1.0, 0.0],  unnormalizedProb)
   }
 }
 

@@ -2,10 +2,9 @@ import Foundation
 
 let numberToWin = 5
 let size = 8
-let selfPlayTime = 30.0 // <-
-let calculationTime = 300.0
+let selfPlayTime = 2400.0 // <-
 let humanPlay = false
-let saveStates = false // <-
+let saveStates = true // <-
 let fName = "/Users/xiejw/Desktop/games.txt"
 
 
@@ -25,13 +24,13 @@ if !humanPlay {
   }
   
   func policyFn() -> [Policy] {
-    let policy_500 = MCTSBasedPolicy(name: "mcts_500", size: size,
+    let policy_500 = MCTSBasedPolicy(name: "mcts_500_1", size: size,
                                  distributionGenerator: DistributionPredictionWrapper(size: size),
-                                 board: board, perMoveSimulationTimes: 500)
+                                 board: board, perMoveSimulationTimes: 500, shouldRecord: true)
     
-    let policy_100 = MCTSBasedPolicy(name: "mcts_100", size: size,
+    let policy_100 = MCTSBasedPolicy(name: "mcts_500_2", size: size,
                                  distributionGenerator: DistributionPredictionWrapper(size: size),
-                                 board: board, perMoveSimulationTimes: 100)
+                                 board: board, perMoveSimulationTimes: 500, shouldRecord: true)
     
 //    let policy = DistributionBasedPolicy(name: "dist_based", size: size,
 //                                         distributionGenerator: DistributionPredictionWrapper(size: size))
