@@ -20,71 +20,130 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
   for i in 0..<8 {
     group.enter()
     queue.async {
-      let game = gameFn()
-      let policies = policyFn()
-      let stats = PlayStats(policies: policies, name: "sub-branch-\(i)")
-      var playRecords = Dictionary<Player, [PlayRecord]>()
-      playRecords[.BLACK] = [PlayRecord]()
-      playRecords[.WHITE] = [PlayRecord]()
-
-      while true {
-        // Stopping condition.
-        let end = NSDate().timeIntervalSince1970 - begin
-        if end >= playTimeInSecs {
-          break
-        }
-        
-        let (blackPlayerPolicy, whitePlayerPolicy) = randomPermutation(policies: policies)
-        let (winner, history) = selfPlay(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
-        stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
-        
-        if blackPlayerPolicy.shouldRecord() {
-          let reward: Double
-          if winner == nil {
-            reward = 0.0
-          } else {
-            reward = winner == .BLACK ? 1.0 : -1.0
-          }
-          for item in history[.BLACK]! {
-            playRecords[.BLACK]!.append(PlayRecord(history: item, reward: reward))
-          }
-        }
-        
-        if whitePlayerPolicy.shouldRecord() {
-          let reward: Double
-          if winner == nil {
-            reward = 0.0
-          } else {
-            reward = winner == .WHITE ? 1.0 : -1.0
-          }
-          for item in history[.WHITE]! {
-            playRecords[.WHITE]!.append(PlayRecord(history: item, reward: reward))
-          }
-        }
-      }
-      
-      if verbose > 0 {
-        print("Finish games ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
-      }
-      finalStats.merge(stats)
-      if storage != nil {
-        for player in [Player.BLACK, Player.WHITE] {
-          for record in playRecords[player]! {
-            storage!.save(state: record.history.state, nextPlayer: player,
-                          legalMoves: record.history.legalMoves, distribution: record.history.unnormalizedProb,
-                          reward: record.reward)
-          }
-        }
-      }
-      if verbose > 0 {
-        print("Finish recording ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
-      }
+      selfPlayAndRecord(currentBranch: i,
+                        beginTime: begin,
+                        gameFn: gameFn,
+                        policyFn: policyFn,
+                        finalStats: finalStats,
+                        board: board,
+                        storage: storage,
+                        playTimeInSecs: playTimeInSecs,
+                        verbose: verbose)
       group.leave()
     }
   }
   group.wait()
   print("End games at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
   finalStats.summarize()
+}
+
+fileprivate func selfPlayAndRecord(currentBranch i: Int,
+                                   beginTime begin: Double,
+                                   gameFn: @escaping () -> Game,
+                                   policyFn: @escaping () -> [Policy],
+                                   finalStats: PlayStats,
+                                   board: Board,
+                                   storage: CSVStorage?,
+                                   playTimeInSecs: Double,
+                                   verbose: Int) {
+
+  // Policies are immutable.
+  let policies = policyFn()
+  let stats = PlayStats(policies: policies, name: "sub-branch-\(i)")
+  
+  var playRecords = Dictionary<Player, [PlayRecord]>()
+  playRecords[.BLACK] = [PlayRecord]()
+  playRecords[.WHITE] = [PlayRecord]()
+  
+  // FIXME
+  var totalGamesInThread = 0.0
+  var totalHistoryAppended = 0.0
+  var totalRecordSeen = 0.0
+  var totalHisotrySeen = 0.0
+  var totalBlackRecord = 0.0
+  var totalBlackRecordTotal = 0.0
+  var totalWhiteRecordTotal = 0.0
+  
+  while true {
+    // Stopping condition.
+    let end = NSDate().timeIntervalSince1970 - begin
+    if end >= playTimeInSecs {
+      break
+    }
+    // Game is stateful. Creates a new game each time.
+    let game = gameFn()
+    
+    let (blackPlayerPolicy, whitePlayerPolicy) = randomPermutation(policies: policies)
+    let (winner, history) = selfPlay(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
+    stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
+    
+    totalHisotrySeen += Double(history.count)
+    precondition(history.count == 2)
+    for k in history.keys {
+      precondition(k == Player.WHITE || k == Player.BLACK)
+    }
+    totalBlackRecordTotal += Double(history[.BLACK]!.count)
+    totalWhiteRecordTotal += Double(history[.WHITE]!.count)
+    
+    //FIXME
+    totalGamesInThread += 1
+    
+    if blackPlayerPolicy.shouldRecord() {
+      totalHistoryAppended += 1
+      let reward: Double
+      if winner == nil {
+        reward = 0.0
+      } else {
+        reward = winner == .BLACK ? 1.0 : -1.0
+      }
+      totalBlackRecord += Double(history[.BLACK]!.count)
+      for item in history[.BLACK]! {
+        totalRecordSeen += 1
+        playRecords[.BLACK]!.append(PlayRecord(history: item, reward: reward))
+        
+      }
+    }
+    
+    if whitePlayerPolicy.shouldRecord() {
+      let reward: Double
+      if winner == nil {
+        reward = 0.0
+      } else {
+        reward = winner == .WHITE ? 1.0 : -1.0
+      }
+      for item in history[.WHITE]! {
+        playRecords[.WHITE]!.append(PlayRecord(history: item, reward: reward))
+      }
+    }
+  }
+  
+  if verbose > 0 {
+    print("Finish games ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
+  }
+  print("Thread \(i) \(totalGamesInThread) history seen \(totalHisotrySeen) totalBlackRecordTotal \(totalBlackRecordTotal) totalWhiteRecordTotal \(totalWhiteRecordTotal)  totalBlackRecord \(totalBlackRecord) historyRecord seen \(totalRecordSeen) total records \(totalHistoryAppended) black \(playRecords[.BLACK]!.count) white \(playRecords[.WHITE]!.count)")
+  
+  
+  finalStats.merge(stats)
+  
+  print("Thread \(i) \(totalGamesInThread)   total records \(totalHistoryAppended) black \(playRecords[.BLACK]!.count) white \(playRecords[.WHITE]!.count)")
+  if storage != nil {
+    //FIXME
+    var savedGames = 0
+    for player in [Player.BLACK, Player.WHITE] {
+      for record in playRecords[player]! {
+        savedGames += 1
+        storage!.save(state: record.history.state, nextPlayer: player,
+                      legalMoves: record.history.legalMoves, distribution: record.history.unnormalizedProb,
+                      reward: record.reward)
+      }
+    }
+    
+    //FIXME
+    print("Thread \(i) \(totalGamesInThread)  saved \(savedGames)  total records \(totalHistoryAppended) black \(playRecords[.BLACK]!.count) white \(playRecords[.WHITE]!.count)")
+  }
+  if verbose > 0 {
+    print("Finish recording ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
+  }
 }
 
 // Play one game.
@@ -136,6 +195,8 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
       break
     }
   }
+  
+  precondition(history.count >= 1)
   
   return (finalWinner, history)
 }
