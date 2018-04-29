@@ -1,6 +1,6 @@
 #!/bin/sh
 
-counter=200
+counter=20
 
 while [ $counter -gt 0 ]
 do

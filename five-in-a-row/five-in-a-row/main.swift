@@ -34,8 +34,9 @@ if !humanPlay {
     
 //    let policy = DistributionBasedPolicy(name: "dist_based", size: size,
 //                                         distributionGenerator: DistributionPredictionWrapper(size: size))
-//    let randomPolicy = RandomPolicy(name: "random_policy")
-    return [policy_500, policy_100]
+    // let randomPolicy = RandomPolicy(name: "random_policy")
+     return [policy_500, policy_100]
+    // return [policy_500, randomPolicy]
   }
 
   selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, storage: storage, playTimeInSecs: selfPlayTime, verbose: 0)
