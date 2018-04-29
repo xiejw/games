@@ -59,6 +59,21 @@ class Node {
     let index = sampleFromProbabilities(probabilities: probabilities)
     return (legalMoves[index], probabilities)
   }
+  
+  func getBestMoveForPlay() -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
+    var probabilities = [Double]()
+    var bestMove: Move? = nil
+    var bestCount = 0
+    for move in legalMoves {
+      let count = visitCount[move]!
+      probabilities.append(Double(count))
+      if count > bestCount {
+        bestCount = visitCount[move]!
+        bestMove = move
+      }
+    }
+    return (bestMove!, probabilities)
+  }
 }
 
 class NodeFactory {

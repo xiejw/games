@@ -8,15 +8,17 @@ class MCTSBasedPolicy: Policy {
   let distributionGenerator: Predictor
   let board: Board
   let record: Bool
+  let playMode: Bool
   
   init(name: String, size: Int, distributionGenerator: Predictor,
-       board: Board, perMoveSimulationTimes: Int, shouldRecord: Bool = true) {
+       board: Board, perMoveSimulationTimes: Int, shouldRecord: Bool = true, playMode: Bool = false) {
     self.name = name
     self.size = size
     self.board = board
     self.perMoveSimulationTimes = perMoveSimulationTimes
     self.distributionGenerator = distributionGenerator
     self.record = shouldRecord
+    self.playMode = playMode
   }
   
   func getName() -> String {
@@ -69,6 +71,10 @@ class MCTSBasedPolicy: Policy {
       }
     }
     
-    return nodeFactory.getRootNode(originalStateHistory.last!).getBestMove()
+    if playMode {
+      return nodeFactory.getRootNode(originalStateHistory.last!).getBestMove()
+    } else {
+      return nodeFactory.getRootNode(originalStateHistory.last!).getBestMoveForPlay()
+    }
   }
 }

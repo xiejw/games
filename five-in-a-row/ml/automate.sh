@@ -12,7 +12,7 @@ do
   cd ml && \
   python rl_rollout.py && \
   cat ~/Desktop/games.txt >> ~/Desktop/games_history.txt  && \
-  rm ~/Desktop/games.txt
+  rm -f ~/Desktop/games.txt
 
   counter=$(($counter-1))
 done
