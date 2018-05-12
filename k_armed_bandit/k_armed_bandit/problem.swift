@@ -1,7 +1,6 @@
 import Foundation
 
 class BanditProblem {
-    
     let numArms: Int
     var states: [Double]
     
