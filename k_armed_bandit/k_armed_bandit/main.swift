@@ -1,32 +1,53 @@
 // Configurations.
-let verbose = 0
+let verbose = 1
 let maxSteps = verbose > 0 ? 10: 1000
 let numArms = 10
 let numProblems = verbose > 0 ? 2: 2000
 
 // Game starts.
 
-let policy = RandomPolicy(numActions: numArms)
+// New policy states for each problem.
+func policyFactory() -> [Policy] {
+    let policy = RandomPolicy(numActions: numArms)
+    return [policy]
+}
 
-var policyRewards = 0.0
+var policyRewards = Dictionary<String, Double>()
 for _ in 0..<numProblems {
+    
+    let policies = policyFactory()
     let problem = BanditProblem(numArms: numArms, verbose: verbose)
-    var totalRewards = 0.0
-    for i in 0..<maxSteps {
-        let action = policy.getAction()
-        let currentReward = problem.play(action: action)
+    
+    for policy in policies {
+        let policyName = policy.name()
         if verbose > 0 {
-            print("Step \(i) -- action: \(action) -- reward \(currentReward)")
+            print("Policy with name \(policyName)")
         }
-        totalRewards += currentReward
-    }
-    totalRewards /= Double(maxSteps)
-    policyRewards += totalRewards
-    if verbose > 0 {
-        print("Total rewards \(totalRewards)")
+        var policyTotalRewardInProblem = 0.0
+        
+        for i in 0..<maxSteps {
+            let action = policy.getAction()
+            let currentReward = problem.play(action: action)
+            if verbose > 0 {
+                print("Step \(i) -- action: \(action) -- reward \(currentReward)")
+            }
+            policyTotalRewardInProblem += currentReward
+        }
+        
+        let policyAverageRward = policyTotalRewardInProblem / Double(maxSteps)
+        if verbose > 0 {
+            print("Average rewards in this problem: \(policyAverageRward)")
+        }
+        
+        if policyRewards[policyName] != nil {
+            policyRewards[policyName]! += policyAverageRward
+        } else {
+            policyRewards[policyName] = policyAverageRward
+        }
     }
 }
-policyRewards /= Double(numProblems)
-print("Policy \"\(policy.name())\" average rewards \(policyRewards)")
 
+for (name, rewards) in policyRewards {
+    print("Policy \"\(name)\": \(rewards / Double(numProblems))")
+}
 
