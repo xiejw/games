@@ -3,7 +3,7 @@ import Foundation
 let numberToWin = 5
 let size = 8
 let selfPlayTime = 2400.0 // <-
-let humanPlay = true
+let humanPlay = false
 let saveStates = true // <-
 let fName = "/Users/xiejw/Desktop/games.txt"
 
