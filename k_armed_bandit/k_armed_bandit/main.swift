@@ -1,15 +1,35 @@
 // Configurations.
-let verbose = 1
+let verbose = 0
 let maxSteps = verbose > 0 ? 10: 1000
 let numArms = 10
 let numProblems = verbose > 0 ? 2: 2000
 
+
+print("""
+    Configurations:
+    verbose: \(verbose)
+    numArms: \(numArms)
+    maxSteps: \(maxSteps)
+    numProblems: \(numProblems)
+    
+    """)
 // Game starts.
 
 // New policy states for each problem.
 func policyFactory() -> [Policy] {
-    let policy = RandomPolicy(numActions: numArms)
-    return [policy]
+    var policies = [Policy]()
+    policies.append(RandomPolicy(numActions: numArms, verbose: verbose))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.0, name: "eps-0.0a", verbose: verbose))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.0, name: "eps-0.0b", verbose: verbose))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.01, name: "eps-0.01a", verbose: verbose))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.01, name: "eps-0.01b", verbose: verbose))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, name: "eps-0.05a", verbose: verbose))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, name: "eps-0.05b", verbose: verbose))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, name: "eps-0.1a", verbose: verbose))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, name: "eps-0.1b", verbose: verbose))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.2, name: "eps-0.2a", verbose: verbose))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.2, name: "eps-0.2b", verbose: verbose))
+    return policies
 }
 
 var policyRewards = Dictionary<String, Double>()
@@ -31,6 +51,7 @@ for _ in 0..<numProblems {
             if verbose > 0 {
                 print("Step \(i) -- action: \(action) -- reward \(currentReward)")
             }
+            policy.learn(action: action, reward: currentReward)
             policyTotalRewardInProblem += currentReward
         }
         
@@ -47,7 +68,7 @@ for _ in 0..<numProblems {
     }
 }
 
-for (name, rewards) in policyRewards {
+for (name, rewards) in (policyRewards.sorted{ $0.0 < $1.0 }) {
     print("Policy \"\(name)\": \(rewards / Double(numProblems))")
 }
 

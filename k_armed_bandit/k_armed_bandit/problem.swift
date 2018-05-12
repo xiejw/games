@@ -1,5 +1,6 @@
 import Foundation
 
+// Must be stateless after initialization.
 class BanditProblem {
     let numArms: Int
     var states: [Double]
@@ -9,12 +10,12 @@ class BanditProblem {
         
         // Generate the states according to normal distribution.
         states = [Double]()
-        for i in 0..<numArms {
+        for _ in 0..<numArms {
             let state = normalDistribution()
-            if verbose > 0 {
-                print("State \(i): \(state)")
-            }
             states.append(state)
+        }
+        if verbose > 0 {
+            print("New Problem with states \(states)")
         }
     }
     
