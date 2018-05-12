@@ -12,23 +12,34 @@ print("""
     maxSteps: \(maxSteps)
     numProblems: \(numProblems)
     
-    """)
+""")
 // Game starts.
 
 // New policy states for each problem.
 func policyFactory() -> [Policy] {
     var policies = [Policy]()
     policies.append(RandomPolicy(numActions: numArms, verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.0, name: "eps-0.0a", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.0, name: "eps-0.0b", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.01, name: "eps-0.01a", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.01, name: "eps-0.01b", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, name: "eps-0.05a", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, name: "eps-0.05b", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, name: "eps-0.1a", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, name: "eps-0.1b", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.2, name: "eps-0.2a", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.2, name: "eps-0.2b", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.0, name: "eps-0.0a", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.0, name: "eps-0.0b", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.01, name: "eps-0.01a", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.01, name: "eps-0.01b", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, name: "eps-0.05a", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, name: "eps-0.05b", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, name: "eps-0.1a", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, name: "eps-0.1b", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.2, name: "eps-0.2a", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.2, name: "eps-0.2b", verbose: verbose))
+    
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.0, initialValue: 5.0, name: "eps-0.0-5"))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.0, initialValue: 0.0, name: "eps-0.0-0"))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.01, initialValue: 5.0, name: "eps-0.01-5"))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.01, initialValue: 0.0, name: "eps-0.01-0"))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, initialValue: 5.0, name: "eps-0.05-5"))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, initialValue: 0.0, name: "eps-0.05-0"))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, initialValue: 5.0, name: "eps-0.1-5"))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, initialValue: 0.0, name: "eps-0.1-0"))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.2, initialValue: 5.0, name: "eps-0.2-5"))
+    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.2, initialValue: 0.0, name: "eps-0.2-0"))
     return policies
 }
 
