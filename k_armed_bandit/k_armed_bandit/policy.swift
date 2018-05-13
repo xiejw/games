@@ -50,14 +50,16 @@ class RandomPolicy: BasePolicy {
 class EpsilonGreedyPolicy: BasePolicy {
     let epsilon: Double
     let initialValue: Double
+    let stepSize: Double?
 
     var visitedCount: [Int]
     var averageRewards: [Double]
     
-    init(numActions: Int, epsilon: Double = 0.1, initialValue: Double = 0.0,
+    init(numActions: Int, epsilon: Double = 0.1, initialValue: Double = 0.0, stepSize: Double? = nil,
          name: String = "eps-greedy", verbose: Int = 0) {
         self.epsilon = epsilon
         self.initialValue = initialValue
+        self.stepSize = stepSize
   
         visitedCount = [Int]()
         averageRewards = [Double]()
@@ -71,7 +73,8 @@ class EpsilonGreedyPolicy: BasePolicy {
     override func learn(action: Int, reward: Double) {
         visitedCount[action] += 1
         let oldReward = averageRewards[action]
-        let newReward = oldReward + (reward - oldReward) / Double(visitedCount[action])
+        let localStepSize = stepSize != nil ? stepSize! : (1 / Double(visitedCount[action]))
+        let newReward = oldReward + (reward - oldReward) * localStepSize
         averageRewards[action] = newReward
         if verbose >= printDetailedMessage {
             print("** Policy \"\(policyName)\" learns new reward \(reward)")
