@@ -12,6 +12,8 @@
 		E3868EE820A67510006091FE /* problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3868EE720A67510006091FE /* problem.swift */; };
 		E3868EEA20A74C6D006091FE /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3868EE920A74C6D006091FE /* util.swift */; };
 		E3868EEC20A7BC46006091FE /* policy_groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3868EEB20A7BC46006091FE /* policy_groups.swift */; };
+		E3868EEE20A7BF5A006091FE /* policy_greedy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3868EED20A7BF5A006091FE /* policy_greedy.swift */; };
+		E3F3CBCD20A7C3FB0007FE85 /* policy_ucb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F3CBCC20A7C3FB0007FE85 /* policy_ucb.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +35,8 @@
 		E3868EE720A67510006091FE /* problem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = problem.swift; sourceTree = "<group>"; };
 		E3868EE920A74C6D006091FE /* util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
 		E3868EEB20A7BC46006091FE /* policy_groups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = policy_groups.swift; sourceTree = "<group>"; };
+		E3868EED20A7BF5A006091FE /* policy_greedy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = policy_greedy.swift; sourceTree = "<group>"; };
+		E3F3CBCC20A7C3FB0007FE85 /* policy_ucb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = policy_ucb.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,8 @@
 				E3868EDE20A671CD006091FE /* main.swift */,
 				E3868EE920A74C6D006091FE /* util.swift */,
 				E3868EEB20A7BC46006091FE /* policy_groups.swift */,
+				E3868EED20A7BF5A006091FE /* policy_greedy.swift */,
+				E3F3CBCC20A7C3FB0007FE85 /* policy_ucb.swift */,
 			);
 			path = k_armed_bandit;
 			sourceTree = "<group>";
@@ -134,7 +140,9 @@
 				E3868EDF20A671CD006091FE /* main.swift in Sources */,
 				E3868EE620A67250006091FE /* policy.swift in Sources */,
 				E3868EEC20A7BC46006091FE /* policy_groups.swift in Sources */,
+				E3868EEE20A7BF5A006091FE /* policy_greedy.swift in Sources */,
 				E3868EE820A67510006091FE /* problem.swift in Sources */,
+				E3F3CBCD20A7C3FB0007FE85 /* policy_ucb.swift in Sources */,
 				E3868EEA20A74C6D006091FE /* util.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -2,6 +2,7 @@ import Foundation
 
 func policyFactory(numArms: Int, verbose: Int) -> [Policy] {
     var policies = [Policy]()
+    // Base line. should be 0.
     policies.append(RandomPolicy(numActions: numArms, verbose: verbose))
     
     // Basic Group: Examine the reproducibility.
@@ -52,5 +53,11 @@ func policyFactory(numArms: Int, verbose: Int) -> [Policy] {
     policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, initialValue: 5.0, name: "eps-0.1-5", verbose: verbose))
     policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, initialValue: 5.0, stepSize: 0.2, name: "eps-0.05-5-s", verbose: verbose))
     policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, initialValue: 5.0, stepSize: 0.2, name: "eps-0.1-5-s", verbose: verbose))
+    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, name: "ucb", verbose: verbose))
+    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 1.0, name: "ucb-1", verbose: verbose))
+    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 4.0, name: "ucb-4", verbose: verbose))
+    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, name: "ucb-s", verbose: verbose))
+    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 1.0, name: "ucb-s-1", verbose: verbose))
+    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 4.0, name: "ucb-s-4", verbose: verbose))
     return policies
 }

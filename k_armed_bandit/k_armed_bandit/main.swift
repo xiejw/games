@@ -1,9 +1,9 @@
 // Configurations.
 let verbose = 0
 let maxSteps = verbose > 0 ? 10: 1000
-let numArms = 10
+let numArms = verbose > 0 ? 5: 10
 let numProblems = verbose > 0 ? 2: 2000
-let stationary = false
+let stationary = true
 
 print("""
 Configurations:
