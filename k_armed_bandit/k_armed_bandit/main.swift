@@ -3,7 +3,7 @@ let verbose = 0
 let maxSteps = verbose > 0 ? 10: 1000
 let numArms = verbose > 0 ? 5: 10
 let numProblems = verbose > 0 ? 2: 2000
-let stationary = true
+let stationary = false
 
 print("""
 Configurations:
