@@ -13,3 +13,7 @@ func normalDistribution(mean: Double = 0.0, sigma: Double = 1.0) -> Double {
 func random(_ total: Int) -> Int {
     return Int(arc4random_uniform(UInt32(total)))
 }
+
+func squareError(_ a: Double, _ b: Double) -> Double {
+    return (a-b) * (a-b)
+}

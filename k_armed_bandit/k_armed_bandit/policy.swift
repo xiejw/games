@@ -4,6 +4,7 @@ protocol Policy {
     func name() -> String
     func getAction() -> Int
     func learn(action: Int, reward: Double)
+    func getValueEstimate(action: Int) -> Double
 }
 
 class BasePolicy: Policy {
@@ -29,6 +30,9 @@ class BasePolicy: Policy {
     func learn(action: Int, reward: Double) {
         preconditionFailure("This method must be overridden")
     }
+    func getValueEstimate(action: Int) -> Double {
+        preconditionFailure("This method must be overridden")
+    }
 }
 
 class RandomPolicy: BasePolicy {
@@ -44,6 +48,9 @@ class RandomPolicy: BasePolicy {
         if verbose >= printDetailedMessage {
             print("** Policy \"Random\" does not learn :)")
         }
+    }
+    override func getValueEstimate(action: Int) -> Double {
+        return 0.0  // Random policy assumes 0.0 for everything.
     }
 }
 

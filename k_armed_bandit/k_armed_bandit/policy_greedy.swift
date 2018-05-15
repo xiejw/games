@@ -30,6 +30,9 @@ class RewardBasedPolicy: BasePolicy {
         }
     }
     
+    override func getValueEstimate(action: Int) -> Double {
+        return averageRewards[action]
+    }
 }
 
 class EpsilonGreedyPolicy: RewardBasedPolicy {

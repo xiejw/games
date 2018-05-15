@@ -6,6 +6,8 @@ class BanditProblem {
     let stationary: Bool
     var states = [Double]()
     
+    var bestActionIndex = 0
+    
     init(numArms: Int, stationary: Bool, verbose: Int = 0) {
         self.numArms = numArms
         self.stationary = stationary
@@ -13,10 +15,17 @@ class BanditProblem {
     }
     
     func reset() {
+        // During reset, also record the bestActionIndex.
+        var bestValue : Double? = nil
+        
         // Generate the states according to normal distribution.
         states = [Double]()
-        for _ in 0..<numArms {
+        for i in 0..<numArms {
             let state = normalDistribution()
+            if bestValue == nil || state > bestValue! {
+                bestValue = state
+                self.bestActionIndex = i
+            }
             states.append(state)
         }
         if verbose > 0 {
@@ -29,5 +38,9 @@ class BanditProblem {
             reset()
         }
         return normalDistribution(mean: states[action])
+    }
+    
+    func bestAction() -> (Int, Double) {
+        return (bestActionIndex, states[bestActionIndex])
     }
 }

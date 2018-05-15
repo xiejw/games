@@ -47,25 +47,25 @@ func policyFactory(numArms: Int, verbose: Int) -> [Policy] {
     //    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.2, stepSize: 0.2, name: "eps-0.2-s2"))
     
     // Final group: All (explore parameter matters.)
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, name: "eps-0.05", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, name: "eps-0.1", verbose: verbose))
-    
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, initialValue: 5.0, name: "eps-0.05-5", verbose: verbose))
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, initialValue: 5.0, name: "eps-0.1-5", verbose: verbose))
-    
-    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, initialValue: 5.0, stepSize: 0.2, name: "eps-0.05-5-s", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, name: "eps-0.05", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, name: "eps-0.1", verbose: verbose))
+//
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, initialValue: 5.0, name: "eps-0.05-5", verbose: verbose))
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, initialValue: 5.0, name: "eps-0.1-5", verbose: verbose))
+//
+//    policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.05, initialValue: 5.0, stepSize: 0.2, name: "eps-0.05-5-s", verbose: verbose))
     policies.append(EpsilonGreedyPolicy(numActions: numArms, epsilon: 0.1, initialValue: 5.0, stepSize: 0.2, name: "eps-0.1-5-s", verbose: verbose))
-    
+
     policies.append(UCBPolicy(numActions: numArms, name: "ucb", verbose: verbose))
-    policies.append(UCBPolicy(numActions: numArms, exploreFactor: 1.0, name: "ucb-1", verbose: verbose))
-    policies.append(UCBPolicy(numActions: numArms,  exploreFactor: 1.414, name: "ucb-1.414", verbose: verbose))
-    policies.append(UCBPolicy(numActions: numArms,  exploreFactor: 0.8, name: "ucb-0.8", verbose: verbose))
-    policies.append(UCBPolicy(numActions: numArms,  exploreFactor: 0.5, name: "ucb-0.5", verbose: verbose))
-    
-    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, name: "ucb-s", verbose: verbose))
-    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 1.0, name: "ucb-s-´1", verbose: verbose))
-    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 1.414, name: "ucb-s-1.414", verbose: verbose))
-    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 0.8, name: "ucb-s-0.8", verbose: verbose))
-    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 0.5, name: "ucb-s-0.5", verbose: verbose))
+//    policies.append(UCBPolicy(numActions: numArms, exploreFactor: 1.0, name: "ucb-1", verbose: verbose))
+//    policies.append(UCBPolicy(numActions: numArms,  exploreFactor: 1.414, name: "ucb-1.414", verbose: verbose))
+//    policies.append(UCBPolicy(numActions: numArms,  exploreFactor: 0.8, name: "ucb-0.8", verbose: verbose))
+//    policies.append(UCBPolicy(numActions: numArms,  exploreFactor: 0.5, name: "ucb-0.5", verbose: verbose))
+//
+//    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, name: "ucb-s", verbose: verbose))
+//    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 1.0, name: "ucb-s-´1", verbose: verbose))
+//    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 1.414, name: "ucb-s-1.414", verbose: verbose))
+//    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 0.8, name: "ucb-s-0.8", verbose: verbose))
+//    policies.append(UCBPolicy(numActions: numArms, stepSize: 0.2, exploreFactor: 0.5, name: "ucb-s-0.5", verbose: verbose))
     return policies
 }
