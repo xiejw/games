@@ -40,7 +40,19 @@ class BanditProblem {
         return normalDistribution(mean: states[action])
     }
     
-    func bestAction() -> (Int, Double) {
-        return (bestActionIndex, states[bestActionIndex])
+    func bestAction() -> (bestActionIndex: Int, bestActionValue: Double, actionRanking: Dictionary<Int, Int>) {
+        var actionValues = Dictionary<Int, Double>()
+        for i in 0..<numArms {
+            actionValues[i] = states[i]
+        }
+        var actionRanking = Dictionary<Int, Int>()
+        var ranking = 0
+        for (actionIndex, _) in (actionValues.sorted{ $0.1 > $1.1 }) {
+            actionRanking[actionIndex] = ranking
+            ranking += 1
+        }
+        assert(ranking == numArms)
+        assert(actionRanking[bestActionIndex] == 0)
+        return (bestActionIndex, states[bestActionIndex], actionRanking)
     }
 }

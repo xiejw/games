@@ -5,6 +5,7 @@ let numArms = verbose > 0 ? 5: 10
 let numProblems = verbose > 0 ? 2: 2000
 let stationary = true
 let monitorEachStep = true
+let logRankingSteps = 200
 
 print("""
 Configurations:
@@ -24,6 +25,7 @@ if monitorEachStep && !stationary {
 let monitor = Monitor()
 monitor.report(key: "total-problems", value: Double(numProblems), skipSummary: false)
 monitor.report(key: "total-steps", value: Double(maxSteps), skipSummary: false)
+monitor.report(key: "num-arms", value: Double(numArms), skipSummary: false)
 
 for _ in 0..<numProblems {
     
@@ -32,7 +34,7 @@ for _ in 0..<numProblems {
     let problem = BanditProblem(numArms: numArms, stationary: stationary, verbose: verbose)
     
     // When stationary is false, we need to add a calback to update the best action.
-    let (bestActionIndex, bestActionValue) = problem.bestAction()
+    let (bestActionIndex, bestActionValue, actionRanking) = problem.bestAction()
     
     for policy in policies {
         let policyName = policy.name()
@@ -59,6 +61,14 @@ for _ in 0..<numProblems {
                     key: "best-action-(\(policyName))-\(stepIndex)",
                     value: action == bestActionIndex ? 1.0 : 0.0
                 )
+                
+                if stepIndex < logRankingSteps {
+                    let rank = actionRanking[action]!
+                    monitor.report(
+                        key: "action-selection-(\(policyName))-\(rank)",
+                        value: 1.0
+                    )
+                }
             }
         }
         
@@ -75,4 +85,4 @@ for _ in 0..<numProblems {
 }
 
 monitor.summary()
-monitor.save(fName: "/tmp/bandit-data.txt")
+monitor.save(fName: "/tmp/bandit-data.txt") // copy this file to the jupyter folder.
