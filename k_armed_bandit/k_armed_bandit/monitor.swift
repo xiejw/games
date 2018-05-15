@@ -24,4 +24,21 @@ class Monitor {
             }
         }
     }
+    
+    func save(fName: String) {
+        let filemgr = FileManager.default
+        if filemgr.fileExists(atPath: fName) {
+            print("File \(fName) already exists. Delete it.")
+            try! filemgr.removeItem(atPath: fName)
+        }
+        
+        filemgr.createFile(atPath:fName, contents: nil)
+        print("File \(fName) created")
+        
+        let fs = FileHandle(forWritingAtPath: fName)!
+        for (key, value) in (valueStore.sorted{ $0.0 < $1.0 }) {
+            fs.write("\(key): \(value)\n".data(using: .utf8)!)
+        }
+        fs.closeFile()
+    }
 }
