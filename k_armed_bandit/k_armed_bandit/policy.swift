@@ -12,25 +12,27 @@ class BasePolicy: Policy {
     let policyName: String
     let verbose: Int
     let printDetailedMessage = 2
-    
+
     init(numActions: Int, name: String = "Random", verbose: Int = 0) {
         self.numActions = numActions
-        self.policyName = name
+        policyName = name
         self.verbose = verbose
     }
-    
+
     func name() -> String {
         return policyName
     }
-    
+
     // Unimplemented.
     func getAction() -> Int {
         preconditionFailure("This method must be overridden")
     }
-    func learn(action: Int, reward: Double) {
+
+    func learn(action _: Int, reward _: Double) {
         preconditionFailure("This method must be overridden")
     }
-    func getValueEstimate(action: Int) -> Double {
+
+    func getValueEstimate(action _: Int) -> Double {
         preconditionFailure("This method must be overridden")
     }
 }
@@ -43,15 +45,14 @@ class RandomPolicy: BasePolicy {
     override func getAction() -> Int {
         return random(numActions)
     }
-    
-    override func learn(action: Int, reward: Double) {
+
+    override func learn(action _: Int, reward _: Double) {
         if verbose >= printDetailedMessage {
             print("** Policy \"Random\" does not learn :)")
         }
     }
-    override func getValueEstimate(action: Int) -> Double {
-        return 0.0  // Random policy assumes 0.0 for everything.
+
+    override func getValueEstimate(action _: Int) -> Double {
+        return 0.0 // Random policy assumes 0.0 for everything.
     }
 }
-
-

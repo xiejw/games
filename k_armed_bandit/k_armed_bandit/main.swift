@@ -1,8 +1,8 @@
 // Configurations.
 let verbose = 0
-let maxSteps = verbose > 0 ? 10: 1000
-let numArms = verbose > 0 ? 5: 10
-let numProblems = verbose > 0 ? 2: 2000
+let maxSteps = verbose > 0 ? 10 : 1000
+let numArms = verbose > 0 ? 5 : 10
+let numProblems = verbose > 0 ? 2 : 2000
 let stationary = true
 let monitorEachStep = true
 let logRankingSteps = 200
@@ -27,23 +27,22 @@ monitor.report(key: "total-problems", value: Double(numProblems), skipSummary: f
 monitor.report(key: "total-steps", value: Double(maxSteps), skipSummary: false)
 monitor.report(key: "num-arms", value: Double(numArms), skipSummary: false)
 
-for _ in 0..<numProblems {
-    
+for _ in 0 ..< numProblems {
     // New policies for each problem.
     let policies = policyFactory(numArms: numArms, verbose: verbose)
     let problem = BanditProblem(numArms: numArms, stationary: stationary, verbose: verbose)
-    
+
     // When stationary is false, we need to add a calback to update the best action.
     let (bestActionIndex, bestActionValue, actionRanking) = problem.bestAction()
-    
+
     for policy in policies {
         let policyName = policy.name()
         if verbose > 0 {
             print("Policy with name \(policyName)")
         }
         var policyTotalRewardInProblem = 0.0
-        
-        for stepIndex in 0..<maxSteps {
+
+        for stepIndex in 0 ..< maxSteps {
             let action = policy.getAction()
             let currentReward = problem.play(action: action)
             if verbose > 0 {
@@ -51,7 +50,7 @@ for _ in 0..<numProblems {
             }
             policy.learn(action: action, reward: currentReward)
             policyTotalRewardInProblem += currentReward
-            
+
             if monitorEachStep {
                 let estimatedValue = policy.getValueEstimate(action: bestActionIndex)
                 monitor.report(
@@ -61,7 +60,7 @@ for _ in 0..<numProblems {
                     key: "best-action-(\(policyName))-\(stepIndex)",
                     value: action == bestActionIndex ? 1.0 : 0.0
                 )
-                
+
                 if stepIndex < logRankingSteps {
                     let rank = actionRanking[action]!
                     monitor.report(
@@ -71,12 +70,12 @@ for _ in 0..<numProblems {
                 }
             }
         }
-        
+
         let policyAverageRward = policyTotalRewardInProblem / Double(maxSteps)
         if verbose > 0 {
             print("Average rewards in this problem: \(policyAverageRward)")
         }
-        
+
         monitor.report(
             key: "total-reward-(\(policyName))",
             value: policyAverageRward,
