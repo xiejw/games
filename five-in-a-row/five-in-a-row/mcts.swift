@@ -1,26 +1,26 @@
-// NEED Examine.
 import Foundation
 
 class Node {
-    var qValueTotal = Dictionary<Move, Double>()
-    var visitCount = Dictionary<Move, Int>()
-    var prioryProbability = Dictionary<Move, Double>()
+    private var qValueTotal = Dictionary<Move, Double>()
+    private var visitCount = Dictionary<Move, Int>()
+    private var prioryProbability = Dictionary<Move, Double>()
 
     let legalMoves: [Move]
     var totalCount = 0.0
 
     init(nonNormalizedProbability: [Double], legalMoves: [Move], size: Int) {
         self.legalMoves = legalMoves
-        var normalizedProbabiity = [Double]()
+        var probabilityForLegalMoves = [Double]()
         var sum = 0.0
         for move in legalMoves {
+            // C-style array
             let prob = nonNormalizedProbability[move.x * size + move.y]
-            normalizedProbabiity.append(prob)
+            probabilityForLegalMoves.append(prob)
             sum += prob
         }
 
         for (index, move) in legalMoves.enumerated() {
-            prioryProbability[move] = normalizedProbabiity[index] / sum
+            prioryProbability[move] = probabilityForLegalMoves[index] / sum
             visitCount[move] = 0
             qValueTotal[move] = 0.0
         }
@@ -29,8 +29,10 @@ class Node {
     func getNextMoveWithExploration() -> (Double, Move) {
         var bestValue = -100.0
         var bestMove: Move?
+        // FIXME: unvisjted nodes
         for (move, p) in prioryProbability {
             let count = visitCount[move]!
+            // FIXME:
             var value = 1.0 * p * (1.0 + sqrt(totalCount)) / (1.0 + Double(count))
             if count > 0 {
                 // Void edge case.
@@ -77,22 +79,23 @@ class Node {
 }
 
 class NodeFactory {
-    var nodePool = Dictionary<State, Node>()
-    let distributionGenerator: Predictor
-    let size: Int
+    private var nodePool = Dictionary<State, Node>()
+    private let predictor: Predictor
+    private let size: Int
 
-    init(distributionGenerator: Predictor, size: Int) {
-        self.distributionGenerator = distributionGenerator
+    init(predictor: Predictor, size: Int) {
+        self.predictor = predictor
         self.size = size
     }
 
-    func getNextNode(state: State, legalMoves: [Move]) -> (Node, Double?) {
+    // Returns a Node in MCTS explore with its reward. If reward is nil, the node has been visited before.
+    func getNextNode(state: State, legalMoves: [Move]) -> (node: Node, reward: Double?) {
         if let node = nodePool[state] {
             return (node, nil)
         }
 
         let nextPlayer = state.nextPlayer
-        let (probability, reward) = distributionGenerator.predictDistributionAndReward(
+        let (probability, reward) = predictor.predictDistributionAndReward(
             state: state, nextPlayer: nextPlayer)
         let node = Node(nonNormalizedProbability: probability, legalMoves: legalMoves, size: size)
         nodePool[state] = node

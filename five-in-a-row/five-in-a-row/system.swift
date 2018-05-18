@@ -1,6 +1,6 @@
 import Foundation
 
-func getMoveFromUser(validateFn: (Move) -> Error?) -> Move {
+private func getMoveFromUser(validateFn: (Move) -> Error?) -> Move {
     while true {
         do {
             print("x: ", terminator: "")
@@ -30,14 +30,6 @@ func getMoveFromUser(validateFn: (Move) -> Error?) -> Move {
             print("Unknown error: \(error)")
         }
     }
-}
-
-func formatDate(timeIntervalSince1970: Double) -> String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    dateFormatter.timeZone = TimeZone.current
-
-    return dateFormatter.string(from: Date(timeIntervalSince1970: timeIntervalSince1970))
 }
 
 func playWithHuman(game: Game, policy: Policy, board: Board) {

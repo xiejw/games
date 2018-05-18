@@ -3,10 +3,6 @@ import CoreML
 import Foundation
 import GameplayKit
 
-protocol Predictor {
-    func predictDistributionAndReward(state: State, nextPlayer: Player) -> ([Double], Double)
-}
-
 // The wrapper class to predict distribution and reward.
 class DistributionPredictionWrapper: Predictor {
     var size: Int

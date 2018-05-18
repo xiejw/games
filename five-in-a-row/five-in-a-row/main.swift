@@ -49,8 +49,8 @@ let board = Board(size: size, numberToWin: numberToWin)
 let game = Game(size: size, numberToWin: numberToWin)
 try! game.newMove(Move(x: 3, y: 3))
 game.print()
-let policy_500 = MCTSBasedPolicy(name: "mcts_500", size: size,
-                                 distributionGenerator: DistributionPredictionWrapper(size: size),
-                                 board: board, perMoveSimulationTimes: 5000,
-                                 shouldRecord: false, playMode: true)
-playWithHuman(game: game, policy: policy_500, board: board)
+
+// let policyToPlay = RandomPolicy()
+let policyToPlay = MCTSBasedPolicy(name: "mcts", size: size, predictor: RandomPredictor(size: size), board: board, perMoveSimulationTimes: 1600, shouldRecord: false, playMode: true, verbose: 1)
+
+playWithHuman(game: game, policy: policyToPlay, board: board)

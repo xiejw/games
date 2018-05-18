@@ -45,7 +45,7 @@ class Game {
     }
 }
 
-// Add the print() method.
+// Add the print() method to print the board in terminal.
 extension Game {
     // Given move and state, find the player for that.
     private func playForMove(move: Move, stateHistory: [State]) -> Player {
