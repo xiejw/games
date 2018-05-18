@@ -39,6 +39,10 @@ class Game {
         moves.insert(move)
         states.append(State(move, states.last))
     }
+
+    func stateHistory() -> [State] {
+        return states
+    }
 }
 
 // Add the print() method.

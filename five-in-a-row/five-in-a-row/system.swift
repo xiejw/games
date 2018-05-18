@@ -1,4 +1,3 @@
-// NEED Examine.
 import Foundation
 
 func getMoveFromUser(validateFn: (Move) -> Error?) -> Move {
@@ -43,7 +42,7 @@ func formatDate(timeIntervalSince1970: Double) -> String {
 
 func playWithHuman(game: Game, policy: Policy, board: Board) {
     while true {
-        let nextPlayer = game.states.last!.nextPlayer
+        let nextPlayer = game.stateHistory().last!.nextPlayer
         print("Next player is \(nextPlayer)")
 
         var move: Move
@@ -52,7 +51,7 @@ func playWithHuman(game: Game, policy: Policy, board: Board) {
                 game.validateNewMove(move)
             })
         } else {
-            let history = game.states
+            let history = game.stateHistory()
             let legalMoves = board.legalMoves(stateHistory: history)
             (move, _) = policy.getNextMove(stateHistory: history, legalMoves: legalMoves)
         }
@@ -60,7 +59,7 @@ func playWithHuman(game: Game, policy: Policy, board: Board) {
         try! game.newMove(move)
 
         game.print()
-        if let winner = board.winner(stateHistory: game.states) {
+        if let winner = board.winner(stateHistory: game.stateHistory()) {
             print("We have a winner \(winner)")
             break
         }

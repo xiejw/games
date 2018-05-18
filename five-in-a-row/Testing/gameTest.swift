@@ -24,4 +24,16 @@ class GameTest: XCTestCase {
             XCTFail("Should not see this error.")
         }
     }
+
+    func testStateHistory() {
+        let game = Game(size: 2, numberToWin: 2)
+        try! game.newMove(Move(x: 0, y: 0))
+        try! game.newMove(Move(x: 0, y: 1))
+
+        let state1 = State(Move(x: 0, y: 0))
+        let state2 = State(Move(x: 0, y: 1), state1)
+
+        let states = game.stateHistory()
+        XCTAssertEqual([state1, state2], states)
+    }
 }

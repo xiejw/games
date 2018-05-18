@@ -10,40 +10,40 @@ let fName = "/Users/xiejw/Desktop/games.txt"
 
 let board = Board(size: size, numberToWin: numberToWin)
 
-var storage: CSVStorage?
-if saveStates && !humanPlay {
-    print("Saving games into \(fName)")
-    storage = CSVStorage(fileName: fName, deleteFileIfExists: false)
-}
-
-if !humanPlay {
-    func gameFn() -> Game {
-        let game = Game(size: size, numberToWin: numberToWin)
-        try! game.newMove(Move(x: 3, y: 3))
-        return game
-    }
-
-    func policyFn() -> [Policy] {
-        let policy_500 = MCTSBasedPolicy(name: "mcts_500_1", size: size,
-                                         distributionGenerator: DistributionPredictionWrapper(size: size),
-                                         board: board, perMoveSimulationTimes: 2000, shouldRecord: true)
-
-        let policy_100 = MCTSBasedPolicy(name: "mcts_500_2", size: size,
-                                         distributionGenerator: DistributionPredictionWrapper(size: size),
-                                         board: board, perMoveSimulationTimes: 2000, shouldRecord: true)
-
-//    let policy = DistributionBasedPolicy(name: "dist_based", size: size,
-//                                         distributionGenerator: DistributionPredictionWrapper(size: size))
-
-        return [policy_500, policy_100]
-//     let randomPolicy = RandomPolicy(name: "random_policy")
+// var storage: CSVStorage?
+// if saveStates && !humanPlay {
+//    print("Saving games into \(fName)")
+//    storage = CSVStorage(fileName: fName, deleteFileIfExists: false)
+// }
 //
-//     return [policy_500, randomPolicy]
-    }
-
-    selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, storage: storage, playTimeInSecs: selfPlayTime, verbose: 0)
-    exit(0)
-}
+// if !humanPlay {
+//    func gameFn() -> Game {
+//        let game = Game(size: size, numberToWin: numberToWin)
+//        try! game.newMove(Move(x: 3, y: 3))
+//        return game
+//    }
+//
+//    func policyFn() -> [Policy] {
+//        let policy_500 = MCTSBasedPolicy(name: "mcts_500_1", size: size,
+//                                         distributionGenerator: DistributionPredictionWrapper(size: size),
+//                                         board: board, perMoveSimulationTimes: 2000, shouldRecord: true)
+//
+//        let policy_100 = MCTSBasedPolicy(name: "mcts_500_2", size: size,
+//                                         distributionGenerator: DistributionPredictionWrapper(size: size),
+//                                         board: board, perMoveSimulationTimes: 2000, shouldRecord: true)
+//
+////    let policy = DistributionBasedPolicy(name: "dist_based", size: size,
+////                                         distributionGenerator: DistributionPredictionWrapper(size: size))
+//
+//        return [policy_500, policy_100]
+////     let randomPolicy = RandomPolicy(name: "random_policy")
+////
+////     return [policy_500, randomPolicy]
+//    }
+//
+//    selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, storage: storage, playTimeInSecs: selfPlayTime, verbose: 0)
+//    exit(0)
+// }
 
 // Play with human
 let game = Game(size: size, numberToWin: numberToWin)

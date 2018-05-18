@@ -152,7 +152,7 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
     history[.WHITE] = [PlayHistory]()
 
     while true {
-        let stateHistory = game.states
+        let stateHistory = game.stateHistory()
         let legalMoves = board.legalMoves(stateHistory: stateHistory)
         if legalMoves.isEmpty {
             if verbose {
@@ -184,7 +184,7 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
             print("Next move: \(move)")
             game.print()
         }
-        if let winner = board.winner(stateHistory: game.states) {
+        if let winner = board.winner(stateHistory: game.stateHistory()) {
             if verbose {
                 print("We have a winner \(winner)")
             }
