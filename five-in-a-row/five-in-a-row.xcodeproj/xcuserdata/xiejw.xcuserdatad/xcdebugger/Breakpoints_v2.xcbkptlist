@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "five-in-a-row/play.swift"
-            timestampString = "546711517.041434"
+            timestampString = "548361064.330372"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
             landmarkName = "selfPlays(gameFn:policyFn:board:storage:playTimeInSecs:verbose:)"
             landmarkType = "9">
          </BreakpointContent>
