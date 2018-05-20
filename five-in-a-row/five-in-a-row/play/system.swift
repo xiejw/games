@@ -32,13 +32,13 @@ private func getMoveFromUser(validateFn: (Move) -> Error?) -> Move {
     }
 }
 
-func playWithHuman(game: Game, policy: Policy, board: Board) {
+func playWithHuman(game: Game, policy: Policy, board: Board, humanPlayer: Player = .WHITE) {
     while true {
         let nextPlayer = game.stateHistory().last!.nextPlayer
         print("Next player is \(nextPlayer)")
 
         var move: Move
-        if nextPlayer == .WHITE {
+        if nextPlayer == humanPlayer {
             move = getMoveFromUser(validateFn: { (move: Move) -> Error? in
                 game.validateNewMove(move)
             })

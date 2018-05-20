@@ -25,7 +25,7 @@ class MCTSBasedPolicy: BasePolicy {
 
     private func runSimulationsAndGetNextMove(originalStateHistory: [State]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
         // We create a new cache each time and share between all simulations.
-        let nodeFactory = NodeFactory(predictor: predictor, size: size)
+        let nodeFactory = NodeFactory(predictor: predictor, size: size, enforceExploreUnvisitedMoves: true)
 
         for i in 0 ..< perMoveSimulationTimes {
             if verbose > 0 && i % 100 == 0 {

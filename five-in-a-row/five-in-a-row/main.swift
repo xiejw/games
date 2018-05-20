@@ -1,8 +1,8 @@
 // NEED Examine.
 import Foundation
 
-let numberToWin = 5
-let size = 8
+let numberToWin = 3
+let size = 3
 let selfPlayTime = 2400.0 // <-
 let humanPlay = false
 let saveStates = true // <-
@@ -45,12 +45,30 @@ let board = Board(size: size, numberToWin: numberToWin)
 //    exit(0)
 // }
 
+//// Play with human
+//let game = Game(size: size, numberToWin: numberToWin)
+//try! game.newMove(Move(x: 3, y: 3))
+//game.print()
+//
+//// let policyToPlay = RandomPolicy()
+//let policyToPlay = MCTSBasedPolicy(name: "mcts", size: size, predictor: RandomPredictor(size: size), board: board, perMoveSimulationTimes: 1600, shouldRecord: false, playMode: true, verbose: 1)
+//
+//playWithHuman(game: game, policy: policyToPlay, board: board)
+
 // Play with human
-let game = Game(size: size, numberToWin: numberToWin)
-try! game.newMove(Move(x: 3, y: 3))
+
+let game = Game(size: 3, numberToWin: 3)
+try! game.newMove(Move(x: 0, y: 0))  // B
+try! game.newMove(Move(x: 1, y: 0))  // W
+try! game.newMove(Move(x: 0, y: 1))  // B
+
+try! game.newMove(Move(x: 2, y: 1))  // W
+try! game.newMove(Move(x: 2, y: 0))  // B
+// try! game.newMove(Move(x: 2, y: 1))  // W
 game.print()
 
 // let policyToPlay = RandomPolicy()
 let policyToPlay = MCTSBasedPolicy(name: "mcts", size: size, predictor: RandomPredictor(size: size), board: board, perMoveSimulationTimes: 1600, shouldRecord: false, playMode: true, verbose: 1)
 
-playWithHuman(game: game, policy: policyToPlay, board: board)
+playWithHuman(game: game, policy: policyToPlay, board: board, humanPlayer: .BLACK)
+
