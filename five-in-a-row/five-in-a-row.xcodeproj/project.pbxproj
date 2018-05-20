@@ -14,6 +14,8 @@
 		E32A517320AF741800691CD1 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A517120AF643600691CD1 /* util.swift */; };
 		E32A517520AF776D00691CD1 /* predictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A517420AF776D00691CD1 /* predictor.swift */; };
 		E32A517620AF78F100691CD1 /* predictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A517420AF776D00691CD1 /* predictor.swift */; };
+		E32A517C20B237C400691CD1 /* premade_plays.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A517B20B237C400691CD1 /* premade_plays.swift */; };
+		E32A517E20B23E3700691CD1 /* mctsPolicyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A517D20B23E3700691CD1 /* mctsPolicyTest.swift */; };
 		E3691474208E3E060079314D /* mcts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3691473208E3E060079314D /* mcts.swift */; };
 		E3691475208E3E890079314D /* mcts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3691473208E3E060079314D /* mcts.swift */; };
 		E36B926F207843C60043D4F5 /* ml.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B926E207843C60043D4F5 /* ml.swift */; };
@@ -54,6 +56,8 @@
 		E32A516F20AF400F00691CD1 /* moveAndStateTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moveAndStateTest.swift; sourceTree = "<group>"; };
 		E32A517120AF643600691CD1 /* util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
 		E32A517420AF776D00691CD1 /* predictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = predictor.swift; sourceTree = "<group>"; };
+		E32A517B20B237C400691CD1 /* premade_plays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = premade_plays.swift; sourceTree = "<group>"; };
+		E32A517D20B23E3700691CD1 /* mctsPolicyTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mctsPolicyTest.swift; sourceTree = "<group>"; };
 		E3691473208E3E060079314D /* mcts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mcts.swift; sourceTree = "<group>"; };
 		E36B926E207843C60043D4F5 /* ml.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ml.swift; sourceTree = "<group>"; };
 		E3761CE6207D07B900DBAB3F /* mctsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mctsTest.swift; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 			children = (
 				E3F7C9312076F262003BF365 /* system.swift */,
 				E3818D4A2082726700EE6066 /* play.swift */,
+				E32A517B20B237C400691CD1 /* premade_plays.swift */,
 			);
 			path = play;
 			sourceTree = "<group>";
@@ -170,6 +175,7 @@
 				E32A516F20AF400F00691CD1 /* moveAndStateTest.swift */,
 				E3F7C9332076FE11003BF365 /* boardTest.swift */,
 				E3761CE6207D07B900DBAB3F /* mctsTest.swift */,
+				E32A517D20B23E3700691CD1 /* mctsPolicyTest.swift */,
 			);
 			path = Testing;
 			sourceTree = "<group>";
@@ -278,6 +284,7 @@
 				E38C4DD6207299E100ADE4A6 /* main.swift in Sources */,
 				E32A517520AF776D00691CD1 /* predictor.swift in Sources */,
 				E32A516D20AF3FB200691CD1 /* state.swift in Sources */,
+				E32A517C20B237C400691CD1 /* premade_plays.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +297,7 @@
 				E3FF082D208D8C7400BD99CB /* policy.swift in Sources */,
 				E32A517620AF78F100691CD1 /* predictor.swift in Sources */,
 				E3FF082C208D8C4900BD99CB /* policy_mcts.swift in Sources */,
+				E32A517E20B23E3700691CD1 /* mctsPolicyTest.swift in Sources */,
 				E3FF0829208C1EF500BD99CB /* Distribution.mlmodel in Sources */,
 				E3761CE8207D088B00DBAB3F /* ml.swift in Sources */,
 				E32A516E20AF3FEB00691CD1 /* state.swift in Sources */,

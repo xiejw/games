@@ -113,7 +113,7 @@ class Node {
                 if printCount > 5 {
                     break
                 }
-                print(" Candidate \(move): \(prob)")
+                print(" Candidate \(move): \(prob) -- qValue \(qValueTotal[move]! / Double(visitCount[move]!))")
             }
         }
         return (bestMove!, probabilities)
