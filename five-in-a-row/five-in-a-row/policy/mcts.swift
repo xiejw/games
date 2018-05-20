@@ -1,6 +1,8 @@
 import Foundation
 
 class Node {
+    static let unvisitedMoveValue = 999.0
+
     var qValueTotal = Dictionary<Move, Double>()
     var visitCount = Dictionary<Move, Int>()
     var prioryProbability = Dictionary<Move, Double>()
@@ -8,10 +10,13 @@ class Node {
     private let nextPlayer: Player
     private let legalMoves: [Move]
     private var totalCount = 0.0
+    private let enforceExploreUnvisitedMoves: Bool
 
-    init(nextPlayer: Player, nonNormalizedProbability: [Double], legalMoves: [Move], size: Int) {
+    init(nextPlayer: Player, nonNormalizedProbability: [Double], legalMoves: [Move], size: Int,
+         enforceExploreUnvisitedMoves: Bool) {
         self.nextPlayer = nextPlayer
         self.legalMoves = legalMoves
+        self.enforceExploreUnvisitedMoves = enforceExploreUnvisitedMoves
 
         var probabilityForLegalMoves = [Double]()
         var sum = 0.0
@@ -32,19 +37,31 @@ class Node {
     func getNextMoveWithExploration() -> (Double, Move) {
         var bestValue = -100.0
         var bestMove: Move?
-        // FIXME: unvisjted nodes
+        var unvisitedMoves: [Move]?
+
+        if enforceExploreUnvisitedMoves {
+            unvisitedMoves = [Move]()
+        }
         for (move, p) in prioryProbability {
             let count = visitCount[move]!
-            // FIXME:
+
+            if enforceExploreUnvisitedMoves && count == 0 {
+                unvisitedMoves!.append(move)
+            }
+
             var value = 1.0 * p * (1.0 + sqrt(totalCount)) / (1.0 + Double(count))
             if count > 0 {
                 // Void edge case.
                 value += qValueTotal[move]! / Double(count)
             }
-            if value > bestValue {
+            if value > bestValue { // Consider to break the tie.
                 bestValue = value
                 bestMove = move
             }
+        }
+
+        if enforceExploreUnvisitedMoves && unvisitedMoves!.count > 0 {
+            return (Node.unvisitedMoveValue, randomMove(moves: unvisitedMoves!))
         }
 
         return (bestValue, bestMove!)
@@ -107,10 +124,12 @@ class NodeFactory {
     private var nodePool = Dictionary<State, Node>()
     private let predictor: Predictor
     private let size: Int
+    private let enforceExploreUnvisitedMoves: Bool
 
-    init(predictor: Predictor, size: Int) {
+    init(predictor: Predictor, size: Int, enforceExploreUnvisitedMoves: Bool = false) {
         self.predictor = predictor
         self.size = size
+        self.enforceExploreUnvisitedMoves = enforceExploreUnvisitedMoves
     }
 
     // Returns a Node in MCTS explore with its reward. If reward is nil, the node has been visited before.
@@ -120,7 +139,8 @@ class NodeFactory {
         }
 
         let (probability, nextPlayerReward) = predictor.predictDistributionAndNextPlayerReward(state: state)
-        let node = Node(nextPlayer: state.nextPlayer, nonNormalizedProbability: probability, legalMoves: legalMoves, size: size)
+        let node = Node(nextPlayer: state.nextPlayer, nonNormalizedProbability: probability, legalMoves: legalMoves, size: size,
+                        enforceExploreUnvisitedMoves: enforceExploreUnvisitedMoves)
         nodePool[state] = node
         return (node, nextPlayerReward)
     }
