@@ -24,6 +24,10 @@ func randomMove(moves: [Move]) -> Move {
     return moves[n]
 }
 
+func random(_ total: Int) -> Int {
+    return Int(arc4random_uniform(UInt32(total)))
+}
+
 func formatDate(timeIntervalSince1970: Double) -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"

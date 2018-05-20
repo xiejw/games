@@ -1,7 +1,7 @@
 import XCTest
 
 class FakePredictor: Predictor {
-    func predictDistributionAndReward(state _: State, nextPlayer _: Player) -> ([Double], Double) {
+    func predictDistributionAndNextPlayerReward(state _: State) -> ([Double], Double) {
         return ([1.0, 2.0, 3.0, 4.0], 0.3)
     }
 }
@@ -10,7 +10,7 @@ class MCTSTest: XCTestCase {
     func testNodeFactoryInitialStates() {
         let size = 2
         let board = Board(size: size)
-        let nodeFactory = NodeFactory(distributionGenerator: FakePredictor(), size: size)
+        let nodeFactory = NodeFactory(predictor: FakePredictor(), size: size)
 
         let move00 = Move(x: 0, y: 0)
         let move01 = Move(x: 0, y: 1)
@@ -22,7 +22,7 @@ class MCTSTest: XCTestCase {
         let legalMoves = board.legalMoves(stateHistory: statHistory)
         XCTAssertEqual([Move(x: 1, y: 0), Move(x: 1, y: 1)], legalMoves)
 
-        let (node, reward) = nodeFactory.getNextNode(state: state1, legalMoves: legalMoves)
+        let (node, reward) = nodeFactory.getNode(by: state1, legalMoves: legalMoves)
         XCTAssertEqual(0.3, reward!)
 
         XCTAssertEqual(2, node.qValueTotal.count)
@@ -48,7 +48,7 @@ class MCTSTest: XCTestCase {
     func testNodeFactoryAfterLearn() {
         let size = 2
         let board = Board(size: size)
-        let nodeFactory = NodeFactory(distributionGenerator: FakePredictor(), size: size)
+        let nodeFactory = NodeFactory(predictor: FakePredictor(), size: size)
 
         let move00 = Move(x: 0, y: 0)
         let move01 = Move(x: 0, y: 1)
@@ -63,14 +63,14 @@ class MCTSTest: XCTestCase {
         let legalMoves = board.legalMoves(stateHistory: statHistory)
         XCTAssertEqual([move10, move11], legalMoves)
 
-        let (node, reward) = nodeFactory.getNextNode(state: state1, legalMoves: legalMoves)
+        let (node, reward) = nodeFactory.getNode(by: state1, legalMoves: legalMoves)
         XCTAssertEqual(0.3, reward!)
 
         let (_, move) = node.getNextMoveWithExploration()
         XCTAssertEqual(move11, move)
 
         let newReward = 1.0
-        node.backup(newReward, move: move10)
+        node.backup(blackPlayerReward: newReward, move: move10)
 
         XCTAssertEqual(2, node.qValueTotal.count)
         XCTAssertEqual(newReward, node.qValueTotal[move10]!)

@@ -1,15 +1,18 @@
 import Foundation
 
 class Node {
-    private var qValueTotal = Dictionary<Move, Double>()
-    private var visitCount = Dictionary<Move, Int>()
-    private var prioryProbability = Dictionary<Move, Double>()
+    var qValueTotal = Dictionary<Move, Double>()
+    var visitCount = Dictionary<Move, Int>()
+    var prioryProbability = Dictionary<Move, Double>()
 
-    let legalMoves: [Move]
-    var totalCount = 0.0
+    private let nextPlayer: Player
+    private let legalMoves: [Move]
+    private var totalCount = 0.0
 
-    init(nonNormalizedProbability: [Double], legalMoves: [Move], size: Int) {
+    init(nextPlayer: Player, nonNormalizedProbability: [Double], legalMoves: [Move], size: Int) {
+        self.nextPlayer = nextPlayer
         self.legalMoves = legalMoves
+
         var probabilityForLegalMoves = [Double]()
         var sum = 0.0
         for move in legalMoves {
@@ -47,7 +50,12 @@ class Node {
         return (bestValue, bestMove!)
     }
 
-    func backup(_ reward: Double, move: Move) {
+    func backup(blackPlayerReward: Double, move: Move) {
+        var reward = blackPlayerReward
+        if nextPlayer == .WHITE {
+            reward *= -1.0 // Zero sum.
+        }
+
         qValueTotal[move]! += reward
         visitCount[move]! += 1
         totalCount += 1
@@ -62,16 +70,33 @@ class Node {
         return (legalMoves[index], probabilities)
     }
 
-    func getBestMoveForPlay() -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
+    func getBestMoveForPlay(verbose: Int = 0) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
         var probabilities = [Double]()
         var bestMove: Move?
         var bestCount = 0
+        var moveStats: Dictionary<Move, Double>?
+        if verbose > 0 {
+            moveStats = Dictionary<Move, Double>()
+        }
         for move in legalMoves {
             let count = visitCount[move]!
             probabilities.append(Double(count))
+            if verbose > 0 {
+                moveStats![move] = Double(count)
+            }
             if count > bestCount {
                 bestCount = visitCount[move]!
                 bestMove = move
+            }
+        }
+        if verbose > 0 {
+            var printCount = 0
+            for (move, prob) in (moveStats!.sorted { $0.1 > $1.1 }) {
+                printCount += 1
+                if printCount > 5 {
+                    break
+                }
+                print(" Candidate \(move): \(prob)")
             }
         }
         return (bestMove!, probabilities)
@@ -89,17 +114,15 @@ class NodeFactory {
     }
 
     // Returns a Node in MCTS explore with its reward. If reward is nil, the node has been visited before.
-    func getNextNode(state: State, legalMoves: [Move]) -> (node: Node, reward: Double?) {
+    func getNode(by state: State, legalMoves: [Move]) -> (node: Node, nextPlayerReward: Double?) {
         if let node = nodePool[state] {
-            return (node, nil)
+            return (node, nil) // Returns from cache.
         }
 
-        let nextPlayer = state.nextPlayer
-        let (probability, reward) = predictor.predictDistributionAndReward(
-            state: state, nextPlayer: nextPlayer)
-        let node = Node(nonNormalizedProbability: probability, legalMoves: legalMoves, size: size)
+        let (probability, nextPlayerReward) = predictor.predictDistributionAndNextPlayerReward(state: state)
+        let node = Node(nextPlayer: state.nextPlayer, nonNormalizedProbability: probability, legalMoves: legalMoves, size: size)
         nodePool[state] = node
-        return (node, reward)
+        return (node, nextPlayerReward)
     }
 
     func getRootNode(_ state: State) -> Node {

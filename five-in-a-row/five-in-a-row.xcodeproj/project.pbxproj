@@ -59,7 +59,7 @@
 		E3761CE6207D07B900DBAB3F /* mctsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mctsTest.swift; sourceTree = "<group>"; };
 		E3818D482082713500EE6066 /* policy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = policy.swift; sourceTree = "<group>"; };
 		E3818D4A2082726700EE6066 /* play.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = play.swift; sourceTree = "<group>"; };
-		E3818D4C2082C59A00EE6066 /* Distribution.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Distribution.mlmodel; path = ml/Distribution.mlmodel; sourceTree = SOURCE_ROOT; };
+		E3818D4C2082C59A00EE6066 /* Distribution.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Distribution.mlmodel; path = "five-in-a-row/predictor/Distribution.mlmodel"; sourceTree = SOURCE_ROOT; };
 		E384203F2072AFF500B9D510 /* game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = game.swift; sourceTree = "<group>"; };
 		E38420432072E5B300B9D510 /* board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = board.swift; sourceTree = "<group>"; };
 		E38C4DD2207299E100ADE4A6 /* five-in-a-row */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "five-in-a-row"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,6 +91,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E32A517720B1C64800691CD1 /* policy */ = {
+			isa = PBXGroup;
+			children = (
+				E3818D482082713500EE6066 /* policy.swift */,
+				E3FF082A208C212500BD99CB /* policy_mcts.swift */,
+				E3691473208E3E060079314D /* mcts.swift */,
+			);
+			path = policy;
+			sourceTree = "<group>";
+		};
+		E32A517820B1C68300691CD1 /* predictor */ = {
+			isa = PBXGroup;
+			children = (
+				E36B926E207843C60043D4F5 /* ml.swift */,
+				E3818D4C2082C59A00EE6066 /* Distribution.mlmodel */,
+				E32A517420AF776D00691CD1 /* predictor.swift */,
+			);
+			path = predictor;
+			sourceTree = "<group>";
+		};
+		E32A517920B1C6AD00691CD1 /* game */ = {
+			isa = PBXGroup;
+			children = (
+				E384203F2072AFF500B9D510 /* game.swift */,
+				E38420432072E5B300B9D510 /* board.swift */,
+				E32A516C20AF3FB200691CD1 /* state.swift */,
+			);
+			path = game;
+			sourceTree = "<group>";
+		};
+		E32A517A20B1C6C100691CD1 /* play */ = {
+			isa = PBXGroup;
+			children = (
+				E3F7C9312076F262003BF365 /* system.swift */,
+				E3818D4A2082726700EE6066 /* play.swift */,
+			);
+			path = play;
+			sourceTree = "<group>";
+		};
 		E38C4DC9207299E100ADE4A6 = {
 			isa = PBXGroup;
 			children = (
@@ -112,20 +151,13 @@
 		E38C4DD4207299E100ADE4A6 /* five-in-a-row */ = {
 			isa = PBXGroup;
 			children = (
+				E32A517A20B1C6C100691CD1 /* play */,
+				E32A517920B1C6AD00691CD1 /* game */,
+				E32A517820B1C68300691CD1 /* predictor */,
+				E32A517720B1C64800691CD1 /* policy */,
 				E38C4DD5207299E100ADE4A6 /* main.swift */,
-				E384203F2072AFF500B9D510 /* game.swift */,
-				E38420432072E5B300B9D510 /* board.swift */,
-				E3F7C9312076F262003BF365 /* system.swift */,
 				E3B6B8E42077314C00B0F81A /* storage.swift */,
-				E36B926E207843C60043D4F5 /* ml.swift */,
-				E3818D482082713500EE6066 /* policy.swift */,
-				E3FF082A208C212500BD99CB /* policy_mcts.swift */,
-				E3818D4A2082726700EE6066 /* play.swift */,
-				E3818D4C2082C59A00EE6066 /* Distribution.mlmodel */,
-				E3691473208E3E060079314D /* mcts.swift */,
-				E32A516C20AF3FB200691CD1 /* state.swift */,
 				E32A517120AF643600691CD1 /* util.swift */,
-				E32A517420AF776D00691CD1 /* predictor.swift */,
 			);
 			path = "five-in-a-row";
 			sourceTree = "<group>";

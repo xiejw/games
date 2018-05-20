@@ -5,7 +5,7 @@ import GameplayKit
 
 // The wrapper class to predict distribution and reward.
 class DistributionPredictionWrapper: Predictor {
-    var size: Int
+    private var size: Int
 
     // The CoreML model.
     let model = Distribution()
@@ -14,7 +14,8 @@ class DistributionPredictionWrapper: Predictor {
         self.size = size
     }
 
-    func predictDistributionAndReward(state: State, nextPlayer: Player) -> ([Double], Double) {
+    func predictDistributionAndNextPlayerReward(state: State) -> ([Double], Double) {
+        let nextPlayer = state.nextPlayer
         let mlMultiArrayInput = try? MLMultiArray(shape: [1, 8, 8], dataType: MLMultiArrayDataType.double)
         let boardState = state.boardState(size: size)
         // Flatten Board state matrix to c-style array.
