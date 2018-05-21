@@ -115,6 +115,7 @@ class State: BaseState, Hashable {
         }
         lazyBuildHashTable()
         var result = [[Double]]()
+        result.reserveCapacity(size)
         for _ in 0 ..< size {
             var currentRow = [Double]()
             for _ in 0 ..< size {
@@ -129,7 +130,10 @@ class State: BaseState, Hashable {
         _boardState = result
         return result
     }
+}
 
+// Write state to I/O disk.
+extension State {
     func toString() -> String {
         lazyBuildHashTable()
         var str = [String]()

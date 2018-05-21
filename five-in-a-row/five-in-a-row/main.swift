@@ -1,4 +1,3 @@
-// NEED Examine.
 import Foundation
 
 struct Configuration {
@@ -12,15 +11,13 @@ struct Configuration {
 
 let configuration = Configuration(size: 8,
                                   numberToWin: 5,
-                                  selfPlayTimeInSecs: 60.0,
+                                  selfPlayTimeInSecs: 366.0,
                                   perMoveSimulationTimes: 1600,
                                   recordStates: true,
                                   verbose: 0)
 print("Configuration:\n\(configuration)")
 
 let humanPlay = false
-// let saveStates = false
-//
 
 if !humanPlay {
     selfPlaysAndRecord(size: configuration.size,
@@ -39,7 +36,7 @@ if !humanPlay {
 
     let policyToPlay = MCTSBasedPolicy(name: "mcts",
                                        size: configuration.size,
-                                       predictor: RandomPredictor(size: configuration.size),
+                                       predictor: DistributionPredictionWrapper(size: configuration.size),
                                        board: board,
                                        perMoveSimulationTimes: configuration.perMoveSimulationTimes,
                                        playMode: true,
@@ -47,7 +44,3 @@ if !humanPlay {
 
     playWithHuman(game: game, policy: policyToPlay, board: board)
 }
-
-// {{{1
-// Play with premade Games
-// premadePlay3()

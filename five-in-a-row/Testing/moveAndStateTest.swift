@@ -76,4 +76,15 @@ class MoveAndStateTest: XCTestCase {
         state = State(move43, state)
         XCTAssertEqual("2,3,1,3,3,0,4,3,1", state.toString())
     }
+
+    func testStateToStringWithReverseMoveOrder() {
+        let move43 = Move(x: 4, y: 3)
+        let move33 = Move(x: 3, y: 3)
+        let move23 = Move(x: 2, y: 3)
+
+        var state = State(move43)
+        state = State(move33, state)
+        state = State(move23, state)
+        XCTAssertEqual("2,3,1,3,3,0,4,3,1", state.toString())
+    }
 }

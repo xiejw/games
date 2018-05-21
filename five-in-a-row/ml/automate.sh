@@ -10,7 +10,9 @@ do
   xcodebuild -project five-in-a-row.xcodeproj   build && \
   /Users/xiejw/Workspace/games/five-in-a-row/build/Release/five-in-a-row && \
   cd ml && \
-  python rl_rollout.py && \
+  rm games.txt && \
+  cp  ~/Desktop/games.txt . && \
+  docker run --rm -it -v $NOTEBOOK:/notebooks  --entrypoint=""  keras python training.py && \
   cat ~/Desktop/games.txt >> ~/Desktop/games_history.txt  && \
   rm -f ~/Desktop/games.txt
 

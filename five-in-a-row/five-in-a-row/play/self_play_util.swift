@@ -19,11 +19,11 @@ func selfPlaysAndRecord(size: Int, numberToWin: Int, selfPlayTimeInSecs: Double,
 
     func policyFn() -> [Policy] {
         let policy_500_1 = MCTSBasedPolicy(name: "mcts_500_1", size: size,
-                                           predictor: RandomPredictor(size: size),
+                                           predictor: DistributionPredictionWrapper(size: size),
                                            board: board, perMoveSimulationTimes: perMoveSimulationTimes)
 
         let policy_500_2 = MCTSBasedPolicy(name: "mcts_500_2", size: size,
-                                           predictor: RandomPredictor(size: size),
+                                           predictor: DistributionPredictionWrapper(size: size),
                                            board: board, perMoveSimulationTimes: perMoveSimulationTimes)
 
         return [policy_500_1, policy_500_2]

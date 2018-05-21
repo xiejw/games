@@ -1,4 +1,3 @@
-// NEED Examine.
 import Foundation
 
 class CSVStorage {

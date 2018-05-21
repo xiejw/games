@@ -9,8 +9,12 @@ Breakpoints*
 # Vim
 *.swp
 
+# Python
+*.pyc
+
 # OSX
 .DS_Store
 
 # Project five-in-a-row
 five-in-a-row/build
+five-in-a-row/ml/games.txt

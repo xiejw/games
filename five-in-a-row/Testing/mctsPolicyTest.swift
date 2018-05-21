@@ -25,7 +25,7 @@ class MCTSPolicyTest: XCTestCase {
             size: size,
             predictor: RandomPredictor(size: size),
             board: board,
-            perMoveSimulationTimes: 1600, shouldRecord: false, playMode: true, verbose: 1)
+            perMoveSimulationTimes: 1600, playMode: true, verbose: 1)
 
         var history = game.stateHistory()
         var legalMoves = board.legalMoves(stateHistory: history)
@@ -74,7 +74,7 @@ class MCTSPolicyTest: XCTestCase {
             size: size,
             predictor: RandomPredictor(size: size),
             board: board,
-            perMoveSimulationTimes: 1600, shouldRecord: false, playMode: true, verbose: 1)
+            perMoveSimulationTimes: 1600, playMode: true, verbose: 1)
 
         var history = game.stateHistory()
         var legalMoves = board.legalMoves(stateHistory: history)

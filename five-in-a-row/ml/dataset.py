@@ -57,7 +57,7 @@ class Dataset(object):
       offset += 1
 
       dist = np.zeros((self._size * self._size,))
-      # normalized
+      # Unnormalized
       tokens = dist_str.split('#')
       index = 0
       total_sum = 0.0
@@ -71,6 +71,7 @@ class Dataset(object):
           total_sum += value
           dist[x * self._size + y] = value
 
+      # Normalized
       dist /= total_sum
 
       boardRawData = data[offset:]
