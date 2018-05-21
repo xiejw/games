@@ -32,6 +32,57 @@ func selfPlaysAndRecord(size: Int, numberToWin: Int, selfPlayTimeInSecs: Double,
     selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, storage: storage, playTimeInSecs: selfPlayTimeInSecs, verbose: verbose)
 }
 
+func selfPlaysAndRating(size: Int, numberToWin: Int, selfPlayTimeInSecs: Double, perMoveSimulationTimes: Int, verbose: Int = 0) {
+    let board = Board(size: size, numberToWin: numberToWin)
+    let eachRatingTimeInSecs = selfPlayTimeInSecs / 3
+
+    func gameFn() -> Game {
+        let game = Game(size: size, numberToWin: numberToWin)
+        try! game.newMove(Move(x: 3, y: 3))
+        return game
+    }
+
+    func policyFn1() -> [Policy] {
+        let mctsPolicy = MCTSBasedPolicy(name: "mcts", size: size,
+                                         predictor: DistributionPredictionWrapper(size: size),
+                                         board: board, perMoveSimulationTimes: perMoveSimulationTimes)
+
+        let randomPolicy = RandomPolicy(name: "random")
+
+        return [mctsPolicy, randomPolicy]
+    }
+
+    selfPlays(gameFn: gameFn, policyFn: policyFn1, board: board, playTimeInSecs: eachRatingTimeInSecs, verbose: verbose)
+
+    func policyFn2() -> [Policy] {
+        let mctsPolicy = MCTSBasedPolicy(name: "mcts", size: size,
+                                         predictor: DistributionPredictionWrapper(size: size),
+                                         board: board, perMoveSimulationTimes: perMoveSimulationTimes)
+
+        let randomPredictorPolicy = MCTSBasedPolicy(name: "mcts_random_predictor", size: size,
+                                                    predictor: RandomPredictor(size: size),
+                                                    board: board, perMoveSimulationTimes: perMoveSimulationTimes)
+
+        return [mctsPolicy, randomPredictorPolicy]
+    }
+
+    selfPlays(gameFn: gameFn, policyFn: policyFn2, board: board, playTimeInSecs: eachRatingTimeInSecs, verbose: verbose)
+
+    func policyFn3() -> [Policy] {
+        let mctsPolicy = MCTSBasedPolicy(name: "mcts", size: size,
+                                         predictor: DistributionPredictionWrapper(size: size),
+                                         board: board, perMoveSimulationTimes: perMoveSimulationTimes)
+
+        let mctsLastIterationPolicy = MCTSBasedPolicy(name: "mcts_last_iteration", size: size,
+                                                      predictor: DistributionPredictionForLastIterationWrapper(size: size),
+                                                      board: board, perMoveSimulationTimes: perMoveSimulationTimes)
+
+        return [mctsPolicy, mctsLastIterationPolicy]
+    }
+
+    selfPlays(gameFn: gameFn, policyFn: policyFn3, board: board, playTimeInSecs: eachRatingTimeInSecs, verbose: verbose)
+}
+
 func playWithHuman(size: Int, numberToWin: Int, perMoveSimulationTimes: Int, humanPlayer: Player = .WHITE, verbose: Int = 0) {
     let board = Board(size: size, numberToWin: numberToWin)
     let game = Game(size: size, numberToWin: numberToWin)

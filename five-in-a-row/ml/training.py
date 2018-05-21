@@ -64,6 +64,12 @@ if cont_training:
   print("Loading weights.")
   model.load_weights("distribution.h5")
 
+if save_coreml:
+  print("Saving the old model as DistributionLastIteration.")
+  coreml_model = coremltools.converters.keras.convert(
+      model, input_names=["board", "next_player"],
+      output_names=["distribution", "reward"])
+  coreml_model.save("DistributionLastIteration.mlmodel")
 
 model.fit(
         [train_data.get_board(), train_data.get_nplayer()],
@@ -83,6 +89,7 @@ print("Actual Distribution {}".format(test_data.get_dist()[0]))
 print("Actual Reward {}".format(test_data.get_reward()[1]))
 
 if save_coreml:
+  print("Saving the new model as Distribution.")
   coreml_model = coremltools.converters.keras.convert(
       model, input_names=["board", "next_player"],
       output_names=["distribution", "reward"])

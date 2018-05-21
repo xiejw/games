@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E311F0DE20B364B000510BDD /* DistributionLastIteration.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E311F0DD20B364B000510BDD /* DistributionLastIteration.mlmodel */; };
 		E32A516D20AF3FB200691CD1 /* state.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A516C20AF3FB200691CD1 /* state.swift */; };
 		E32A516E20AF3FEB00691CD1 /* state.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A516C20AF3FB200691CD1 /* state.swift */; };
 		E32A517020AF400F00691CD1 /* moveAndStateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A516F20AF400F00691CD1 /* moveAndStateTest.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E311F0DD20B364B000510BDD /* DistributionLastIteration.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = DistributionLastIteration.mlmodel; path = ml/DistributionLastIteration.mlmodel; sourceTree = SOURCE_ROOT; };
 		E32A516C20AF3FB200691CD1 /* state.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = state.swift; sourceTree = "<group>"; };
 		E32A516F20AF400F00691CD1 /* moveAndStateTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moveAndStateTest.swift; sourceTree = "<group>"; };
 		E32A517120AF643600691CD1 /* util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				E32A518320B2883600691CD1 /* Distribution.mlmodel */,
+				E311F0DD20B364B000510BDD /* DistributionLastIteration.mlmodel */,
 				E36B926E207843C60043D4F5 /* ml.swift */,
 				E32A517420AF776D00691CD1 /* predictor.swift */,
 			);
@@ -276,6 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E311F0DE20B364B000510BDD /* DistributionLastIteration.mlmodel in Sources */,
 				E32A518020B262EF00691CD1 /* self_play_stats.swift in Sources */,
 				E3691474208E3E060079314D /* mcts.swift in Sources */,
 				E38420402072AFF500B9D510 /* game.swift in Sources */,

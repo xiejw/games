@@ -1,7 +1,7 @@
 // Provides the tooling to play one Game or multiple Games.
 import Foundation
 
-func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy], board: Board, storage: CSVStorage?,
+func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy], board: Board, storage: CSVStorage? = nil,
                playTimeInSecs: Double, verbose: Int = 0) {
     let defaultPolicies = policyFn()
     precondition(defaultPolicies.count == 2)
