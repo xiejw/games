@@ -1,8 +1,9 @@
 // NEED Examine.
 import Foundation
 
-let numberToWin = 3
-let size = 3
+let size = 8
+let numberToWin = 5
+
 let selfPlayTime = 2400.0 // <-
 let humanPlay = false
 let saveStates = true // <-
@@ -57,4 +58,4 @@ let board = Board(size: size, numberToWin: numberToWin)
 
 // Play with human
 
-premadePlay1()
+premadePlay3()
