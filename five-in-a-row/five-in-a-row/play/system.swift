@@ -1,6 +1,6 @@
 import Foundation
 
-private func getMoveFromUser(validateFn: (Move) -> Error?) -> Move {
+func getMoveFromUser(validateFn: (Move) -> Error?) -> Move {
     while true {
         do {
             print("x: ", terminator: "")
@@ -28,32 +28,6 @@ private func getMoveFromUser(validateFn: (Move) -> Error?) -> Move {
             print("Please try again!")
         } catch {
             print("Unknown error: \(error)")
-        }
-    }
-}
-
-func playWithHuman(game: Game, policy: Policy, board: Board, humanPlayer: Player = .WHITE) {
-    while true {
-        let nextPlayer = game.stateHistory().last!.nextPlayer
-        print("Next player is \(nextPlayer)")
-
-        var move: Move
-        if nextPlayer == humanPlayer {
-            move = getMoveFromUser(validateFn: { (move: Move) -> Error? in
-                game.validateNewMove(move)
-            })
-        } else {
-            let history = game.stateHistory()
-            let legalMoves = board.legalMoves(stateHistory: history)
-            (move, _) = policy.getNextMove(stateHistory: history, legalMoves: legalMoves)
-        }
-        print("Push move \(move)")
-        try! game.newMove(move)
-
-        game.print()
-        if let winner = board.winner(stateHistory: game.stateHistory()) {
-            print("We have a winner \(winner)")
-            break
         }
     }
 }

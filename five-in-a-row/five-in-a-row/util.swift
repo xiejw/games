@@ -36,6 +36,14 @@ func formatDate(timeIntervalSince1970: Double) -> String {
     return dateFormatter.string(from: Date(timeIntervalSince1970: timeIntervalSince1970))
 }
 
+func formatCurrentTime() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    dateFormatter.timeZone = TimeZone.current
+
+    return dateFormatter.string(from: Date())
+}
+
 func randomPermutation(policies: [Policy]) -> (Policy, Policy) {
     precondition(policies.count == 2)
     let n = Int(arc4random_uniform(100))

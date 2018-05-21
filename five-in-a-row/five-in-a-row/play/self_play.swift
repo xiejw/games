@@ -16,7 +16,13 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
     let queue = DispatchQueue(label: "games", attributes: .concurrent)
     let group = DispatchGroup()
 
-    let threads = verbose > 0 ? 1 : 16
+    let threads: Int
+    if verbose > 0 {
+        print("Adjust the threads to 1 for verbose > 1 (disable multi-threads).")
+        threads = 1
+    } else {
+        threads = 8
+    }
 
     for i in 0 ..< threads {
         group.enter()
@@ -32,16 +38,16 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
                               verbose: verbose)
             group.leave()
             if verbose > 0 {
-                print("Leaving thread \(i) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
+                print("Leaving thread \(i) at \(formatCurrentTime()).")
             }
         }
     }
     group.wait()
     if storage != nil {
-        print("Joining storage at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
+        print("Joining storage at \(formatCurrentTime()).")
         storage!.join()
     }
-    print("End games at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
+    print("End games at \(formatCurrentTime()).")
     finalStats.summarize()
 }
 
@@ -72,36 +78,24 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
         let moveCount = history[.BLACK]!.count + history[.WHITE]!.count
         stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy, moveCount: moveCount)
 
-        precondition(history.count == 2) // why?
-        for k in history.keys {
-            precondition(k == Player.WHITE || k == Player.BLACK)
-        }
-
         if storage != nil {
-            let reward: Double
+            let blackPlayerReward: Double
             if winner == nil {
-                reward = 0.0
+                blackPlayerReward = 0.0
             } else {
-                reward = winner == .BLACK ? 1.0 : -1.0
+                blackPlayerReward = winner == .BLACK ? 1.0 : -1.0
             }
             for item in history[.BLACK]! {
                 storage!.save(state: item.state, nextPlayer: .BLACK,
                               legalMoves: item.legalMoves, distribution: item.unnormalizedProb,
-                              reward: reward)
+                              reward: blackPlayerReward)
             }
-        }
 
-        if storage != nil {
-            let reward: Double
-            if winner == nil {
-                reward = 0.0
-            } else {
-                reward = winner == .WHITE ? 1.0 : -1.0
-            }
+            let whitePlayerReward = -1.0 * blackPlayerReward
             for item in history[.WHITE]! {
                 storage!.save(state: item.state, nextPlayer: .WHITE,
                               legalMoves: item.legalMoves, distribution: item.unnormalizedProb,
-                              reward: reward)
+                              reward: whitePlayerReward)
             }
         }
     }
@@ -163,6 +157,5 @@ fileprivate func selfPlayOneGame(game: Game, board: Board, blackPlayerPolicy: Po
         }
     }
 
-    assert(history.count >= 1) // Is this correct?
     return (finalWinner, history)
 }
