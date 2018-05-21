@@ -16,7 +16,7 @@
 		E32A517620AF78F100691CD1 /* predictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A517420AF776D00691CD1 /* predictor.swift */; };
 		E32A517C20B237C400691CD1 /* premade_plays.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A517B20B237C400691CD1 /* premade_plays.swift */; };
 		E32A517E20B23E3700691CD1 /* mctsPolicyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A517D20B23E3700691CD1 /* mctsPolicyTest.swift */; };
-		E32A518020B262EF00691CD1 /* play_summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A517F20B262EF00691CD1 /* play_summary.swift */; };
+		E32A518020B262EF00691CD1 /* self_play_stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A517F20B262EF00691CD1 /* self_play_stats.swift */; };
 		E32A518220B2681E00691CD1 /* self_play_util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A518120B2681E00691CD1 /* self_play_util.swift */; };
 		E32A518420B2883600691CD1 /* Distribution.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E32A518320B2883600691CD1 /* Distribution.mlmodel */; };
 		E32A518520B2883600691CD1 /* Distribution.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E32A518320B2883600691CD1 /* Distribution.mlmodel */; };
@@ -33,7 +33,7 @@
 		E3B6B8E52077314C00B0F81A /* storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B6B8E42077314C00B0F81A /* storage.swift */; };
 		E3F7C92F2076AABB003BF365 /* gameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C92E2076AABB003BF365 /* gameTest.swift */; };
 		E3F7C9302076ABDD003BF365 /* game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E384203F2072AFF500B9D510 /* game.swift */; };
-		E3F7C9322076F262003BF365 /* system.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9312076F262003BF365 /* system.swift */; };
+		E3F7C9322076F262003BF365 /* io.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9312076F262003BF365 /* io.swift */; };
 		E3F7C9342076FE11003BF365 /* boardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7C9332076FE11003BF365 /* boardTest.swift */; };
 		E3F7C9352076FF2C003BF365 /* board.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38420432072E5B300B9D510 /* board.swift */; };
 		E3FF082B208C212500BD99CB /* policy_mcts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FF082A208C212500BD99CB /* policy_mcts.swift */; };
@@ -60,7 +60,7 @@
 		E32A517420AF776D00691CD1 /* predictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = predictor.swift; sourceTree = "<group>"; };
 		E32A517B20B237C400691CD1 /* premade_plays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = premade_plays.swift; sourceTree = "<group>"; };
 		E32A517D20B23E3700691CD1 /* mctsPolicyTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mctsPolicyTest.swift; sourceTree = "<group>"; };
-		E32A517F20B262EF00691CD1 /* play_summary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = play_summary.swift; sourceTree = "<group>"; };
+		E32A517F20B262EF00691CD1 /* self_play_stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = self_play_stats.swift; sourceTree = "<group>"; };
 		E32A518120B2681E00691CD1 /* self_play_util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = self_play_util.swift; sourceTree = "<group>"; };
 		E32A518320B2883600691CD1 /* Distribution.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Distribution.mlmodel; path = ml/Distribution.mlmodel; sourceTree = SOURCE_ROOT; };
 		E3691473208E3E060079314D /* mcts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mcts.swift; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		E3F7C926207696C3003BF365 /* Testing.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Testing.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3F7C92A207696C3003BF365 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3F7C92E2076AABB003BF365 /* gameTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameTest.swift; sourceTree = "<group>"; };
-		E3F7C9312076F262003BF365 /* system.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = system.swift; sourceTree = "<group>"; };
+		E3F7C9312076F262003BF365 /* io.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = io.swift; sourceTree = "<group>"; };
 		E3F7C9332076FE11003BF365 /* boardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = boardTest.swift; sourceTree = "<group>"; };
 		E3FF082A208C212500BD99CB /* policy_mcts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = policy_mcts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,11 +132,11 @@
 		E32A517A20B1C6C100691CD1 /* play */ = {
 			isa = PBXGroup;
 			children = (
-				E3F7C9312076F262003BF365 /* system.swift */,
+				E3F7C9312076F262003BF365 /* io.swift */,
 				E3818D4A2082726700EE6066 /* self_play.swift */,
-				E32A517F20B262EF00691CD1 /* play_summary.swift */,
-				E32A517B20B237C400691CD1 /* premade_plays.swift */,
+				E32A517F20B262EF00691CD1 /* self_play_stats.swift */,
 				E32A518120B2681E00691CD1 /* self_play_util.swift */,
+				E32A517B20B237C400691CD1 /* premade_plays.swift */,
 			);
 			path = play;
 			sourceTree = "<group>";
@@ -276,11 +276,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E32A518020B262EF00691CD1 /* play_summary.swift in Sources */,
+				E32A518020B262EF00691CD1 /* self_play_stats.swift in Sources */,
 				E3691474208E3E060079314D /* mcts.swift in Sources */,
 				E38420402072AFF500B9D510 /* game.swift in Sources */,
 				E32A518220B2681E00691CD1 /* self_play_util.swift in Sources */,
-				E3F7C9322076F262003BF365 /* system.swift in Sources */,
+				E3F7C9322076F262003BF365 /* io.swift in Sources */,
 				E32A517220AF643600691CD1 /* util.swift in Sources */,
 				E36B926F207843C60043D4F5 /* ml.swift in Sources */,
 				E3818D4B2082726700EE6066 /* self_play.swift in Sources */,
