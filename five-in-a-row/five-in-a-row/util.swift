@@ -35,3 +35,13 @@ func formatDate(timeIntervalSince1970: Double) -> String {
 
     return dateFormatter.string(from: Date(timeIntervalSince1970: timeIntervalSince1970))
 }
+
+func randomPermutation(policies: [Policy]) -> (Policy, Policy) {
+    precondition(policies.count == 2)
+    let n = Int(arc4random_uniform(100))
+    if n < 50 {
+        return (policies[0], policies[1])
+    } else {
+        return (policies[1], policies[0])
+    }
+}

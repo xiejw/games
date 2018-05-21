@@ -1,9 +1,8 @@
-// NEED Examine.
 // Provides the tooling to play one Game or multiple Games.
 import Foundation
 
 func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy], board: Board, storage: CSVStorage?,
-               playTimeInSecs: Double, verbose: Int) {
+               playTimeInSecs: Double, verbose: Int = 0) {
     let defaultPolicies = policyFn()
     precondition(defaultPolicies.count == 2)
     precondition(defaultPolicies[0].getName() != defaultPolicies[1].getName())
@@ -17,7 +16,9 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
     let queue = DispatchQueue(label: "games", attributes: .concurrent)
     let group = DispatchGroup()
 
-    for i in 0 ..< 8 {
+    let threads = verbose > 0 ? 1 : 8
+
+    for i in 0 ..< threads {
         group.enter()
         queue.async {
             selfPlayAndRecord(currentBranch: i,
@@ -30,6 +31,9 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
                               playTimeInSecs: playTimeInSecs,
                               verbose: verbose)
             group.leave()
+            if verbose > 0 {
+                print("Leaving thread \(i) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
+            }
         }
     }
     group.wait()
@@ -54,15 +58,6 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
     playRecords[.BLACK] = [PlayRecord]()
     playRecords[.WHITE] = [PlayRecord]()
 
-    // FIXME:
-    var totalGamesInThread = 0.0
-    var totalHistoryAppended = 0.0
-    var totalRecordSeen = 0.0
-    var totalHisotrySeen = 0.0
-    var totalBlackRecord = 0.0
-    var totalBlackRecordTotal = 0.0
-    var totalWhiteRecordTotal = 0.0
-
     while true {
         // Stopping condition.
         let end = NSDate().timeIntervalSince1970 - begin
@@ -73,31 +68,22 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
         let game = gameFn()
 
         let (blackPlayerPolicy, whitePlayerPolicy) = randomPermutation(policies: policies)
-        let (winner, history) = selfPlay(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
+        let (winner, history) = selfPlayOneGame(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy, verbose: verbose)
         stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
 
-        totalHisotrySeen += Double(history.count)
-        precondition(history.count == 2)
+        precondition(history.count == 2) // why?
         for k in history.keys {
             precondition(k == Player.WHITE || k == Player.BLACK)
         }
-        totalBlackRecordTotal += Double(history[.BLACK]!.count)
-        totalWhiteRecordTotal += Double(history[.WHITE]!.count)
-
-        // FIXME:
-        totalGamesInThread += 1
 
         if blackPlayerPolicy.shouldRecord() {
-            totalHistoryAppended += 1
             let reward: Double
             if winner == nil {
                 reward = 0.0
             } else {
                 reward = winner == .BLACK ? 1.0 : -1.0
             }
-            totalBlackRecord += Double(history[.BLACK]!.count)
             for item in history[.BLACK]! {
-                totalRecordSeen += 1
                 playRecords[.BLACK]!.append(PlayRecord(history: item, reward: reward))
             }
         }
@@ -118,11 +104,9 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
     if verbose > 0 {
         print("Finish games ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
     }
-    print("Thread \(i) \(totalGamesInThread) history seen \(totalHisotrySeen) totalBlackRecordTotal \(totalBlackRecordTotal) totalWhiteRecordTotal \(totalWhiteRecordTotal)  totalBlackRecord \(totalBlackRecord) historyRecord seen \(totalRecordSeen) total records \(totalHistoryAppended) black \(playRecords[.BLACK]!.count) white \(playRecords[.WHITE]!.count)")
 
     finalStats.merge(stats)
 
-    print("Thread \(i) \(totalGamesInThread)   total records \(totalHistoryAppended) black \(playRecords[.BLACK]!.count) white \(playRecords[.WHITE]!.count)")
     if storage != nil {
         // FIXME:
         var savedGames = 0
@@ -134,20 +118,17 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
                               reward: record.reward)
             }
         }
-
-        // FIXME:
-        print("Thread \(i) \(totalGamesInThread)  saved \(savedGames)  total records \(totalHistoryAppended) black \(playRecords[.BLACK]!.count) white \(playRecords[.WHITE]!.count)")
-    }
-    if verbose > 0 {
-        print("Finish recording ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
+        if verbose > 0 {
+            print("Finish recording ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
+        }
     }
 }
 
-// Play one game.
-func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPolicy: Policy,
-              verbose: Bool = false) -> (Player?, Dictionary<Player, [PlayHistory]>) {
+// Play one game (stateless).
+fileprivate func selfPlayOneGame(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPolicy: Policy,
+                                 verbose: Int = 0) -> (Player?, Dictionary<Player, [PlayHistory]>) {
     var finalWinner: Player?
-    var history = Dictionary<Player, [PlayHistory]>()
+    var history = Dictionary<Player, [PlayHistory]>() // escape as return value
     history[.BLACK] = [PlayHistory]()
     history[.WHITE] = [PlayHistory]()
 
@@ -155,7 +136,7 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
         let stateHistory = game.stateHistory()
         let legalMoves = board.legalMoves(stateHistory: stateHistory)
         if legalMoves.isEmpty {
-            if verbose {
+            if verbose > 0 {
                 print("No legal moves. Tie")
             }
             break
@@ -163,7 +144,7 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
 
         let currentState = stateHistory.last!
         let nextPlayer = currentState.nextPlayer
-        if verbose {
+        if verbose > 0 {
             print("Next player: \(nextPlayer)")
         }
 
@@ -180,12 +161,12 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
 
         try! game.newMove(move)
 
-        if verbose {
+        if verbose > 0 {
             print("Next move: \(move)")
             game.print()
         }
         if let winner = board.winner(stateHistory: game.stateHistory()) {
-            if verbose {
+            if verbose > 0 {
                 print("We have a winner \(winner)")
             }
             finalWinner = winner
@@ -193,107 +174,6 @@ func selfPlay(game: Game, board: Board, blackPlayerPolicy: Policy, whitePlayerPo
         }
     }
 
-    precondition(history.count >= 1)
-
+    assert(history.count >= 1) // Is this correct?
     return (finalWinner, history)
-}
-
-struct PlayHistory {
-    var state: State
-    var move: Move
-    var legalMoves: [Move]
-    var unnormalizedProb: [Double]
-}
-
-struct PlayRecord {
-    var history: PlayHistory
-    var reward: Double
-}
-
-fileprivate class PlayStats {
-    var totalGames: Int = 0
-    var blackTotalWins: Int = 0
-    var whiteTotalWins: Int = 0
-
-    var blackWins = Dictionary<String, Int>()
-    var whiteWins = Dictionary<String, Int>()
-
-    var policyAssignedAsBlack = Dictionary<String, Int>()
-
-    var queue: DispatchQueue
-
-    let policies: [Policy]
-
-    init(policies: [Policy], name: String) {
-        self.policies = policies
-        precondition(policies.count == 2)
-        precondition(policies[0].getName() != policies[1].getName())
-
-        blackWins[policies[0].getName()] = 0
-        blackWins[policies[1].getName()] = 0
-        whiteWins[policies[0].getName()] = 0
-        whiteWins[policies[1].getName()] = 0
-
-        policyAssignedAsBlack[policies[0].getName()] = 0
-        policyAssignedAsBlack[policies[1].getName()] = 0
-
-        queue = DispatchQueue(label: name + "stat", attributes: .concurrent)
-    }
-
-    // Not thread safe
-    func update(winner: Player?, blackPlayerPolicy: Policy, whitePlayerPolicy: Policy) {
-        totalGames += 1
-        policyAssignedAsBlack[blackPlayerPolicy.getName()]! += 1
-
-        if winner == nil {
-            // Nothing more to update
-            return
-        }
-
-        if winner! == .BLACK {
-            blackWins[blackPlayerPolicy.getName()]! += 1
-            blackTotalWins += 1
-        } else {
-            whiteWins[whitePlayerPolicy.getName()]! += 1
-            whiteTotalWins += 1
-        }
-    }
-
-    func merge(_ anotherStats: PlayStats) {
-        queue.sync(flags: .barrier, execute: {
-            self.totalGames += anotherStats.totalGames
-            self.blackTotalWins += anotherStats.blackTotalWins
-            self.whiteTotalWins += anotherStats.whiteTotalWins
-
-            for policy in self.policies {
-                let name = policy.getName()
-                self.blackWins[name]! += anotherStats.blackWins[name]!
-                self.whiteWins[name]! += anotherStats.whiteWins[name]!
-                self.policyAssignedAsBlack[name]! += anotherStats.policyAssignedAsBlack[name]!
-            }
-        })
-    }
-
-    func summarize() {
-        queue.sync {
-            print("Total games: \(self.totalGames)")
-            print("Total black wins: \(self.blackTotalWins)")
-            print("Total white wins: \(self.whiteTotalWins)")
-
-            for policy in self.policies {
-                let name = policy.getName()
-                print("For policy \(name): as black \(self.policyAssignedAsBlack[name]!), black wins \(self.blackWins[name]!), white wins \(self.whiteWins[name]!)")
-            }
-        }
-    }
-}
-
-fileprivate func randomPermutation(policies: [Policy]) -> (Policy, Policy) {
-    precondition(policies.count == 2)
-    let n = Int(arc4random_uniform(10))
-    if n < 5 {
-        return (policies[0], policies[1])
-    } else {
-        return (policies[1], policies[0])
-    }
 }
