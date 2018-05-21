@@ -3,7 +3,6 @@ import Foundation
 
 protocol Policy {
     func getName() -> String
-    func shouldRecord() -> Bool
 
     // policyDistribution[i] is the unnormalized distribution for move legalMoves[i]
     func getNextMove(stateHistory: [State], legalMoves: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double])
@@ -11,19 +10,13 @@ protocol Policy {
 
 class BasePolicy: Policy {
     let name: String
-    let record: Bool
 
-    init(name: String, shouldRecord: Bool) {
+    init(name: String) {
         self.name = name
-        record = shouldRecord
     }
 
     func getName() -> String {
         return name
-    }
-
-    func shouldRecord() -> Bool {
-        return record
     }
 
     func getNextMove(stateHistory _: [State], legalMoves _: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
@@ -32,8 +25,8 @@ class BasePolicy: Policy {
 }
 
 class RandomPolicy: BasePolicy {
-    init(name: String = "Random") {
-        super.init(name: name, shouldRecord: false)
+    override init(name: String = "Random") {
+        super.init(name: name)
     }
 
     override func getNextMove(stateHistory _: [State], legalMoves: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {

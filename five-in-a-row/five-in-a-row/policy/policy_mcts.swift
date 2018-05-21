@@ -9,14 +9,14 @@ class MCTSBasedPolicy: BasePolicy {
     private let verbose: Int
 
     init(name: String, size: Int, predictor: Predictor, board: Board, perMoveSimulationTimes: Int,
-         shouldRecord: Bool = true, playMode: Bool = false, verbose: Int = 0) {
+         playMode: Bool = false, verbose: Int = 0) {
         self.size = size
         self.board = board
         self.perMoveSimulationTimes = perMoveSimulationTimes
         self.predictor = predictor
         self.playMode = playMode
         self.verbose = verbose
-        super.init(name: name, shouldRecord: shouldRecord)
+        super.init(name: name)
     }
 
     override func getNextMove(stateHistory: [State], legalMoves _: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {

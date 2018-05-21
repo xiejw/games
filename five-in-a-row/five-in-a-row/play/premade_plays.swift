@@ -25,7 +25,7 @@ func premadePlay1() {
         size: size,
         predictor: RandomPredictor(size: size),
         board: board,
-        perMoveSimulationTimes: 1600, shouldRecord: false, playMode: true, verbose: 1)
+        perMoveSimulationTimes: 1600, playMode: true, verbose: 1)
 
     var history = game.stateHistory()
     var legalMoves = board.legalMoves(stateHistory: history)
@@ -67,7 +67,7 @@ func premadePlay2() {
         size: size,
         predictor: RandomPredictor(size: size),
         board: board,
-        perMoveSimulationTimes: 1600, shouldRecord: false, playMode: true, verbose: 1)
+        perMoveSimulationTimes: 1600, playMode: true, verbose: 1)
 
     var history = game.stateHistory()
     var legalMoves = board.legalMoves(stateHistory: history)
@@ -104,7 +104,7 @@ func premadePlay3() {
         size: size,
         predictor: RandomPredictor(size: size),
         board: board,
-        perMoveSimulationTimes: 1600, shouldRecord: false, playMode: true, verbose: 1) // 3600 works
+        perMoveSimulationTimes: 1600, playMode: true, verbose: 1) // 3600 works
 
     let history = game.stateHistory()
     let legalMoves = board.legalMoves(stateHistory: history)

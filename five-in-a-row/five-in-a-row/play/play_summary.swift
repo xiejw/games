@@ -7,13 +7,9 @@ struct PlayHistory {
     var unnormalizedProb: [Double]
 }
 
-struct PlayRecord {
-    var history: PlayHistory
-    var reward: Double
-}
-
 class PlayStats {
     var totalGames: Int = 0
+    var totalMoves: Int = 0
     var blackTotalWins: Int = 0
     var whiteTotalWins: Int = 0
 
@@ -43,8 +39,9 @@ class PlayStats {
     }
 
     // Not thread safe
-    func update(winner: Player?, blackPlayerPolicy: Policy, whitePlayerPolicy: Policy) {
+    func update(winner: Player?, blackPlayerPolicy: Policy, whitePlayerPolicy: Policy, moveCount: Int) {
         totalGames += 1
+        totalMoves += moveCount
         policyAssignedAsBlack[blackPlayerPolicy.getName()]! += 1
 
         if winner == nil {
@@ -64,6 +61,7 @@ class PlayStats {
     func merge(_ anotherStats: PlayStats) {
         queue.sync(flags: .barrier, execute: {
             self.totalGames += anotherStats.totalGames
+            self.totalMoves += anotherStats.totalMoves
             self.blackTotalWins += anotherStats.blackTotalWins
             self.whiteTotalWins += anotherStats.whiteTotalWins
 
@@ -79,6 +77,7 @@ class PlayStats {
     func summarize() {
         queue.sync {
             print("Total games: \(self.totalGames)")
+            print("Total moves: \(self.totalMoves)")
             print("Total black wins: \(self.blackTotalWins)")
             print("Total white wins: \(self.whiteTotalWins)")
 

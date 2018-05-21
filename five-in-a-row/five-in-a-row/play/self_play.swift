@@ -16,7 +16,7 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
     let queue = DispatchQueue(label: "games", attributes: .concurrent)
     let group = DispatchGroup()
 
-    let threads = verbose > 0 ? 1 : 8
+    let threads = verbose > 0 ? 1 : 16
 
     for i in 0 ..< threads {
         group.enter()
@@ -37,6 +37,10 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
         }
     }
     group.wait()
+    if storage != nil {
+        print("Joining storage at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
+        storage!.join()
+    }
     print("End games at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
     finalStats.summarize()
 }
@@ -54,10 +58,6 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
     let policies = policyFn()
     let stats = PlayStats(policies: policies, name: "sub-branch-\(i)")
 
-    var playRecords = Dictionary<Player, [PlayRecord]>()
-    playRecords[.BLACK] = [PlayRecord]()
-    playRecords[.WHITE] = [PlayRecord]()
-
     while true {
         // Stopping condition.
         let end = NSDate().timeIntervalSince1970 - begin
@@ -69,14 +69,15 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
 
         let (blackPlayerPolicy, whitePlayerPolicy) = randomPermutation(policies: policies)
         let (winner, history) = selfPlayOneGame(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy, verbose: verbose)
-        stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy)
+        let moveCount = history[.BLACK]!.count + history[.WHITE]!.count
+        stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy, moveCount: moveCount)
 
         precondition(history.count == 2) // why?
         for k in history.keys {
             precondition(k == Player.WHITE || k == Player.BLACK)
         }
 
-        if blackPlayerPolicy.shouldRecord() {
+        if storage != nil {
             let reward: Double
             if winner == nil {
                 reward = 0.0
@@ -84,11 +85,13 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
                 reward = winner == .BLACK ? 1.0 : -1.0
             }
             for item in history[.BLACK]! {
-                playRecords[.BLACK]!.append(PlayRecord(history: item, reward: reward))
+                storage!.save(state: item.state, nextPlayer: .BLACK,
+                              legalMoves: item.legalMoves, distribution: item.unnormalizedProb,
+                              reward: reward)
             }
         }
 
-        if whitePlayerPolicy.shouldRecord() {
+        if storage != nil {
             let reward: Double
             if winner == nil {
                 reward = 0.0
@@ -96,7 +99,9 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
                 reward = winner == .WHITE ? 1.0 : -1.0
             }
             for item in history[.WHITE]! {
-                playRecords[.WHITE]!.append(PlayRecord(history: item, reward: reward))
+                storage!.save(state: item.state, nextPlayer: .WHITE,
+                              legalMoves: item.legalMoves, distribution: item.unnormalizedProb,
+                              reward: reward)
             }
         }
     }
@@ -106,22 +111,6 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
     }
 
     finalStats.merge(stats)
-
-    if storage != nil {
-        // FIXME:
-        var savedGames = 0
-        for player in [Player.BLACK, Player.WHITE] {
-            for record in playRecords[player]! {
-                savedGames += 1
-                storage!.save(state: record.history.state, nextPlayer: player,
-                              legalMoves: record.history.legalMoves, distribution: record.history.unnormalizedProb,
-                              reward: record.reward)
-            }
-        }
-        if verbose > 0 {
-            print("Finish recording ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
-        }
-    }
 }
 
 // Play one game (stateless).

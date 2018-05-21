@@ -6,25 +6,28 @@ struct Configuration {
     var numberToWin: Int
     var selfPlayTimeInSecs: Double
     var perMoveSimulationTimes: Int
+    var recordStates: Bool
     var verbose: Int = 0
 }
 
 let configuration = Configuration(size: 8,
                                   numberToWin: 5,
-                                  selfPlayTimeInSecs: 6.0,
+                                  selfPlayTimeInSecs: 60.0,
                                   perMoveSimulationTimes: 1600,
-                                  verbose: 1)
+                                  recordStates: true,
+                                  verbose: 0)
 print("Configuration:\n\(configuration)")
 
 let humanPlay = false
 // let saveStates = false
-// let fName = "/Users/xiejw/Desktop/games.txt"
+//
 
 if !humanPlay {
     selfPlaysAndRecord(size: configuration.size,
                        numberToWin: configuration.numberToWin,
                        selfPlayTimeInSecs: configuration.selfPlayTimeInSecs,
                        perMoveSimulationTimes: configuration.perMoveSimulationTimes,
+                       recordStates: configuration.recordStates,
                        verbose: configuration.verbose)
     exit(0)
 } else {
@@ -39,7 +42,6 @@ if !humanPlay {
                                        predictor: RandomPredictor(size: configuration.size),
                                        board: board,
                                        perMoveSimulationTimes: configuration.perMoveSimulationTimes,
-                                       shouldRecord: false,
                                        playMode: true,
                                        verbose: configuration.verbose)
 

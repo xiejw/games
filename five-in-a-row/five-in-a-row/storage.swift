@@ -25,12 +25,14 @@ class CSVStorage {
         fs = FileHandle(forWritingAtPath: fileName)!
     }
 
-    deinit {
-        fs.closeFile()
-        print("File \(fileName) closed")
-    }
-
     let newline = "\n".data(using: .utf8)!
+
+    func join() {
+        queue.sync(flags: .barrier, execute: {
+            self.fs.closeFile()
+            print("File \(fileName) closed")
+        })
+    }
 
     // Spec: R,NP,DIST,STATE
     // R, Double: Reward {win: 1.0, lose: -1.0 lose, tie: 0.0}
@@ -38,7 +40,7 @@ class CSVStorage {
     // DIST, [(INT, INT, DOULE)]: unnormalized distribution (move.x, move.y, distribution), joined by #
     // STATE, [INT]: State of the board, state.toString
     func save(state: State, nextPlayer: Player, legalMoves: [Move], distribution: [Double], reward: Double) {
-        queue.sync(flags: .barrier, execute: {
+        queue.async(flags: .barrier, execute: {
             var result = [String]()
 
             // R
