@@ -76,14 +76,15 @@ class PlayStats {
 
     func summarize() {
         queue.sync {
-            print("Total games: \(self.totalGames)")
-            print("Total moves: \(self.totalMoves)")
-            print("Total black wins: \(self.blackTotalWins)")
-            print("Total white wins: \(self.whiteTotalWins)")
+            let logger = Logger()
+            logger.logAndPrint("Total games: \(self.totalGames)")
+            logger.logAndPrint("Total moves: \(self.totalMoves)")
+            logger.logAndPrint("Total black wins: \(self.blackTotalWins)")
+            logger.logAndPrint("Total white wins: \(self.whiteTotalWins)")
 
             for policy in self.policies {
                 let name = policy.getName()
-                print("For policy \(name): as black \(self.policyAssignedAsBlack[name]!), black wins \(self.blackWins[name]!), white wins \(self.whiteWins[name]!)")
+                logger.logAndPrint("For policy \(name): as black \(self.policyAssignedAsBlack[name]!), black wins \(self.blackWins[name]!), white wins \(self.whiteWins[name]!)")
             }
         }
     }

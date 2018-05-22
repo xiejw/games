@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		E311F0DE20B364B000510BDD /* DistributionLastIteration.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E311F0DD20B364B000510BDD /* DistributionLastIteration.mlmodel */; };
+		E311F0E020B3C24700510BDD /* logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = E311F0DF20B3C24700510BDD /* logging.swift */; };
+		E311F0E120B3CA5E00510BDD /* DistributionLastIteration.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E311F0DD20B364B000510BDD /* DistributionLastIteration.mlmodel */; };
 		E32A516D20AF3FB200691CD1 /* state.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A516C20AF3FB200691CD1 /* state.swift */; };
 		E32A516E20AF3FEB00691CD1 /* state.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A516C20AF3FB200691CD1 /* state.swift */; };
 		E32A517020AF400F00691CD1 /* moveAndStateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A516F20AF400F00691CD1 /* moveAndStateTest.swift */; };
@@ -56,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		E311F0DD20B364B000510BDD /* DistributionLastIteration.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = DistributionLastIteration.mlmodel; path = ml/DistributionLastIteration.mlmodel; sourceTree = SOURCE_ROOT; };
+		E311F0DF20B3C24700510BDD /* logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = logging.swift; sourceTree = "<group>"; };
 		E32A516C20AF3FB200691CD1 /* state.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = state.swift; sourceTree = "<group>"; };
 		E32A516F20AF400F00691CD1 /* moveAndStateTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moveAndStateTest.swift; sourceTree = "<group>"; };
 		E32A517120AF643600691CD1 /* util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
@@ -172,6 +175,7 @@
 				E38C4DD5207299E100ADE4A6 /* main.swift */,
 				E3B6B8E42077314C00B0F81A /* storage.swift */,
 				E32A517120AF643600691CD1 /* util.swift */,
+				E311F0DF20B3C24700510BDD /* logging.swift */,
 			);
 			path = "five-in-a-row";
 			sourceTree = "<group>";
@@ -293,6 +297,7 @@
 				E38420442072E5B300B9D510 /* board.swift in Sources */,
 				E3FF082B208C212500BD99CB /* policy_mcts.swift in Sources */,
 				E38C4DD6207299E100ADE4A6 /* main.swift in Sources */,
+				E311F0E020B3C24700510BDD /* logging.swift in Sources */,
 				E32A517520AF776D00691CD1 /* predictor.swift in Sources */,
 				E32A516D20AF3FB200691CD1 /* state.swift in Sources */,
 				E32A517C20B237C400691CD1 /* premade_plays.swift in Sources */,
@@ -304,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E311F0E120B3CA5E00510BDD /* DistributionLastIteration.mlmodel in Sources */,
 				E32A517020AF400F00691CD1 /* moveAndStateTest.swift in Sources */,
 				E3691475208E3E890079314D /* mcts.swift in Sources */,
 				E32A518520B2883600691CD1 /* Distribution.mlmodel in Sources */,
