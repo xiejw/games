@@ -28,7 +28,7 @@ class MCTSBasedPolicy: BasePolicy {
         let nodeFactory = NodeFactory(predictor: predictor, size: size, enforceExploreUnvisitedMoves: true)
 
         for i in 0 ..< perMoveSimulationTimes {
-            if verbose > 0 && i % 100 == 0 {
+            if verbose > 0 && i % 1000 == 0 {
                 print("Simulated \(i) times now.")
             }
             var visitedNodes = [Node]()
