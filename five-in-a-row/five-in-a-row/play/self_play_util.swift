@@ -32,7 +32,7 @@ func selfPlaysAndRecord(size: Int, numberToWin: Int, selfPlayTimeInSecs: Double,
     selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, storage: storage, playTimeInSecs: selfPlayTimeInSecs, verbose: verbose)
 }
 
-func selfPlaysAndRating(size: Int, numberToWin: Int, policyFn: @escaping () -> [Policy], selfPlayTimeInSecs: Double, perMoveSimulationTimes: Int, verbose: Int = 0) {
+func selfPlaysAndRating(size: Int, numberToWin: Int, policyFn: @escaping () -> [Policy], selfPlayTimeInSecs: Double, perMoveSimulationTimes _: Int, verbose: Int = 0) {
     let board = Board(size: size, numberToWin: numberToWin)
 
     func gameFn() -> Game {

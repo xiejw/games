@@ -18,7 +18,7 @@ if let value = ProcessInfo.processInfo.environment["RL_TIME_IN_SECS"] {
 if let value = ProcessInfo.processInfo.environment["RATING_TIME_IN_SECS"] {
     print("Rating mode.")
     let selfPlayTimeInSecs = Double(value)!
-    
+
     if let policyName = ProcessInfo.processInfo.environment["POLICY_NAME"] {
         print("Rating mode. Policy name \(policyName)")
         configuration = Configuration(selfPlayTimeInSecs: selfPlayTimeInSecs,
@@ -31,11 +31,11 @@ if let value = ProcessInfo.processInfo.environment["RATING_TIME_IN_SECS"] {
             let mctsPolicy = MCTSBasedPolicy(name: "mcts", size: configuration.size,
                                              predictor: DistributionPredictionWrapper(size: configuration.size),
                                              board: board,
-                                             perMoveSimulationTimes:configuration.perMoveSimulationTimes)
+                                             perMoveSimulationTimes: configuration.perMoveSimulationTimes)
             let otherPolicy = MCTSBasedPolicy(name: policyName,
                                               size: configuration.size,
                                               predictor: DistributionPredictionForLastIterationWrapper(
-                                                size: configuration.size),
+                                                  size: configuration.size),
                                               board: board,
                                               perMoveSimulationTimes: configuration.perMoveSimulationTimes)
             return [mctsPolicy, otherPolicy]
@@ -46,21 +46,20 @@ if let value = ProcessInfo.processInfo.environment["RATING_TIME_IN_SECS"] {
                            selfPlayTimeInSecs: configuration.selfPlayTimeInSecs!,
                            perMoveSimulationTimes: configuration.perMoveSimulationTimes,
                            verbose: configuration.verbose)
-        
+
     } else {
         print("Rating mode. Premade policis.")
         configuration = Configuration(ratingStage: true)
-        
+
         print("Configuration:\n\(configuration)")
         let policyFns = getPremadePolicisToRating(size: configuration.size,
                                                   numberToWin: configuration.numberToWin,
                                                   board: Board(size: configuration.size,
                                                                numberToWin: configuration.numberToWin),
                                                   perMoveSimulationTimes: configuration.perMoveSimulationTimes)
-        
+
         let eachPlayTimeInSecs = selfPlayTimeInSecs / Double(policyFns.count)
-        
-        
+
         for policyFn in policyFns {
             selfPlaysAndRating(size: configuration.size,
                                numberToWin: configuration.numberToWin,
