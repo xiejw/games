@@ -1,0 +1,288 @@
+Total games: 1184
+Total moves: 17751
+Total black wins: 753
+Total white wins: 427
+For policy mcts_500_1: as black 584, black wins 374, white wins 219
+For policy mcts_500_2: as black 600, black wins 379, white wins 208
+Total games: 436
+Total moves: 5052
+Total black wins: 200
+Total white wins: 236
+For policy mcts: as black 199, black wins 199, white wins 236
+For policy random: as black 237, black wins 1, white wins 0
+Total games: 350
+Total moves: 3897
+Total black wins: 181
+Total white wins: 169
+For policy mcts: as black 177, black wins 176, white wins 168
+For policy mcts_random_predictor: as black 173, black wins 5, white wins 1
+Total games: 150
+Total moves: 2262
+Total black wins: 102
+Total white wins: 47
+For policy mcts: as black 70, black wins 48, white wins 25
+For policy mcts_last_iteration: as black 80, black wins 54, white wins 22
+Total games: 1114
+Total moves: 17386
+Total black wins: 702
+Total white wins: 407
+For policy mcts_500_1: as black 563, black wins 354, white wins 202
+For policy mcts_500_2: as black 551, black wins 348, white wins 205
+Total games: 381
+Total moves: 4768
+Total black wins: 203
+Total white wins: 178
+For policy mcts: as black 203, black wins 203, white wins 178
+For policy random: as black 178, black wins 0, white wins 0
+Total games: 289
+Total moves: 3793
+Total black wins: 144
+Total white wins: 145
+For policy mcts: as black 135, black wins 134, white wins 144
+For policy mcts_random_predictor: as black 154, black wins 10, white wins 1
+Total games: 145
+Total moves: 2207
+Total black wins: 88
+Total white wins: 56
+For policy mcts: as black 69, black wins 44, white wins 32
+For policy mcts_last_iteration: as black 76, black wins 44, white wins 24
+Total games: 1139
+Total moves: 17776
+Total black wins: 693
+Total white wins: 441
+For policy mcts_500_1: as black 566, black wins 329, white wins 207
+For policy mcts_500_2: as black 573, black wins 364, white wins 234
+Total games: 483
+Total moves: 5155
+Total black wins: 254
+Total white wins: 229
+For policy mcts: as black 255, black wins 254, white wins 228
+For policy random: as black 228, black wins 0, white wins 1
+Total games: 358
+Total moves: 3887
+Total black wins: 187
+Total white wins: 171
+For policy mcts: as black 184, black wins 184, white wins 171
+For policy mcts_random_predictor: as black 174, black wins 3, white wins 0
+Total games: 135
+Total moves: 2259
+Total black wins: 78
+Total white wins: 54
+For policy mcts: as black 68, black wins 47, white wins 33
+For policy mcts_last_iteration: as black 67, black wins 31, white wins 21
+Total games: 1027
+Total moves: 17401
+Total black wins: 592
+Total white wins: 421
+For policy mcts_500_1: as black 519, black wins 285, white wins 193
+For policy mcts_500_2: as black 508, black wins 307, white wins 228
+Total games: 467
+Total moves: 5057
+Total black wins: 240
+Total white wins: 227
+For policy mcts: as black 240, black wins 240, white wins 227
+For policy random: as black 227, black wins 0, white wins 0
+Total games: 350
+Total moves: 3883
+Total black wins: 177
+Total white wins: 173
+For policy mcts: as black 175, black wins 175, white wins 173
+For policy mcts_random_predictor: as black 175, black wins 2, white wins 0
+Total games: 128
+Total moves: 2206
+Total black wins: 64
+Total white wins: 63
+For policy mcts: as black 62, black wins 33, white wins 35
+For policy mcts_last_iteration: as black 66, black wins 31, white wins 28
+Total games: 1044
+Total moves: 17385
+Total black wins: 635
+Total white wins: 401
+For policy mcts_500_1: as black 547, black wins 331, white wins 189
+For policy mcts_500_2: as black 497, black wins 304, white wins 212
+Total games: 477
+Total moves: 5098
+Total black wins: 275
+Total white wins: 202
+For policy mcts: as black 275, black wins 275, white wins 202
+For policy random: as black 202, black wins 0, white wins 0
+Total games: 329
+Total moves: 3828
+Total black wins: 159
+Total white wins: 170
+For policy mcts: as black 158, black wins 156, white wins 168
+For policy mcts_random_predictor: as black 171, black wins 3, white wins 2
+Total games: 132
+Total moves: 2194
+Total black wins: 80
+Total white wins: 50
+For policy mcts: as black 76, black wins 43, white wins 18
+For policy mcts_last_iteration: as black 56, black wins 37, white wins 32
+Total games: 1030
+Total moves: 17420
+Total black wins: 630
+Total white wins: 388
+For policy mcts_500_1: as black 519, black wins 318, white wins 191
+For policy mcts_500_2: as black 511, black wins 312, white wins 197
+Total games: 454
+Total moves: 5037
+Total black wins: 209
+Total white wins: 245
+For policy mcts: as black 209, black wins 209, white wins 245
+For policy random: as black 245, black wins 0, white wins 0
+Total games: 362
+Total moves: 3920
+Total black wins: 200
+Total white wins: 162
+For policy mcts: as black 198, black wins 197, white wins 161
+For policy mcts_random_predictor: as black 164, black wins 3, white wins 1
+Total games: 135
+Total moves: 2170
+Total black wins: 71
+Total white wins: 63
+For policy mcts: as black 69, black wins 35, white wins 30
+For policy mcts_last_iteration: as black 66, black wins 36, white wins 33
+Total games: 1034
+Total moves: 17377
+Total black wins: 593
+Total white wins: 429
+For policy mcts_500_1: as black 530, black wins 309, white wins 211
+For policy mcts_500_2: as black 504, black wins 284, white wins 218
+Total games: 416
+Total moves: 5105
+Total black wins: 213
+Total white wins: 203
+For policy mcts: as black 213, black wins 213, white wins 203
+For policy random: as black 203, black wins 0, white wins 0
+Total games: 305
+Total moves: 3766
+Total black wins: 153
+Total white wins: 152
+For policy mcts: as black 152, black wins 151, white wins 151
+For policy mcts_random_predictor: as black 153, black wins 2, white wins 1
+Total games: 119
+Total moves: 2136
+Total black wins: 79
+Total white wins: 39
+For policy mcts: as black 56, black wins 34, white wins 18
+For policy mcts_last_iteration: as black 63, black wins 45, white wins 21
+Total games: 950
+Total moves: 17287
+Total black wins: 581
+Total white wins: 346
+For policy mcts_500_1: as black 506, black wins 302, white wins 157
+For policy mcts_500_2: as black 444, black wins 279, white wins 189
+Total games: 443
+Total moves: 5058
+Total black wins: 219
+Total white wins: 224
+For policy mcts: as black 219, black wins 219, white wins 224
+For policy random: as black 224, black wins 0, white wins 0
+Total games: 340
+Total moves: 3851
+Total black wins: 161
+Total white wins: 179
+For policy mcts: as black 161, black wins 160, white wins 178
+For policy mcts_random_predictor: as black 179, black wins 1, white wins 1
+Total games: 129
+Total moves: 2217
+Total black wins: 80
+Total white wins: 47
+For policy mcts: as black 68, black wins 45, white wins 25
+For policy mcts_last_iteration: as black 61, black wins 35, white wins 22
+Total games: 1005
+Total moves: 17372
+Total black wins: 579
+Total white wins: 416
+For policy mcts_500_1: as black 525, black wins 290, white wins 186
+For policy mcts_500_2: as black 480, black wins 289, white wins 230
+Total games: 461
+Total moves: 5066
+Total black wins: 223
+Total white wins: 238
+For policy mcts: as black 224, black wins 223, white wins 237
+For policy random: as black 237, black wins 0, white wins 1
+Total games: 365
+Total moves: 3980
+Total black wins: 189
+Total white wins: 176
+For policy mcts: as black 189, black wins 189, white wins 176
+For policy mcts_random_predictor: as black 176, black wins 0, white wins 0
+Total games: 127
+Total moves: 2207
+Total black wins: 70
+Total white wins: 57
+For policy mcts: as black 71, black wins 35, white wins 21
+For policy mcts_last_iteration: as black 56, black wins 35, white wins 36
+Total games: 1039
+Total moves: 17420
+Total black wins: 649
+Total white wins: 376
+For policy mcts_500_1: as black 508, black wins 325, white wins 199
+For policy mcts_500_2: as black 531, black wins 324, white wins 177
+Total games: 455
+Total moves: 5123
+Total black wins: 216
+Total white wins: 239
+For policy mcts: as black 216, black wins 216, white wins 239
+For policy random: as black 239, black wins 0, white wins 0
+Total games: 342
+Total moves: 3927
+Total black wins: 165
+Total white wins: 177
+For policy mcts: as black 164, black wins 164, white wins 177
+For policy mcts_random_predictor: as black 178, black wins 1, white wins 0
+Total games: 128
+Total moves: 2265
+Total black wins: 81
+Total white wins: 46
+For policy mcts: as black 62, black wins 36, white wins 20
+For policy mcts_last_iteration: as black 66, black wins 45, white wins 26
+Total games: 965
+Total moves: 17184
+Total black wins: 591
+Total white wins: 361
+For policy mcts_500_1: as black 470, black wins 286, white wins 181
+For policy mcts_500_2: as black 495, black wins 305, white wins 180
+Total games: 484
+Total moves: 5221
+Total black wins: 247
+Total white wins: 237
+For policy mcts: as black 247, black wins 247, white wins 237
+For policy random: as black 237, black wins 0, white wins 0
+Total games: 371
+Total moves: 4008
+Total black wins: 187
+Total white wins: 184
+For policy mcts: as black 182, black wins 182, white wins 184
+For policy mcts_random_predictor: as black 189, black wins 5, white wins 0
+Total games: 129
+Total moves: 2186
+Total black wins: 75
+Total white wins: 53
+For policy mcts: as black 68, black wins 38, white wins 23
+For policy mcts_last_iteration: as black 61, black wins 37, white wins 30
+Total games: 965
+Total moves: 17053
+Total black wins: 568
+Total white wins: 379
+For policy mcts_500_1: as black 494, black wins 287, white wins 179
+For policy mcts_500_2: as black 471, black wins 281, white wins 200
+Total games: 510
+Total moves: 5357
+Total black wins: 269
+Total white wins: 241
+For policy mcts: as black 269, black wins 269, white wins 241
+For policy random: as black 241, black wins 0, white wins 0
+Total games: 386
+Total moves: 4099
+Total black wins: 185
+Total white wins: 201
+For policy mcts: as black 184, black wins 184, white wins 201
+For policy mcts_random_predictor: as black 202, black wins 1, white wins 0
+Total games: 125
+Total moves: 2202
+Total black wins: 79
+Total white wins: 44
+For policy mcts: as black 55, black wins 35, white wins 24
+For policy mcts_last_iteration: as black 70, black wins 44, white wins 20
