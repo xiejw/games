@@ -16,8 +16,8 @@ do
     if [ "$?" = "123" ]; then
       echo "rollback"
       cd ml
-      cp -f distribution-last.h5 distribution.h
-      cp -f DistributionLastIteration.mlmodel Distribution.mlmodel
+      /bin/cp -f distribution-last.h5 distribution.h5
+      /bin/cp -f DistributionLastIteration.mlmodel Distribution.mlmodel
       cd ..
       xcodebuild -project five-in-a-row.xcodeproj   build
     fi
@@ -27,8 +27,8 @@ do
   cat ~/Desktop/games.txt >> ~/Desktop/games_history.txt  && \
   rm -f games.txt && \
   tail -n $totalLines ~/Desktop/games_history.txt > games.txt && \
-  cp distribution.h5 distribution-`date +%s`.h5 && \
-  cp -f distribution.h5 distribution-last.h5 && \
+  /bin/cp distribution.h5 distribution-`date +%s`.h5 && \
+  /bin/cp -f distribution.h5 distribution-last.h5 && \
   docker run --rm -it -v /Users/xiejw/Workspace/games/five-in-a-row/ml:/notebooks  --entrypoint=""  keras python training.py
 
   counter=$(($counter+1))
