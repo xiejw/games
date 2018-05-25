@@ -5,7 +5,7 @@ protocol Policy {
     func getName() -> String
 
     // policyDistribution[i] is the unnormalized distribution for move legalMoves[i]
-    func getNextMove(stateHistory: [State], legalMoves: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double])
+    func getNextMove(stateHistory: [State], legalMoves: [Move], explore: Bool) -> (nextMove: Move, policyUnnormalizedDistribution: [Double])
 }
 
 class BasePolicy: Policy {
@@ -19,7 +19,7 @@ class BasePolicy: Policy {
         return name
     }
 
-    func getNextMove(stateHistory _: [State], legalMoves _: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
+    func getNextMove(stateHistory _: [State], legalMoves _: [Move], explore: Bool) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
         preconditionFailure("Not implemented.")
     }
 }
@@ -29,7 +29,7 @@ class RandomPolicy: BasePolicy {
         super.init(name: name)
     }
 
-    override func getNextMove(stateHistory _: [State], legalMoves: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
+    override func getNextMove(stateHistory _: [State], legalMoves: [Move], explore: Bool = true) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
         var policyDistribution = [Double]()
         let prob = 1.0
         for _ in 0 ..< legalMoves.count {

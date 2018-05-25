@@ -115,6 +115,8 @@ fileprivate func selfPlayOneGame(game: Game, board: Board, blackPlayerPolicy: Po
     history[.BLACK] = [PlayHistory]()
     history[.WHITE] = [PlayHistory]()
 
+    var moveCount = 0
+
     while true {
         let stateHistory = game.stateHistory()
         let legalMoves = board.legalMoves(stateHistory: stateHistory)
@@ -133,10 +135,12 @@ fileprivate func selfPlayOneGame(game: Game, board: Board, blackPlayerPolicy: Po
 
         var move: Move
         var unnormalizedProb: [Double]
+        moveCount += 1
+        let exploreMove = moveCount < 8
         if nextPlayer == .WHITE {
-            (move, unnormalizedProb) = whitePlayerPolicy.getNextMove(stateHistory: stateHistory, legalMoves: legalMoves)
+            (move, unnormalizedProb) = whitePlayerPolicy.getNextMove(stateHistory: stateHistory, legalMoves: legalMoves, explore: exploreMove)
         } else {
-            (move, unnormalizedProb) = blackPlayerPolicy.getNextMove(stateHistory: stateHistory, legalMoves: legalMoves)
+            (move, unnormalizedProb) = blackPlayerPolicy.getNextMove(stateHistory: stateHistory, legalMoves: legalMoves, explore: exploreMove)
         }
 
         let historyItem = PlayHistory(state: currentState, move: move, legalMoves: legalMoves, unnormalizedProb: unnormalizedProb)

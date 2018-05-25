@@ -29,7 +29,7 @@ func premadePlay1() {
 
     var history = game.stateHistory()
     var legalMoves = board.legalMoves(stateHistory: history)
-    var (move, _) = policyToPlay.getNextMove(stateHistory: history, legalMoves: legalMoves)
+    var (move, _) = policyToPlay.getNextMove(stateHistory: history, legalMoves: legalMoves, explore: true)
     precondition(move == Move(x: 2, y: 2), "The system must be wrong.")
     print("Push move \(move)")
     try! game.newMove(move)
@@ -44,7 +44,7 @@ func premadePlay1() {
      */
     history = game.stateHistory()
     legalMoves = board.legalMoves(stateHistory: history)
-    (move, _) = policyToPlay.getNextMove(stateHistory: history, legalMoves: legalMoves)
+    (move, _) = policyToPlay.getNextMove(stateHistory: history, legalMoves: legalMoves, explore: true)
     precondition(move == Move(x: 1, y: 2), "The system must be wrong.")
     print("Push move \(move)")
     try! game.newMove(move)
@@ -71,7 +71,7 @@ func premadePlay2() {
 
     var history = game.stateHistory()
     var legalMoves = board.legalMoves(stateHistory: history)
-    var (move, _) = policyToPlay.getNextMove(stateHistory: history, legalMoves: legalMoves)
+    var (move, _) = policyToPlay.getNextMove(stateHistory: history, legalMoves: legalMoves, explore: true)
     print("Push move \(move)")
     precondition(move == Move(x: 1, y: 0) || move == Move(x: 1, y: 3), "The system must be wrong.")
     let nextMove = move == Move(x: 1, y: 0) ? Move(x: 1, y: 3) : Move(x: 1, y: 0)
@@ -81,7 +81,7 @@ func premadePlay2() {
 
     history = game.stateHistory()
     legalMoves = board.legalMoves(stateHistory: history)
-    (move, _) = policyToPlay.getNextMove(stateHistory: history, legalMoves: legalMoves)
+    (move, _) = policyToPlay.getNextMove(stateHistory: history, legalMoves: legalMoves, explore: true)
     precondition(move == nextMove, "The system must be wrong.")
     print("Push move \(move)")
     try! game.newMove(move)
@@ -108,7 +108,7 @@ func premadePlay3() {
 
     let history = game.stateHistory()
     let legalMoves = board.legalMoves(stateHistory: history)
-    let (move, _) = policyToPlay.getNextMove(stateHistory: history, legalMoves: legalMoves)
+    let (move, _) = policyToPlay.getNextMove(stateHistory: history, legalMoves: legalMoves, explore: true)
     print("Push move \(move)")
 
     try! game.newMove(move)

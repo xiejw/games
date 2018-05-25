@@ -19,11 +19,12 @@ class MCTSBasedPolicy: BasePolicy {
         super.init(name: name)
     }
 
-    override func getNextMove(stateHistory: [State], legalMoves _: [Move]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
-        return runSimulationsAndGetNextMove(originalStateHistory: stateHistory)
+    override func getNextMove(stateHistory: [State], legalMoves _: [Move], explore: Bool) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
+        var exploreMove = explore && !playMode
+        return runSimulationsAndGetNextMove(originalStateHistory: stateHistory, explore: exploreMove)
     }
 
-    private func runSimulationsAndGetNextMove(originalStateHistory: [State]) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
+    private func runSimulationsAndGetNextMove(originalStateHistory: [State], explore: Bool) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
         // We create a new cache each time and share between all simulations.
         let nodeFactory = NodeFactory(predictor: predictor, size: size, enforceExploreUnvisitedMoves: true)
 
@@ -73,7 +74,7 @@ class MCTSBasedPolicy: BasePolicy {
             }
         }
 
-        if playMode {
+        if !explore {
             return nodeFactory.getRootNode(originalStateHistory.last!).getBestMoveForPlay(verbose: verbose)
         } else {
             return nodeFactory.getRootNode(originalStateHistory.last!).getBestMove()

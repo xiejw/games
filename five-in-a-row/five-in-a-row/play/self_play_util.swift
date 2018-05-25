@@ -70,7 +70,7 @@ func playWithHuman(size: Int, numberToWin: Int, perMoveSimulationTimes: Int, hum
         } else {
             let history = game.stateHistory()
             let legalMoves = board.legalMoves(stateHistory: history)
-            (move, _) = policy.getNextMove(stateHistory: history, legalMoves: legalMoves)
+            (move, _) = policy.getNextMove(stateHistory: history, legalMoves: legalMoves, explore: false)
         }
         print("Push move \(move)")
         try! game.newMove(move)
