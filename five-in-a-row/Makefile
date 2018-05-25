@@ -1,4 +1,5 @@
 
 fmt:
 	# brew install swiftformat
-	swiftformat .
+	swiftformat five-in-a-row
+	swiftformat Testing

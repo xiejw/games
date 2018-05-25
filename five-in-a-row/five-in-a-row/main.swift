@@ -40,12 +40,12 @@ if let value = ProcessInfo.processInfo.environment["RATING_TIME_IN_SECS"] {
                                               perMoveSimulationTimes: configuration.perMoveSimulationTimes)
             return [mctsPolicy, otherPolicy]
         }
-        selfPlaysAndRating(size: configuration.size,
-                           numberToWin: configuration.numberToWin,
-                           policyFn: policyFn,
-                           selfPlayTimeInSecs: configuration.selfPlayTimeInSecs!,
-                           perMoveSimulationTimes: configuration.perMoveSimulationTimes,
-                           verbose: configuration.verbose)
+        _ = selfPlaysAndRating(size: configuration.size,
+                               numberToWin: configuration.numberToWin,
+                               policyFn: policyFn,
+                               selfPlayTimeInSecs: configuration.selfPlayTimeInSecs!,
+                               perMoveSimulationTimes: configuration.perMoveSimulationTimes,
+                               verbose: configuration.verbose)
 
     } else {
         print("Rating mode. Premade policis.")
@@ -53,24 +53,25 @@ if let value = ProcessInfo.processInfo.environment["RATING_TIME_IN_SECS"] {
 
         print("Configuration:\n\(configuration)")
         let policyFn = getPremadePolicisToRating(size: configuration.size,
-                                                  numberToWin: configuration.numberToWin,
-                                                  board: Board(size: configuration.size,
-                                                               numberToWin: configuration.numberToWin),
-                                                  perMoveSimulationTimes: configuration.perMoveSimulationTimes)
+                                                 numberToWin: configuration.numberToWin,
+                                                 board: Board(size: configuration.size,
+                                                              numberToWin: configuration.numberToWin),
+                                                 perMoveSimulationTimes: configuration.perMoveSimulationTimes)
 
-            let playStats = selfPlaysAndRating(size: configuration.size,
-                               numberToWin: configuration.numberToWin,
-                               policyFn: policyFn,
-                               selfPlayTimeInSecs: selfPlayTimeInSecs,
-                               perMoveSimulationTimes: configuration.perMoveSimulationTimes,
-                               verbose: configuration.verbose)
-        
+        let playStats = selfPlaysAndRating(size: configuration.size,
+                                           numberToWin: configuration.numberToWin,
+                                           policyFn: policyFn,
+                                           selfPlayTimeInSecs: selfPlayTimeInSecs,
+                                           perMoveSimulationTimes: configuration.perMoveSimulationTimes,
+                                           verbose: configuration.verbose)
+
         let winningRate = playStats.getWinningRate(policyName: "mcts")
-        if  winningRate > 0.55 {
-            print("Good checkpoint: \(winningRate)")
+        let logger = Logger()
+        if winningRate > 0.55 {
+            logger.logAndPrint("Good checkpoint: \(winningRate)")
             exit(0)
         } else {
-            print("Bad checkpoint: \(winningRate)")
+            logger.logAndPrint("Bad checkpoint: \(winningRate)")
             exit(123)
         }
     }

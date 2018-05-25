@@ -20,7 +20,7 @@ class MCTSBasedPolicy: BasePolicy {
     }
 
     override func getNextMove(stateHistory: [State], legalMoves _: [Move], explore: Bool) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
-        var exploreMove = explore && !playMode
+        let exploreMove = explore && !playMode
         return runSimulationsAndGetNextMove(originalStateHistory: stateHistory, explore: exploreMove)
     }
 
