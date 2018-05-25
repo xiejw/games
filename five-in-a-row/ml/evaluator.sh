@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in $(ls distribution-*.h5)
+for file in $(python ckpt_selection.py)
 do
   echo $file
   docker run --rm -it -v /Users/xiejw/Workspace/games/five-in-a-row/ml:/notebooks -e WEIGHTS=$file --entrypoint=""  keras python load_weights.py && \
