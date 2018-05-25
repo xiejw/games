@@ -52,21 +52,26 @@ if let value = ProcessInfo.processInfo.environment["RATING_TIME_IN_SECS"] {
         configuration = Configuration(ratingStage: true)
 
         print("Configuration:\n\(configuration)")
-        let policyFns = getPremadePolicisToRating(size: configuration.size,
+        let policyFn = getPremadePolicisToRating(size: configuration.size,
                                                   numberToWin: configuration.numberToWin,
                                                   board: Board(size: configuration.size,
                                                                numberToWin: configuration.numberToWin),
                                                   perMoveSimulationTimes: configuration.perMoveSimulationTimes)
 
-        let eachPlayTimeInSecs = selfPlayTimeInSecs / Double(policyFns.count)
-
-        for policyFn in policyFns {
-            selfPlaysAndRating(size: configuration.size,
+            let playStats = selfPlaysAndRating(size: configuration.size,
                                numberToWin: configuration.numberToWin,
                                policyFn: policyFn,
-                               selfPlayTimeInSecs: eachPlayTimeInSecs,
+                               selfPlayTimeInSecs: selfPlayTimeInSecs,
                                perMoveSimulationTimes: configuration.perMoveSimulationTimes,
                                verbose: configuration.verbose)
+        
+        let winningRate = playStats.getWinningRate(policyName: "mcts")
+        if  winningRate > 0.55 {
+            print("Good checkpoint: \(winningRate)")
+            exit(0)
+        } else {
+            print("Bad checkpoint: \(winningRate)")
+            exit(123)
         }
     }
     exit(0)

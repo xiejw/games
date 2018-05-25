@@ -88,4 +88,12 @@ class PlayStats {
             }
         }
     }
+    
+    func getWinningRate(policyName: String) -> Double {
+        var rate: Double?
+        queue.sync {
+            rate = Double(self.blackWins[policyName]! + self.whiteWins[policyName]!) / Double(self.totalGames)
+        }
+        return rate!
+    }
 }

@@ -2,7 +2,7 @@
 import Foundation
 
 func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy], board: Board, storage: CSVStorage? = nil,
-               playTimeInSecs: Double, verbose: Int = 0) {
+               playTimeInSecs: Double, verbose: Int = 0) -> PlayStats {
     let defaultPolicies = policyFn()
     precondition(defaultPolicies.count == 2)
     precondition(defaultPolicies[0].getName() != defaultPolicies[1].getName())
@@ -49,6 +49,7 @@ func selfPlays(gameFn: @escaping () -> Game, policyFn: @escaping () -> [Policy],
     }
     print("End games at \(formatCurrentTime()).")
     finalStats.summarize()
+    return finalStats
 }
 
 fileprivate func selfPlayAndRecord(currentBranch i: Int,

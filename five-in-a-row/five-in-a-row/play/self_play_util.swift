@@ -29,10 +29,10 @@ func selfPlaysAndRecord(size: Int, numberToWin: Int, selfPlayTimeInSecs: Double,
         return [policy_500_1, policy_500_2]
     }
 
-    selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, storage: storage, playTimeInSecs: selfPlayTimeInSecs, verbose: verbose)
+    _ = selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, storage: storage, playTimeInSecs: selfPlayTimeInSecs, verbose: verbose)
 }
 
-func selfPlaysAndRating(size: Int, numberToWin: Int, policyFn: @escaping () -> [Policy], selfPlayTimeInSecs: Double, perMoveSimulationTimes _: Int, verbose: Int = 0) {
+func selfPlaysAndRating(size: Int, numberToWin: Int, policyFn: @escaping () -> [Policy], selfPlayTimeInSecs: Double, perMoveSimulationTimes _: Int, verbose: Int = 0) -> PlayStats {
     let board = Board(size: size, numberToWin: numberToWin)
 
     func gameFn() -> Game {
@@ -41,7 +41,7 @@ func selfPlaysAndRating(size: Int, numberToWin: Int, policyFn: @escaping () -> [
         return game
     }
 
-    selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, playTimeInSecs: selfPlayTimeInSecs, verbose: verbose)
+    return selfPlays(gameFn: gameFn, policyFn: policyFn, board: board, playTimeInSecs: selfPlayTimeInSecs, verbose: verbose)
 }
 
 func playWithHuman(size: Int, numberToWin: Int, perMoveSimulationTimes: Int, humanPlayer: Player = .WHITE, verbose: Int = 0) {

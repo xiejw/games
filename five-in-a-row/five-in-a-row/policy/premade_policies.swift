@@ -1,6 +1,6 @@
 import Foundation
 
-func getPremadePolicisToRating(size: Int, numberToWin _: Int, board: Board, perMoveSimulationTimes: Int, verbose _: Int = 0) -> [() -> [Policy]] {
+func getPremadePolicisToRating(size: Int, numberToWin _: Int, board: Board, perMoveSimulationTimes: Int, verbose _: Int = 0) -> (() -> [Policy]) {
     // Once the ckpt is good enough, we do not compare with random stuff anymore.
 //    func policyFn1() -> [Policy] {
 //        let mctsPolicy = MCTSBasedPolicy(name: "mcts", size: size,
@@ -31,5 +31,5 @@ func getPremadePolicisToRating(size: Int, numberToWin _: Int, board: Board, perM
     }
 
     // return [policyFn1, policyFn2, policyFn3]
-    return [policyFn3]
+    return policyFn3
 }
