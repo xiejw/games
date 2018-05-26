@@ -27,6 +27,7 @@ function rollback {
   echo "rollback"
   /bin/cp -f distribution-last.h5 distribution.h5
   /bin/cp -f DistributionLastIteration.mlmodel Distribution.mlmodel
+  /bin/rm -f `ls distribution-15*.h5 | sort | tail -n 1`
   compile
 }
 
