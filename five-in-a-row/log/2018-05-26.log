@@ -1,0 +1,312 @@
+Total games: 441
+Total moves: 15410
+Total black wins: 197
+Total white wins: 116
+For policy mcts_500_1: as black 205, black wins 87, white wins 66
+For policy mcts_500_2: as black 236, black wins 110, white wins 50
+Total games: 197
+Total moves: 6183
+Total black wins: 86
+Total white wins: 68
+For policy mcts: as black 100, black wins 41, white wins 30
+For policy mcts_last_iteration: as black 97, black wins 45, white wins 38
+Bad checkpoint: 0.461038961038961
+Total games: 446
+Total moves: 15640
+Total black wins: 190
+Total white wins: 118
+For policy mcts_500_1: as black 229, black wins 102, white wins 54
+For policy mcts_500_2: as black 217, black wins 88, white wins 64
+Total games: 187
+Total moves: 6055
+Total black wins: 94
+Total white wins: 48
+For policy mcts: as black 101, black wins 50, white wins 23
+For policy mcts_last_iteration: as black 86, black wins 44, white wins 25
+Bad checkpoint: 0.514084507042254
+Total games: 437
+Total moves: 15493
+Total black wins: 176
+Total white wins: 120
+For policy mcts_500_1: as black 225, black wins 98, white wins 61
+For policy mcts_500_2: as black 212, black wins 78, white wins 59
+Total games: 188
+Total moves: 6240
+Total black wins: 88
+Total white wins: 48
+For policy mcts: as black 86, black wins 44, white wins 32
+For policy mcts_last_iteration: as black 102, black wins 44, white wins 16
+Good checkpoint: 0.558823529411765
+Total games: 439
+Total moves: 15653
+Total black wins: 206
+Total white wins: 88
+For policy mcts_500_1: as black 222, black wins 108, white wins 45
+For policy mcts_500_2: as black 217, black wins 98, white wins 43
+Total games: 184
+Total moves: 6006
+Total black wins: 90
+Total white wins: 49
+For policy mcts: as black 94, black wins 50, white wins 27
+For policy mcts_last_iteration: as black 90, black wins 40, white wins 22
+Good checkpoint: 0.553956834532374
+Total games: 445
+Total moves: 15755
+Total black wins: 208
+Total white wins: 104
+For policy mcts_500_1: as black 210, black wins 94, white wins 52
+For policy mcts_500_2: as black 235, black wins 114, white wins 52
+Total games: 189
+Total moves: 6164
+Total black wins: 101
+Total white wins: 43
+For policy mcts: as black 93, black wins 46, white wins 17
+For policy mcts_last_iteration: as black 96, black wins 55, white wins 26
+Bad checkpoint: 0.4375
+Total games: 466
+Total moves: 15903
+Total black wins: 223
+Total white wins: 115
+For policy mcts_500_1: as black 243, black wins 123, white wins 64
+For policy mcts_500_2: as black 223, black wins 100, white wins 51
+Total games: 185
+Total moves: 6210
+Total black wins: 85
+Total white wins: 55
+For policy mcts: as black 84, black wins 43, white wins 32
+For policy mcts_last_iteration: as black 101, black wins 42, white wins 23
+Bad checkpoint: 0.535714285714286
+Total games: 440
+Total moves: 15739
+Total black wins: 183
+Total white wins: 119
+For policy mcts_500_1: as black 199, black wins 78, white wins 55
+For policy mcts_500_2: as black 241, black wins 105, white wins 64
+Total games: 174
+Total moves: 6099
+Total black wins: 79
+Total white wins: 46
+For policy mcts: as black 96, black wins 47, white wins 22
+For policy mcts_last_iteration: as black 78, black wins 32, white wins 24
+Good checkpoint: 0.552
+Total games: 424
+Total moves: 15806
+Total black wins: 196
+Total white wins: 87
+For policy mcts_500_1: as black 218, black wins 102, white wins 51
+For policy mcts_500_2: as black 206, black wins 94, white wins 36
+Total games: 165
+Total moves: 6001
+Total black wins: 76
+Total white wins: 33
+For policy mcts: as black 80, black wins 40, white wins 17
+For policy mcts_last_iteration: as black 85, black wins 36, white wins 16
+Bad checkpoint: 0.522935779816514
+Total games: 421
+Total moves: 15687
+Total black wins: 200
+Total white wins: 79
+For policy mcts_500_1: as black 209, black wins 107, white wins 43
+For policy mcts_500_2: as black 212, black wins 93, white wins 36
+Total games: 170
+Total moves: 6169
+Total black wins: 67
+Total white wins: 48
+For policy mcts: as black 93, black wins 36, white wins 22
+For policy mcts_last_iteration: as black 77, black wins 31, white wins 26
+Bad checkpoint: 0.504347826086956
+Total games: 431
+Total moves: 15818
+Total black wins: 191
+Total white wins: 103
+For policy mcts_500_1: as black 219, black wins 92, white wins 44
+For policy mcts_500_2: as black 212, black wins 99, white wins 59
+Total games: 174
+Total moves: 6235
+Total black wins: 69
+Total white wins: 48
+For policy mcts: as black 98, black wins 41, white wins 18
+For policy mcts_last_iteration: as black 76, black wins 28, white wins 30
+Bad checkpoint: 0.504273504273504
+Total games: 417
+Total moves: 15786
+Total black wins: 181
+Total white wins: 99
+For policy mcts_500_1: as black 209, black wins 85, white wins 46
+For policy mcts_500_2: as black 208, black wins 96, white wins 53
+Total games: 173
+Total moves: 6152
+Total black wins: 77
+Total white wins: 49
+For policy mcts: as black 79, black wins 37, white wins 25
+For policy mcts_last_iteration: as black 94, black wins 40, white wins 24
+Bad checkpoint: 0.492063492063492
+Total games: 435
+Total moves: 15614
+Total black wins: 215
+Total white wins: 87
+For policy mcts_500_1: as black 219, black wins 114, white wins 42
+For policy mcts_500_2: as black 216, black wins 101, white wins 45
+Total games: 175
+Total moves: 6154
+Total black wins: 89
+Total white wins: 36
+For policy mcts: as black 79, black wins 39, white wins 18
+For policy mcts_last_iteration: as black 96, black wins 50, white wins 18
+Bad checkpoint: 0.456
+Total games: 423
+Total moves: 15626
+Total black wins: 189
+Total white wins: 88
+For policy mcts_500_1: as black 219, black wins 94, white wins 44
+For policy mcts_500_2: as black 204, black wins 95, white wins 44
+Total games: 178
+Total moves: 5976
+Total black wins: 84
+Total white wins: 41
+For policy mcts: as black 88, black wins 45, white wins 22
+For policy mcts_last_iteration: as black 90, black wins 39, white wins 19
+Bad checkpoint: 0.536
+Total games: 440
+Total moves: 15668
+Total black wins: 192
+Total white wins: 107
+For policy mcts_500_1: as black 222, black wins 98, white wins 57
+For policy mcts_500_2: as black 218, black wins 94, white wins 50
+Total games: 184
+Total moves: 6107
+Total black wins: 87
+Total white wins: 48
+For policy mcts: as black 95, black wins 47, white wins 23
+For policy mcts_last_iteration: as black 89, black wins 40, white wins 25
+Bad checkpoint: 0.518518518518518
+Total games: 431
+Total moves: 15396
+Total black wins: 195
+Total white wins: 101
+For policy mcts_500_1: as black 206, black wins 91, white wins 53
+For policy mcts_500_2: as black 225, black wins 104, white wins 48
+Total games: 179
+Total moves: 6130
+Total black wins: 85
+Total white wins: 34
+For policy mcts: as black 82, black wins 47, white wins 20
+For policy mcts_last_iteration: as black 97, black wins 38, white wins 14
+Good checkpoint: 0.563025210084034
+Total games: 411
+Total moves: 15942
+Total black wins: 169
+Total white wins: 79
+For policy mcts_500_1: as black 195, black wins 82, white wins 40
+For policy mcts_500_2: as black 216, black wins 87, white wins 39
+Total games: 169
+Total moves: 6113
+Total black wins: 78
+Total white wins: 34
+For policy mcts: as black 85, black wins 42, white wins 21
+For policy mcts_last_iteration: as black 84, black wins 36, white wins 13
+Good checkpoint: 0.5625
+Total games: 393
+Total moves: 15669
+Total black wins: 144
+Total white wins: 87
+For policy mcts_500_1: as black 206, black wins 77, white wins 43
+For policy mcts_500_2: as black 187, black wins 67, white wins 44
+Total games: 155
+Total moves: 6101
+Total black wins: 54
+Total white wins: 39
+For policy mcts: as black 70, black wins 27, white wins 20
+For policy mcts_last_iteration: as black 85, black wins 27, white wins 19
+Bad checkpoint: 0.505376344086022
+Total games: 398
+Total moves: 15701
+Total black wins: 155
+Total white wins: 83
+For policy mcts_500_1: as black 209, black wins 79, white wins 37
+For policy mcts_500_2: as black 189, black wins 76, white wins 46
+Total games: 169
+Total moves: 6091
+Total black wins: 72
+Total white wins: 44
+For policy mcts: as black 79, black wins 39, white wins 25
+For policy mcts_last_iteration: as black 90, black wins 33, white wins 19
+Good checkpoint: 0.551724137931034
+Total games: 375
+Total moves: 15609
+Total black wins: 138
+Total white wins: 67
+For policy mcts_500_1: as black 187, black wins 73, white wins 30
+For policy mcts_500_2: as black 188, black wins 65, white wins 37
+Total games: 159
+Total moves: 6078
+Total black wins: 65
+Total white wins: 39
+For policy mcts: as black 77, black wins 30, white wins 20
+For policy mcts_last_iteration: as black 82, black wins 35, white wins 19
+Bad checkpoint: 0.480769230769231
+Total games: 376
+Total moves: 15534
+Total black wins: 146
+Total white wins: 69
+For policy mcts_500_1: as black 181, black wins 78, white wins 42
+For policy mcts_500_2: as black 195, black wins 68, white wins 27
+Total games: 167
+Total moves: 6094
+Total black wins: 67
+Total white wins: 46
+For policy mcts: as black 85, black wins 34, white wins 21
+For policy mcts_last_iteration: as black 82, black wins 33, white wins 25
+Bad checkpoint: 0.486725663716814
+Total games: 387
+Total moves: 15620
+Total black wins: 143
+Total white wins: 87
+For policy mcts_500_1: as black 192, black wins 78, white wins 45
+For policy mcts_500_2: as black 195, black wins 65, white wins 42
+Total games: 164
+Total moves: 5971
+Total black wins: 73
+Total white wins: 33
+For policy mcts: as black 93, black wins 44, white wins 15
+For policy mcts_last_iteration: as black 71, black wins 29, white wins 18
+Good checkpoint: 0.556603773584906
+Total games: 368
+Total moves: 15599
+Total black wins: 123
+Total white wins: 69
+For policy mcts_500_1: as black 176, black wins 63, white wins 38
+For policy mcts_500_2: as black 192, black wins 60, white wins 31
+Total games: 155
+Total moves: 5992
+Total black wins: 65
+Total white wins: 34
+For policy mcts: as black 64, black wins 28, white wins 22
+For policy mcts_last_iteration: as black 91, black wins 37, white wins 12
+Bad checkpoint: 0.505050505050505
+Total games: 399
+Total moves: 15648
+Total black wins: 163
+Total white wins: 72
+For policy mcts_500_1: as black 205, black wins 83, white wins 26
+For policy mcts_500_2: as black 194, black wins 80, white wins 46
+Total games: 146
+Total moves: 6000
+Total black wins: 52
+Total white wins: 30
+For policy mcts: as black 74, black wins 24, white wins 12
+For policy mcts_last_iteration: as black 72, black wins 28, white wins 18
+Bad checkpoint: 0.439024390243902
+Total games: 377
+Total moves: 15559
+Total black wins: 150
+Total white wins: 53
+For policy mcts_500_1: as black 194, black wins 77, white wins 27
+For policy mcts_500_2: as black 183, black wins 73, white wins 26
+Total games: 163
+Total moves: 5840
+Total black wins: 67
+Total white wins: 46
+For policy mcts: as black 81, black wins 28, white wins 19
+For policy mcts_last_iteration: as black 82, black wins 39, white wins 27
+Bad checkpoint: 0.415929203539823
