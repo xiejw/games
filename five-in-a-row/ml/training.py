@@ -19,16 +19,16 @@ print("Test data: {}".format(len(test_data.get_reward())))
 
 model = create_model(boardSize)
 
-if cont_training:
-  print("Loading weights.")
-  model.load_weights("distribution.h5")
-
-if save_coreml:
-  print("Saving the old model as DistributionLastIteration.")
-  coreml_model = coremltools.converters.keras.convert(
-      model, input_names=["board", "next_player"],
-      output_names=["distribution", "reward"])
-  coreml_model.save("DistributionLastIteration.mlmodel")
+# if cont_training:
+#   print("Loading weights.")
+#   model.load_weights("distribution.h5")
+#
+# if save_coreml:
+#   print("Saving the old model as DistributionLastIteration.")
+#   coreml_model = coremltools.converters.keras.convert(
+#       model, input_names=["board", "next_player"],
+#       output_names=["distribution", "reward"])
+#   coreml_model.save("DistributionLastIteration.mlmodel")
 
 model.fit(
         [train_data.get_board(), train_data.get_nplayer()],

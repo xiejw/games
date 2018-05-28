@@ -36,7 +36,7 @@ do
   echo "++++++ Round ${counter} `date` "
 
   compile
-  if [ $counter -gt -1 ]; then
+  if [ $counter -gt 0 ]; then
     RATING_TIME_IN_SECS=900.0 /Users/xiejw/Workspace/games/five-in-a-row/build/Release/five-in-a-row
     if [ "$?" = "123" ]; then
       rollback
