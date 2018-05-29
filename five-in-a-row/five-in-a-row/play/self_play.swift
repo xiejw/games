@@ -61,9 +61,8 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
                                    storage: CSVStorage?,
                                    playTimeInSecs: Double,
                                    verbose: Int) {
-    // Policies are immutable.
-    let policies = policyFn()
-    let stats = PlayStats(policies: policies, name: "sub-branch-\(i)")
+
+    var stats : PlayStats?
 
     while true {
         // Stopping condition.
@@ -73,11 +72,15 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
         }
         // Game is stateful. Creates a new game each time.
         let game = gameFn()
+        // Policies are stateful also.
+        let policies = policyFn()
+        
+        stats = PlayStats(policies: policies, name: "sub-branch-\(i)")
 
         let (blackPlayerPolicy, whitePlayerPolicy) = randomPermutation(policies: policies)
         let (winner, history) = selfPlayOneGame(game: game, board: board, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy, verbose: verbose)
         let moveCount = history[.BLACK]!.count + history[.WHITE]!.count
-        stats.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy, moveCount: moveCount)
+        stats!.update(winner: winner, blackPlayerPolicy: blackPlayerPolicy, whitePlayerPolicy: whitePlayerPolicy, moveCount: moveCount)
 
         if storage != nil {
             let blackPlayerReward: Double
@@ -105,7 +108,7 @@ fileprivate func selfPlayAndRecord(currentBranch i: Int,
         print("Finish games ([\(i)]) at \(formatDate(timeIntervalSince1970: Date().timeIntervalSince1970)).")
     }
 
-    finalStats.merge(stats)
+    finalStats.merge(stats!)
 }
 
 // Play one game (stateless).

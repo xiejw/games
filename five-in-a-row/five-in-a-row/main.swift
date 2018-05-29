@@ -78,7 +78,7 @@ if let value = ProcessInfo.processInfo.environment["RATING_TIME_IN_SECS"] {
     exit(0)
 }
 
-configuration = Configuration(perMoveSimulationTimes: 10000, vsHuman: true, verbose: 1)
+configuration = Configuration(perMoveSimulationTimes: 20000, vsHuman: true, verbose: 1)
 print("Configuration:\n\(configuration)")
 // Play with human
 playWithHuman(size: configuration.size,

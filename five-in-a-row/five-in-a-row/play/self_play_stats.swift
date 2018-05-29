@@ -20,12 +20,16 @@ class PlayStats {
 
     var queue: DispatchQueue
 
-    let policies: [Policy]
+    var policyNames: [String]
 
     init(policies: [Policy], name: String) {
-        self.policies = policies
         precondition(policies.count == 2)
         precondition(policies[0].getName() != policies[1].getName())
+        
+        policyNames = [String]()
+        for policy in policies {
+            policyNames.append(policy.getName())
+        }
 
         blackWins[policies[0].getName()] = 0
         blackWins[policies[1].getName()] = 0
@@ -65,9 +69,8 @@ class PlayStats {
             self.blackTotalWins += anotherStats.blackTotalWins
             self.whiteTotalWins += anotherStats.whiteTotalWins
 
-            for policy in self.policies {
-                let name = policy.getName()
-                self.blackWins[name]! += anotherStats.blackWins[name]!
+            for name in self.policyNames {
+                     self.blackWins[name]! += anotherStats.blackWins[name]!
                 self.whiteWins[name]! += anotherStats.whiteWins[name]!
                 self.policyAssignedAsBlack[name]! += anotherStats.policyAssignedAsBlack[name]!
             }
@@ -82,8 +85,7 @@ class PlayStats {
             logger.logAndPrint("Total black wins: \(self.blackTotalWins)")
             logger.logAndPrint("Total white wins: \(self.whiteTotalWins)")
 
-            for policy in self.policies {
-                let name = policy.getName()
+           for name in self.policyNames {
                 logger.logAndPrint("For policy \(name): as black \(self.policyAssignedAsBlack[name]!), black wins \(self.blackWins[name]!), white wins \(self.whiteWins[name]!)")
             }
         }

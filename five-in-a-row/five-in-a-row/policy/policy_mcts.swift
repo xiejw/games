@@ -7,6 +7,7 @@ class MCTSBasedPolicy: BasePolicy {
     private let board: Board
     private let playMode: Bool
     private let verbose: Int
+    private let nodeFactory: NodeFactory
 
     init(name: String, size: Int, predictor: Predictor, board: Board, perMoveSimulationTimes: Int,
          playMode: Bool = false, verbose: Int = 0) {
@@ -16,7 +17,9 @@ class MCTSBasedPolicy: BasePolicy {
         self.predictor = predictor
         self.playMode = playMode
         self.verbose = verbose
+        nodeFactory = NodeFactory(predictor: predictor, size: size, enforceExploreUnvisitedMoves: true)
         super.init(name: name)
+        
     }
 
     override func getNextMove(stateHistory: [State], legalMoves _: [Move], explore: Bool) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
@@ -25,8 +28,6 @@ class MCTSBasedPolicy: BasePolicy {
     }
 
     private func runSimulationsAndGetNextMove(originalStateHistory: [State], explore: Bool) -> (nextMove: Move, policyUnnormalizedDistribution: [Double]) {
-        // We create a new cache each time and share between all simulations.
-        let nodeFactory = NodeFactory(predictor: predictor, size: size, enforceExploreUnvisitedMoves: true)
 
         for i in 0 ..< perMoveSimulationTimes {
             if verbose > 0 && i % 1000 == 0 {
