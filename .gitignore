@@ -1,13 +1,6 @@
-# Jupyter
-.ipynb_checkpoints/
-
-# Xcode
-# xcuserdata
-project.xcworkspace/
-Breakpoints*
-
 # Vim
 *.swp
+*.swo
 
 # Python
 *.pyc
@@ -15,6 +8,3 @@ Breakpoints*
 # OSX
 .DS_Store
 
-# Project five-in-a-row
-five-in-a-row/build
-five-in-a-row/ml/games.txt
