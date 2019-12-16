@@ -1,5 +1,5 @@
 from game import config
-from game import board
+from game import board as board_lib
 
 config = config.GameConfig()
 print(config)
@@ -7,5 +7,12 @@ print(config)
 b = config.new_board()
 b.draw()
 
-b.new_move((1,1), 'b')
-b.draw()
+color = 'b'
+while True:
+    print("Column :", end="")
+    column = int(input())
+    row = b.next_available_row(column)
+    print("Placed at (%2d, %2d)" % (row, column))
+    b.new_move((row, column), color)
+    b.draw()
+    color = 'w' if color == 'b' else 'b'

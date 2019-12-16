@@ -1,8 +1,12 @@
-import enum
+from game.position import Move
+from game.position import Position
+from game.position import Color
+
 
 # For one game use. Not thread safe. Not sharable.
 class Board(object):
 
+    # - config is GameConfig
     def __init__(self, config):
         self.config = config
         self.moves = []
@@ -17,65 +21,76 @@ class Board(object):
         return self._new_move(Move(Position(x,y), color))
 
     def _new_move(self, move):
-        assert move.position not in self.position_dict
+        assert _is_move_legal(self.config, self.position_dict, move), (
+            'Not legal move')
         self.moves.append(move)
         self.position_dict[move.position] = move.color
 
+    # returns -1 for infeasiable.
+    def next_available_row(self, column):
+        for i in reversed(range(self.config.rows)):
+            if Position(i, column) not in self.position_dict:
+                return i
+        return -1
+
+
+    # Plots the board.
     def draw(self):
-        print("    ", end = '')
-        for j in range(self.config.rows):
-            print("%d " % j , end='')
+        _plot_board(self.config, self.position_dict)
+
+
+# Checks whether the `new_move` is legal.
+def _is_move_legal(config, position_dict, new_move):
+    rows = config.rows
+    columns = config.columns
+    new_position = new_move.position
+
+    if new_position in position_dict:
+        # Should not be occupied.
+        return False
+
+    if new_position.x == rows - 1:
+        # For final row, this is always OK.
+        return True
+
+    position_beneath = Position(new_position.x + 1, new_position.y)
+    if position_beneath not in position_dict:
+        # Now allowed. It must stack on something.
+        return False
+
+    return True
+
+
+# Plots the board.
+#
+# Uses a free function to improve readability and isolation.
+def _plot_board(config, position_dict):
+    print("    ", end = '')
+    for j in range(config.columns):
+        print("%d " % j , end='')
+    print("")
+
+    print("    ", end = '')
+    for j in range(config.columns):
+        print("_ ", end='')
+    print("")
+
+    for i in range(config.rows):
+        print("%2d: " % i, end='')
+        for j in range(config.columns):
+            color = position_dict.get(Position(i, j))
+            if color is None:
+                print("  ", end='')
+            elif color == Color.WHITE:
+                print("o ", end='')
+            else:
+                assert color == Color.BLACK
+                print("x ", end='')
+
         print("")
 
-        print("    ", end = '')
-        for j in range(self.config.rows):
-            print("_ ", end='')
-        print("")
-
-        for i in range(self.config.rows):
-            print("%2d: " % i, end='')
-            for j in range(self.config.rows):
-                color = self.position_dict.get(Position(i, j))
-                if color is None:
-                    print("  ", end='')
-                elif color == Color.WHITE:
-                    print("o ", end='')
-                else:
-                    assert color == Color.BLACK
-                    print("x ", end='')
-
-            print("")
-
-        print("    ", end = '')
-        for j in range(self.config.rows):
-            print("_ ", end='')
-        print("")
-
-
-# Represents a position in game. Hashable.
-class Position(object):
-
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def __hash__(self):
-        return hash((self.x, self.y))
-
-    def __eq__(self, o):
-        return self.x == o.x and self.y == o.y
-
-
-class Color(enum.Enum):
-    NA = ''
-    BLACK = 'b'
-    WHITE = 'w'
-
-# Represents a move in game. Basically, a position, with color
-class Move(object):
-
-    def __init__(self, position, color):
-        self.position = position
-        self.color = color
-
+    print("    ", end = '')
+    for j in range(config.columns):
+        print("_ ", end='')
+    print("")
 
