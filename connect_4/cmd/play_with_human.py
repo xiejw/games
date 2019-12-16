@@ -1,5 +1,6 @@
 from game import GameConfig
 from policy import HumanPolicy
+from policy import RandomPolicy
 
 config = GameConfig()
 print(config)
@@ -7,13 +8,14 @@ print(config)
 b = config.new_board()
 b.draw()
 
-black_policy = HumanPolicy(b, 'b')
+black_policy = RandomPolicy(b, 'b')
 white_policy = HumanPolicy(b, 'w')
 
 color = 'b'
 while True:
 
     policy = black_policy if color == 'b' else white_policy
+    print("\n==> Inquiry", policy.name)
 
     position = policy.next_position()
     row, column = position.x, position.y

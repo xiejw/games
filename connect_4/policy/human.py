@@ -1,16 +1,14 @@
 from game import Color
 from game import Position
-
-
-class Policy(object):
-    pass
+from .policy import Policy
 
 
 class HumanPolicy(Policy):
 
-    def __init__(self, board, color):
+    def __init__(self, board, color, name=None):
         self._board = board
         self._color = Color.of(color)
+        self.name = name if name else "human"
 
     def next_position(self):
         b = self._board
