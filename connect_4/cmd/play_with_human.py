@@ -1,18 +1,23 @@
-from game import config
-from game import board as board_lib
+from game import GameConfig
+from policy import HumanPolicy
 
-config = config.GameConfig()
+config = GameConfig()
 print(config)
 
 b = config.new_board()
 b.draw()
 
+black_policy = HumanPolicy(b, 'b')
+white_policy = HumanPolicy(b, 'w')
+
 color = 'b'
 while True:
 
-    print("Column : ", end="")
-    column = int(input())
-    row = b.next_available_row(column)
+    policy = black_policy if color == 'b' else white_policy
+
+    position = policy.next_position()
+    row, column = position.x, position.y
+
     print("Placed at (%2d, %2d)" % (row, column))
     b.new_move((row, column), color)
     b.draw()

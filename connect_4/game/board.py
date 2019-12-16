@@ -21,8 +21,7 @@ class Board(object):
     # - color can be 'b', 'w', color.{BLACK, WHITE}
     def new_move(self, position_pair, color):
         x, y = position_pair
-        if isinstance(color, str):
-            color = Color(color)
+        color = Color.of(color)
         return self._new_move(Move(Position(x,y), color))
 
     def _new_move(self, move):

@@ -19,6 +19,13 @@ class Color(enum.Enum):
     BLACK = 'b'
     WHITE = 'w'
 
+    @staticmethod
+    def of(c):
+        if isinstance(c, str):
+            c = Color(c)
+        return c
+
+
 # Represents a move in game. Basically, a position, with color
 class Move(object):
 
