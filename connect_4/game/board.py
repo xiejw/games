@@ -3,7 +3,12 @@ from game.position import Position
 from game.position import Color
 
 
-# For one game use. Not thread safe. Not sharable.
+# For one game use.
+#
+# - x should be in the range of [0, rows-1]
+# - y should be in the range of [0, columns-1]
+#
+# - Not thread safe. Not sharable.
 class Board(object):
 
     # - config is GameConfig
@@ -13,7 +18,7 @@ class Board(object):
         self.position_dict = {}
 
     # - position_pair is (x, y)
-    # - color can be 'b' or 'w'
+    # - color can be 'b', 'w', color.{BLACK, WHITE}
     def new_move(self, position_pair, color):
         x, y = position_pair
         if isinstance(color, str):
@@ -23,6 +28,8 @@ class Board(object):
     def _new_move(self, move):
         assert _is_move_legal(self.config, self.position_dict, move), (
             'Not legal move')
+        assert move.color == Color.BLACK or move.color == Color.WHITE
+
         self.moves.append(move)
         self.position_dict[move.position] = move.color
 
@@ -33,10 +40,57 @@ class Board(object):
                 return i
         return -1
 
+    # This assumes before last_move, there is no winner.
+    def winner_after_last_move(self):
+        last_move = self.moves[-1] if self.moves else None
+        return _find_winner(self.config, self.position_dict, last_move)
 
     # Plots the board.
     def draw(self):
         _plot_board(self.config, self.position_dict)
+
+
+# Finds winner
+#
+# Returns None if not find.
+def _find_winner(config, position_dict, new_move):
+    if new_move == None:
+        return None
+
+    color = new_move.color
+    rows = config.rows
+    columns = config.columns
+
+    def num_position_in_same_color(next_p):
+        # Start point
+        x = new_move.position.x
+        y = new_move.position.y
+        num = 0
+        while True:
+            x, y = next_p(x, y)
+            if x < 0 or x >= rows:
+                return num
+            if y < 0 or y >= columns:
+                return num
+
+            if position_dict.get(Position(x, y)) == color:
+                num += 1
+                continue
+
+            return num
+
+    # Check horizontal.
+    num_pos_on_left = num_position_in_same_color(lambda x, y: (x, y - 1))
+    num_pos_on_right = num_position_in_same_color(lambda x, y: (x, y + 1))
+    if num_pos_on_left + num_pos_on_right + 1 == 4:
+        return color
+
+    # We only check down not up.
+    num_pos_on_down = num_position_in_same_color(lambda x, y: (x + 1, y))
+    if num_pos_on_down + 1 == 4:
+        return color
+
+    return None
 
 
 # Checks whether the `new_move` is legal.
