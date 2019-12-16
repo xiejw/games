@@ -40,6 +40,10 @@ class Board(object):
         return -1
 
     # This assumes before last_move, there is no winner.
+    #
+    # Returns
+    # - color of the winner if applicable.
+    #
     def winner_after_last_move(self):
         last_move = self.moves[-1] if self.moves else None
         return _find_winner(self.config, self.position_dict, last_move)
@@ -51,7 +55,7 @@ class Board(object):
 
 # Finds winner
 #
-# Returns None if not find.
+# Returns None if not find. Color.NA for end-of-game.
 def _find_winner(config, position_dict, new_move):
     if new_move == None:
         return None
@@ -59,6 +63,9 @@ def _find_winner(config, position_dict, new_move):
     color = new_move.color
     rows = config.rows
     columns = config.columns
+
+    if len(position_dict) == rows * columns:
+        return Color.NA
 
     def num_position_in_same_color(next_p):
         # Start point

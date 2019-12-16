@@ -1,4 +1,5 @@
 from game import GameConfig
+from game import Color
 from policy import HumanPolicy
 from policy import RandomPolicy
 
@@ -9,7 +10,8 @@ b = config.new_board()
 b.draw()
 
 black_policy = RandomPolicy(b, 'b')
-white_policy = HumanPolicy(b, 'w')
+white_policy = RandomPolicy(b, 'w')
+# white_policy = HumanPolicy(b, 'w')
 
 color = 'b'
 while True:
@@ -24,7 +26,12 @@ while True:
     b.new_move((row, column), color)
     b.draw()
     winner = b.winner_after_last_move()
-    if winner != None:
+    if winner == None:
+        pass
+    elif winner == Color.NA:
+        print("Tie")
+        break
+    else:
         print("Found winner: %s" % winner)
         break
 
