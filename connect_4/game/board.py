@@ -84,11 +84,25 @@ def _find_winner(config, position_dict, new_move):
     num_pos_on_right = num_position_in_same_color(lambda x, y: (x, y + 1))
     if num_pos_on_left + num_pos_on_right + 1 == 4:
         return color
+    del num_pos_on_left, num_pos_on_right
 
     # We only check down not up.
     num_pos_on_down = num_position_in_same_color(lambda x, y: (x + 1, y))
     if num_pos_on_down + 1 == 4:
         return color
+    del num_pos_on_down
+
+    num_pos_on_left_down = num_position_in_same_color(lambda x, y: (x + 1, y - 1))
+    num_pos_on_right_up = num_position_in_same_color(lambda x, y: (x - 1, y + 1))
+    if num_pos_on_left_down + num_pos_on_right_up + 1 == 4:
+        return color
+    del num_pos_on_left_down, num_pos_on_right_up
+
+    num_pos_on_left_up = num_position_in_same_color(lambda x, y: (x - 1, y - 1))
+    num_pos_on_right_down = num_position_in_same_color(lambda x, y: (x + 1, y + 1))
+    if num_pos_on_left_up + num_pos_on_right_down + 1 == 4:
+        return color
+    del num_pos_on_left_up, num_pos_on_right_down
 
     return None
 
