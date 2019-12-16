@@ -43,7 +43,8 @@ class Board(object):
     #
     # Returns
     # - color of the winner if applicable.
-    #
+    # - None: no winner yet
+    # - Color.NA: tie
     def winner_after_last_move(self):
         last_move = self.moves[-1] if self.moves else None
         return _find_winner(self.config, self.position_dict, last_move)
@@ -55,7 +56,7 @@ class Board(object):
 
 # Finds winner
 #
-# Returns None if not find. Color.NA for end-of-game.
+# Returns None if not find. Color.NA for tie.
 def _find_winner(config, position_dict, new_move):
     if new_move == None:
         return None
@@ -65,6 +66,7 @@ def _find_winner(config, position_dict, new_move):
     columns = config.columns
 
     if len(position_dict) == rows * columns:
+        # For connect 4, if the board is full, it is a tie.
         return Color.NA
 
     def num_position_in_same_color(next_p):

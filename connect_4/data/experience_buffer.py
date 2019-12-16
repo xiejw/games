@@ -11,7 +11,7 @@ class ExperienceBuffer(object):
 
     # Winner == None means a tie
     def end_epoch(self, winner):
-        pass
+        assert winner is not None
 
     def add_move(self, position_pair, color):
         pass
