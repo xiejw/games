@@ -1,4 +1,4 @@
-from game import board
+from .board import Board
 
 class GameConfig(object):
 
@@ -13,4 +13,4 @@ class GameConfig(object):
         return "Connect 4 Game Config (%dx%d)" % (self.columns, self.rows)
 
     def new_board(self):
-        return board.Board(self)
+        return Board(self)

@@ -1,5 +1,6 @@
 from game import Color
 from game import Position
+
 from .policy import Policy
 
 

@@ -2,8 +2,11 @@ import random
 
 from game import Color
 from game import Position
+
 from .policy import Policy
 
+
+# Randomly selects the position.
 class RandomPolicy(Policy):
 
     def __init__(self, board, color, name=None):

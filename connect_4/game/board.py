@@ -1,6 +1,6 @@
-from game.position import Move
-from game.position import Position
-from game.position import Color
+from .position import Move
+from .position import Position
+from .position import Color
 
 
 # For one game use.
