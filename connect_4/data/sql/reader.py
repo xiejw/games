@@ -8,5 +8,4 @@ def read_records(max_num=20):
     cursor.execute(_read_sql % max_num)
     results = cursor.fetchall()
 
-    for i in results:
-        print(i)
+    return [x[0] for x in results]
