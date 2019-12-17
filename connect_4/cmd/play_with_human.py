@@ -9,44 +9,52 @@ from data.sql import store_one_state as sql_store
 config = GameConfig()
 print(config)
 
-b = config.new_board()
-b.draw()
+ebuf = ExperienceBuffer(config, writer=sql_store)
 
-black_policy = RandomPolicy(b, 'b')
-white_policy = RandomPolicy(b, 'w')
-# white_policy = HumanPolicy(b, 'w')
+num_epochs = 1000
 
-# ebuf = ExperienceBuffer(config, writer=sql_store)
-ebuf = ExperienceBuffer(config)
-ebuf.start_epoch()
+for i in range(num_epochs):
+    print("========================")
+    print("Epoch: ", i)
 
-color = 'b'
-winner = None
-while True:
-
-    policy = black_policy if color == 'b' else white_policy
-    print("\n==> Inquiry", policy.name)
-
-    position = policy.next_position()
-    row, column = position.x, position.y
-
-    print("Placed at (%2d, %2d)" % (row, column))
-    move = Move((row, column), color)
-    ebuf.add_move(move)
-    b.new_move(move)
+    b = config.new_board()
     b.draw()
 
-    winner = b.winner_after_last_move()
-    if winner == None:
-        pass
-    elif winner == Color.NA:
-        print("Tie")
-        break
-    else:
-        print("Found winner: %s" % winner)
-        break
+    black_policy = RandomPolicy(b, 'b')
+    white_policy = RandomPolicy(b, 'w')
+    # white_policy = HumanPolicy(b, 'w')
 
-    color = 'w' if color == 'b' else 'b'
+    ebuf.start_epoch()
 
-ebuf.end_epoch(winner)
-ebuf.report()
+    color = 'b'
+    winner = None
+    while True:
+
+        policy = black_policy if color == 'b' else white_policy
+        print("\n==> Inquiry", policy.name)
+
+        position = policy.next_position()
+        row, column = position.x, position.y
+
+        print("Placed at (%2d, %2d)" % (row, column))
+        move = Move((row, column), color)
+        ebuf.add_move(move)
+        b.new_move(move)
+        b.draw()
+
+        winner = b.winner_after_last_move()
+        if winner == None:
+            pass
+        elif winner == Color.NA:
+            print("Tie")
+            break
+        else:
+            print("Found winner: %s" % winner)
+            break
+
+        color = 'w' if color == 'b' else 'b'
+
+    ebuf.end_epoch(winner)
+    ebuf.report()
+
+ebuf.summary()

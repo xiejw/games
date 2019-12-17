@@ -14,6 +14,8 @@ class ExperienceBuffer(object):
         self._states = []
         self._current_epoch_moves = []
         self._writer = writer
+        self._num_epochs = 0
+        self._num_states_reported = 0
 
     def start_epoch(self):
         assert not self._current_epoch_moves
@@ -45,6 +47,8 @@ class ExperienceBuffer(object):
             self._states.append(state)
             b.new_move(move)  # Mutate the board
 
+        self._num_epochs += 1
+
         # Reset
         self._current_epoch_moves = []
 
@@ -56,6 +60,14 @@ class ExperienceBuffer(object):
         for state in self._states:
             writer(state.to_str())
 
+        self._num_states_reported += len(self._states)
+
         # Reset
         self._states = []
+
+    def summary(self):
+        print("Report %d epochs in total." % self._num_epochs)
+        print("Report %d states in total." % self._num_states_reported)
+        print("On average %.3f states/epoch." % (
+            self._num_states_reported / self._num_epochs))
 
