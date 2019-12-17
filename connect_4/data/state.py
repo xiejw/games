@@ -27,13 +27,10 @@ class TrainingState(InferenceState):
         super(TrainingState, self).__init__(config, snapshot, next_player_color)
 
     def __str__(self):
-        s = "%s_%2.0f_%s" % (
+        return "%s_%2.0f_%s" % (
                 Move(self.position, self.next_player_color),
                 self.reward,
                 self.snapshot)
-        snapshot = TrainingState.parsing(self.config, s)
-        assert snapshot.board_view() == self.snapshot.board_view()
-        return s
 
     # reverse the logic in `to_str`.
     @staticmethod
@@ -47,7 +44,14 @@ class TrainingState(InferenceState):
         else:
             raise AssertionError("State str representation is wrong. Got: %s",
                     results)
-        return SnapshotView.parsing(config, snapshot)
+        move = Move.parsing(move)
+        reward = float(reward)
+        return TrainingState(config,
+                snapshot=SnapshotView.parsing(config, snapshot),
+                next_player_color=move.color,
+                position=move.position,
+                reward=reward)
+
 
 # Alias for convenience.
 State = TrainingState

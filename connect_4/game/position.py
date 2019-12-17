@@ -64,6 +64,8 @@ class Move(object):
     def __str__(self):
         return "%s%s" % (self.color, self.position)
 
+    # reserve the `__str__`.
+    #
     # The following formats are allowed.
     #
     # - b@(1,2)
