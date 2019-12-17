@@ -1,5 +1,7 @@
+from data import ExperienceBuffer
 from game import GameConfig
 from game import Color
+from game import Move
 from policy import HumanPolicy
 from policy import RandomPolicy
 
@@ -13,7 +15,11 @@ black_policy = RandomPolicy(b, 'b')
 white_policy = RandomPolicy(b, 'w')
 # white_policy = HumanPolicy(b, 'w')
 
+ebuf = ExperienceBuffer()
+ebuf.start_epoch()
+
 color = 'b'
+winner = None
 while True:
 
     policy = black_policy if color == 'b' else white_policy
@@ -23,8 +29,11 @@ while True:
     row, column = position.x, position.y
 
     print("Placed at (%2d, %2d)" % (row, column))
-    b.new_move((row, column), color)
+    move = Move((row, column), color)
+    ebuf.add_move(move)
+    b.new_move(move)
     b.draw()
+
     winner = b.winner_after_last_move()
     if winner == None:
         pass
@@ -36,3 +45,6 @@ while True:
         break
 
     color = 'w' if color == 'b' else 'b'
+
+ebuf.end_epoch(winner)
+ebuf.report()

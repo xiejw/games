@@ -17,14 +17,7 @@ class Board(object):
         self.moves = []
         self.position_dict = {}
 
-    # - position_pair is (x, y)
-    # - color can be 'b', 'w', color.{BLACK, WHITE}
-    def new_move(self, position_pair, color):
-        x, y = position_pair
-        color = Color.of(color)
-        return self._new_move(Move(Position(x,y), color))
-
-    def _new_move(self, move):
+    def new_move(self, move):
         assert _is_move_legal(self.config, self.position_dict, move), (
             'Not legal move')
         assert move.color == Color.BLACK or move.color == Color.WHITE
