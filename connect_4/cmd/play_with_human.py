@@ -4,6 +4,7 @@ from game import Color
 from game import Move
 from policy import HumanPolicy
 from policy import RandomPolicy
+from data.sql import store_one_state as sql_store
 
 config = GameConfig()
 print(config)
@@ -15,7 +16,7 @@ black_policy = RandomPolicy(b, 'b')
 white_policy = RandomPolicy(b, 'w')
 # white_policy = HumanPolicy(b, 'w')
 
-ebuf = ExperienceBuffer(config)
+ebuf = ExperienceBuffer(config, writer=sql_store)
 ebuf.start_epoch()
 
 color = 'b'

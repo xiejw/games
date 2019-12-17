@@ -2,14 +2,16 @@ from game import Color
 
 # This class assumes 'b' and 'w' play in turns.
 #
+# - `writer` if not None, takes a string.
 # - No passes.
 # - Not thread safe.
 class ExperienceBuffer(object):
 
-    def __init__(self, config):
+    def __init__(self, config, writer=None):
         self._config = config
         self._states = []
         self._current_epoch_moves = []
+        self._writer = writer
 
     def start_epoch(self):
         assert not self._current_epoch_moves
@@ -42,6 +44,7 @@ class ExperienceBuffer(object):
         self._current_epoch_moves.append(move)
 
     def report(self):
+        writer = self._writer if self._writer else print
         for move, reward, snapshot in self._states:
-            print("%s,%2.0f,%s" % (move, reward, snapshot))
+            writer("%s,%2.0f,%s" % (move, reward, snapshot))
 
