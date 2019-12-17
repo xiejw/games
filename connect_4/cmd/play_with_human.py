@@ -15,7 +15,7 @@ black_policy = RandomPolicy(b, 'b')
 white_policy = RandomPolicy(b, 'w')
 # white_policy = HumanPolicy(b, 'w')
 
-ebuf = ExperienceBuffer()
+ebuf = ExperienceBuffer(config)
 ebuf.start_epoch()
 
 color = 'b'

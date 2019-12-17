@@ -1,6 +1,9 @@
+import copy
+
 from .position import Move
 from .position import Position
 from .position import Color
+from .snapshot import SnapshotView
 
 
 # For one game use.
@@ -15,20 +18,23 @@ class Board(object):
     def __init__(self, config):
         self.config = config
         self.moves = []
-        self.position_dict = {}
+        self._position_dict = {}
 
     def new_move(self, move):
-        assert _is_move_legal(self.config, self.position_dict, move), (
+        assert _is_move_legal(self.config, self._position_dict, move), (
             'Not legal move')
         assert move.color == Color.BLACK or move.color == Color.WHITE
 
         self.moves.append(move)
-        self.position_dict[move.position] = move.color
+        self._position_dict[move.position] = move.color
+
+    def snapshot(self):
+        return SnapshotView(self.config, copy.deepcopy(self._position_dict))
 
     # returns -1 for infeasiable.
     def next_available_row(self, column):
         for i in reversed(range(self.config.rows)):
-            if Position(i, column) not in self.position_dict:
+            if Position(i, column) not in self._position_dict:
                 return i
         return -1
 
@@ -50,11 +56,11 @@ class Board(object):
     # - Color.NA: tie
     def winner_after_last_move(self):
         last_move = self.moves[-1] if self.moves else None
-        return _find_winner(self.config, self.position_dict, last_move)
+        return _find_winner(self.config, self._position_dict, last_move)
 
     # Plots the board.
     def draw(self):
-        _plot_board(self.config, self.position_dict)
+        _plot_board(self.config, self._position_dict)
 
 
 # Finds winner

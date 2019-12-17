@@ -26,7 +26,7 @@ class Position(object):
 
 
 class Color(enum.Enum):
-    NA = ''
+    NA = 'n/a'
     BLACK = 'b'
     WHITE = 'w'
 
@@ -43,11 +43,12 @@ class Color(enum.Enum):
 # Represents a move in game. Basically, a position, with color
 class Move(object):
 
-    # - position_pair is (x, y)
+    # - position is (x, y) or a Position instance
     # - color can be 'b', 'w', color.{BLACK, WHITE}
     def __init__(self, position, color):
         self.position = Position.of(position)
         self.color = Color.of(color)
+        assert self.color != Color.NA
 
     def __str__(self):
         return "%s@%s" % (self.color, self.position)
