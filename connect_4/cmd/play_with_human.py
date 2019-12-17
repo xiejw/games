@@ -6,16 +6,27 @@ from policy import HumanPolicy
 from policy import RandomPolicy
 from data.sql import store_one_state as sql_store
 
+###########################
+### Configuration to change
+###########################
+
+NUM_EPOCHS = 1
+STORE_IN_SQL = False
+
+###########################
+### Initialize the env
+###########################
+
 config = GameConfig()
 print(config)
 
-ebuf = ExperienceBuffer(config, writer=sql_store)
+writer = sql_store if STORE_IN_SQL else None
+ebuf = ExperienceBuffer(config, writer=writer)
 
-num_epochs = 1000
-
-for i in range(num_epochs):
-    print("========================")
-    print("Epoch: ", i)
+for i in range(NUM_EPOCHS):
+    if NUM_EPOCHS != 1:
+        print("========================")
+        print("Epoch: ", i)
 
     b = config.new_board()
     b.draw()

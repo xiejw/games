@@ -1,6 +1,7 @@
 from game import Color
 from game import SnapshotView
 from game import Position
+from game import Move
 
 class InferenceState(object):
 
@@ -25,12 +26,28 @@ class TrainingState(InferenceState):
 
         super(TrainingState, self).__init__(config, snapshot, next_player_color)
 
-    def to_str(self):
-        return "%s@%s,%2.0f,%s" % (
-                self.next_player_color,
-                self.position,
+    def __str__(self):
+        s = "%s_%2.0f_%s" % (
+                Move(self.position, self.next_player_color),
                 self.reward,
                 self.snapshot)
+        snapshot = TrainingState.parsing(self.config, s)
+        assert snapshot.board_view() == self.snapshot.board_view()
+        return s
+
+    # reverse the logic in `to_str`.
+    @staticmethod
+    def parsing(config, state_str):
+        results = state_str.split("_", 2)
+        if len(results) == 3:
+            move, reward, snapshot = results
+        elif len(results) == 2:
+            move, reward = results
+            snapshot = ""
+        else:
+            raise AssertionError("State str representation is wrong. Got: %s",
+                    results)
+        return SnapshotView.parsing(config, snapshot)
 
 # Alias for convenience.
 State = TrainingState

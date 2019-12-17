@@ -1,4 +1,9 @@
 import enum
+import re
+
+
+# Representation of the move. See `Move`.parsing.
+_move_re = re.compile(r"^([bw])@?\(\s*(\d+),\s*(\d+)\)")
 
 # Represents a position in game. Hashable.
 class Position(object):
@@ -22,7 +27,7 @@ class Position(object):
         return self.x == o.x and self.y == o.y
 
     def __str__(self):
-        return "(%2d, %2d)" % (self.x, self.y)
+        return "(%d,%d)" % (self.x, self.y)
 
 
 class Color(enum.Enum):
@@ -39,6 +44,12 @@ class Color(enum.Enum):
     def __str__(self):
         return self.value
 
+    def __eq__(self, o):
+        if o is None:
+            return False
+
+        return self.value == o.value
+
 
 # Represents a move in game. Basically, a position, with color
 class Move(object):
@@ -51,6 +62,21 @@ class Move(object):
         assert self.color != Color.NA
 
     def __str__(self):
-        return "%s@%s" % (self.color, self.position)
+        return "%s%s" % (self.color, self.position)
+
+    # The following formats are allowed.
+    #
+    # - b@(1,2)
+    # - w(  1, 2)
+    # - b@(  1, 2)
+    @staticmethod
+    def parsing(move_str):
+        m = _move_re.search(move_str)
+        if not m:
+            raise RuntimeError("Invalid `Move` string representation. Got: %s"
+                    % move_str)
+        color = m[1]
+        position = (int(m[2]), int(m[3]))
+        return Move(position, color)
 
 

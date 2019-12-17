@@ -20,7 +20,7 @@ class ExperienceBuffer(object):
     def start_epoch(self):
         assert not self._current_epoch_moves
 
-    # Ends the current epoch.
+    # Ends the current epoch. Calculates the reward and stores them.
     #
     # winner == Color.NA means a tie
     def end_epoch(self, winner):
@@ -58,7 +58,7 @@ class ExperienceBuffer(object):
     def report(self):
         writer = self._writer if self._writer else print
         for state in self._states:
-            writer(state.to_str())
+            writer(state.__str__())
 
         self._num_states_reported += len(self._states)
 
