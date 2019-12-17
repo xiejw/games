@@ -3,7 +3,7 @@ import re
 
 
 # Representation of the move. See `Move`.parsing.
-_move_re = re.compile(r"^([bw])@?\(\s*(\d+),\s*(\d+)\)")
+_move_re = re.compile(r"^([bw])@?\(\s*(\d+),\s*(\d+)\)$")
 
 # Represents a position in game. Hashable.
 class Position(object):
