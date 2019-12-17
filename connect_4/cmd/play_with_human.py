@@ -4,14 +4,14 @@ from game import Color
 from game import Move
 from policy import HumanPolicy
 from policy import RandomPolicy
-from data.sql import store_one_state as sql_store
+from data.sql import store_record as sql_store
 
 ###########################
 ### Configuration to change
 ###########################
 
 NUM_EPOCHS = 1
-STORE_IN_SQL = False
+STORE_IN_SQL = True
 
 ###########################
 ### Initialize the env
