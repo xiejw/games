@@ -21,6 +21,9 @@ class Position(object):
     def __eq__(self, o):
         return self.x == o.x and self.y == o.y
 
+    def __str__(self):
+        return "(%2d, %2d)" % (self.x, self.y)
+
 
 class Color(enum.Enum):
     NA = ''
@@ -33,6 +36,9 @@ class Color(enum.Enum):
             c = Color(c)
         return c
 
+    def __str__(self):
+        return self.value
+
 
 # Represents a move in game. Basically, a position, with color
 class Move(object):
@@ -42,5 +48,8 @@ class Move(object):
     def __init__(self, position, color):
         self.position = Position.of(position)
         self.color = Color.of(color)
+
+    def __str__(self):
+        return "%s@%s" % (self.color, self.position)
 
 

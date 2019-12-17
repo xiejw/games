@@ -1,6 +1,8 @@
 from game import Color
 
 # This class assumes 'b' and 'w' play in turns. No passes.
+#
+# Not thread safe.
 class ExperienceBuffer(object):
 
     def __init__(self):
@@ -8,7 +10,7 @@ class ExperienceBuffer(object):
         self._current_epoch_moves = []
 
     def start_epoch(self):
-        pass
+        assert not self._current_epoch_moves
 
     # Winner == Color.NA means a tie
     def end_epoch(self, winner):
