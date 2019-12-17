@@ -16,13 +16,10 @@ class RandomPolicy(Policy):
 
     def next_position(self):
         b = self._board
+        legal_moves = b.legal_moves()
 
-        columns = list(range(b.config.columns))
-        random.shuffle(columns)
-        for c in columns:
-            r = b.next_available_row(c)
-            if r != -1 :
-                return Position(r, c)
+        if not legal_moves:
+            raise RuntimeError("N/A")
 
-        raise RuntimeError("N/A")
+        return random.choice(legal_moves)
 
