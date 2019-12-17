@@ -9,7 +9,16 @@ class SnapshotView(object):
         self._config = config
         self._position_dict = position_dict
 
+    # returns a compact version of snapshot.
     def __str__(self):
+        moves = []
+        for position, color in self._position_dict.items():
+            moves.append("%s(%s,%s)" % (color, position.x, position.y))
+        return '_'.join(moves)
+
+
+    # returns a compact version of board drawing.
+    def board_view(self):
         config = self._config
 
         s = ''
