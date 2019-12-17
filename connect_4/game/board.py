@@ -1,3 +1,4 @@
+import collections
 import copy
 
 from .position import Move
@@ -18,7 +19,7 @@ class Board(object):
     def __init__(self, config):
         self.config = config
         self.moves = []
-        self._position_dict = {}
+        self._position_dict = collections.OrderedDict()
 
     def new_move(self, move):
         assert _is_move_legal(self.config, self._position_dict, move), (

@@ -1,3 +1,5 @@
+import collections
+
 from .position import Position
 from .position import Color
 
@@ -8,6 +10,7 @@ class SnapshotView(object):
     def __init__(self, config, position_dict):
         self._config = config
         self._position_dict = position_dict
+        assert isinstance(position_dict, collections.OrderedDict)
 
     # returns a compact version of snapshot.
     def __str__(self):
