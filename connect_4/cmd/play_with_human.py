@@ -16,7 +16,8 @@ black_policy = RandomPolicy(b, 'b')
 white_policy = RandomPolicy(b, 'w')
 # white_policy = HumanPolicy(b, 'w')
 
-ebuf = ExperienceBuffer(config, writer=sql_store)
+# ebuf = ExperienceBuffer(config, writer=sql_store)
+ebuf = ExperienceBuffer(config)
 ebuf.start_epoch()
 
 color = 'b'
