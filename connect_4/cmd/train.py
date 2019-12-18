@@ -1,16 +1,18 @@
 import random
+import keras
 
 from data.sql import read_records
 from data import TrainingState
-from data import convert_states_to_model_features
+from model import convert_states_to_model_features
+from model import build_model
 from game import GameConfig
 
 ###########################
 ### Configuration to change
 ###########################
 
-# NUM_SAMPLES = 20000
-NUM_SAMPLES = 2
+NUM_SAMPLES = 20000
+NUM_EPOCHS = 12
 
 ###########################
 ### Initialize the env
@@ -18,6 +20,8 @@ NUM_SAMPLES = 2
 
 config = GameConfig()
 print(config)
+
+num_classes = config.rows * config.columns
 
 print("Load SQl")
 records = read_records(NUM_SAMPLES)
@@ -38,3 +42,21 @@ print("Original State:", states[0])
 print("Board Numpy Array:", boards_np[0])
 print("Reward Numpy:", rewards_np[0], "dtype", rewards_np.dtype)
 print("Position Int:", positions_np[0], "dtype:", positions_np.dtype)
+
+positions_np = keras.utils.to_categorical(positions_np, num_classes)
+print("Position:", positions_np[0], "dtype:", positions_np.dtype)
+
+input_shape = (config.rows, config.columns, 3)
+m = build_model(input_shape, num_classes)
+m.summary()
+
+m.fit(
+        boards_np,
+        positions_np,
+        batch_size=32,
+        epochs=NUM_EPOCHS,
+        verbose=1)
+
+m.save_weights('.build/weights.h5')
+
+

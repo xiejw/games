@@ -2,6 +2,9 @@
 *.swp
 *.swo
 
+# Model 
+.build
+
 # Python
 *.pyc
 
