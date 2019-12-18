@@ -7,15 +7,18 @@ from game import Position
 # Converts structured states to features.
 def convert_states_to_model_features(config, states):
     rewards_np = np.zeros([len(states)])
-    positions_np = np.zeros([len(states)], dtype=np.int)
+    positions_np = np.zeros([len(states), config.rows * config.columns])
+
     # 3 is the number of feature planes.
     boards_np = np.zeros([len(states), 3, config.rows, config.columns])
 
     for i, state in enumerate(states):
 
         # Labels
-        rewards_np[i] = state.reward
-        positions_np[i] = config.convert_position_to_index(state.position)
+        r = state.reward
+        rewards_np[i] = r
+        j = config.convert_position_to_index(state.position)
+        positions_np[i][j] = 1.0 if r >= 0 else -1.0
 
         # Features
         if state.next_player_color == Color.BLACK:

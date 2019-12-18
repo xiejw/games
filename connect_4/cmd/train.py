@@ -1,5 +1,4 @@
 import random
-import keras
 
 from data.sql import read_records
 from data import TrainingState
@@ -39,12 +38,21 @@ rewards_np, positions_np = labels
 
 print("Print samples.")
 print("Original State:", states[0])
-print("Board Numpy Array:", boards_np[0])
-print("Reward Numpy:", rewards_np[0], "dtype", rewards_np.dtype)
-print("Position Int:", positions_np[0], "dtype:", positions_np.dtype)
 
-positions_np = keras.utils.to_categorical(positions_np, num_classes)
-print("Position:", positions_np[0], "dtype:", positions_np.dtype)
+print("Board Numpy Array:",
+        boards_np[0],
+        "dtype:", boards_np.dtype,
+        "shape:", boards_np.shape)
+
+print("Reward Numpy:",
+        rewards_np[0],
+        "dtype:", rewards_np.dtype,
+        "shape:", rewards_np.shape)
+
+print("Position:",
+        positions_np[0],
+        "dtype:", positions_np.dtype,
+        "shape:", positions_np.shape)
 
 input_shape = (config.rows, config.columns, 3)
 m = build_model(input_shape, num_classes)

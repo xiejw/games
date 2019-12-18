@@ -19,8 +19,13 @@ def build_model(input_shape, num_classes):
     model.add(Dropout(0.5))
     model.add(Dense(num_classes, activation='softmax'))
 
+    def categorical_accuracy(y_true, y_pred):
+        # We flipped the value for the position vector. So, use abshere.
+        y_true = keras.backend.abs(y_true)
+        return keras.metrics.categorical_accuracy(y_true, y_pred)
+
     model.compile(loss=keras.losses.categorical_crossentropy,
-                  optimizer=keras.optimizers.Adadelta(),
-                  metrics=['accuracy'])
+                  optimizer=keras.optimizers.SGD(lr=0.001),
+                  metrics=[categorical_accuracy])
 
     return model
