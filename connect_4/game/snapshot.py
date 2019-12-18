@@ -36,6 +36,10 @@ class SnapshotView(object):
 
         return SnapshotView(config, position_dict)
 
+    # returns color. None means no present.
+    def get(self, position):
+        return self._position_dict.get(position)
+
 
     # returns a compact version of board drawing.
     def board_view(self):
