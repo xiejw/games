@@ -1,4 +1,5 @@
 import random
+import os
 
 from data.sql import read_records
 from data import TrainingState
@@ -11,8 +12,9 @@ from game import GameConfig
 ###########################
 
 NUM_SAMPLES = 100 * 1000 * 2  # 200K
-NUM_EPOCHS = 12
+NUM_EPOCHS = 1
 BATCH_SIZE = 128
+WEIGHTS_FILE = '.build/weights.h5'
 
 ###########################
 ### Initialize the env
@@ -55,10 +57,17 @@ print("Position:",
         "dtype:", positions_np.dtype,
         "shape:", positions_np.shape)
 
+print("Building the model.")
 input_shape = (config.rows, config.columns, 3)
 m = build_model(input_shape, num_classes)
 m.summary()
 
+if os.path.exists(WEIGHTS_FILE):
+    print("!!! Loading weights for model.")
+    m.load_weights(WEIGHTS_FILE)
+
+
+print("Training the model.")
 m.fit(
         boards_np,
         positions_np,
@@ -66,6 +75,7 @@ m.fit(
         epochs=NUM_EPOCHS,
         verbose=1)
 
-m.save_weights('.build/weights.h5')
+print("Saving the model.")
+m.save_weights(WEIGHTS_FILE)
 
 
