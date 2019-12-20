@@ -10,8 +10,9 @@ from game import GameConfig
 ### Configuration to change
 ###########################
 
-NUM_SAMPLES = 20000
+NUM_SAMPLES = 100 * 1000 * 2  # 200K
 NUM_EPOCHS = 12
+BATCH_SIZE = 128
 
 ###########################
 ### Initialize the env
@@ -61,7 +62,7 @@ m.summary()
 m.fit(
         boards_np,
         positions_np,
-        batch_size=32,
+        batch_size=BATCH_SIZE,
         epochs=NUM_EPOCHS,
         verbose=1)
 

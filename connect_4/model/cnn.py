@@ -25,7 +25,7 @@ def build_model(input_shape, num_classes):
         return keras.metrics.categorical_accuracy(y_true, y_pred)
 
     model.compile(loss=keras.losses.categorical_crossentropy,
-                  optimizer=keras.optimizers.SGD(lr=0.001),
+                  optimizer=keras.optimizers.SGD(lr=0.001, clipnorm=1.0),
                   metrics=[categorical_accuracy])
 
     return model

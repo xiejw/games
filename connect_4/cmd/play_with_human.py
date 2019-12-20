@@ -10,7 +10,8 @@ from data.sql import store_record as sql_store
 ### Configuration to change
 ###########################
 
-NUM_EPOCHS = 1
+# NUM_EPOCHS = 1
+NUM_EPOCHS = 2000
 STORE_IN_SQL = True
 
 ###########################
