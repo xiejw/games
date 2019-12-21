@@ -29,8 +29,11 @@ class Board(object):
         self.moves.append(move)
         self._position_dict[move.position] = move.color
 
-    def snapshot(self):
-        return SnapshotView(self.config, copy.deepcopy(self._position_dict))
+    def snapshot(self, deepcopy=True):
+        if deepcopy:
+            return SnapshotView(self.config, copy.deepcopy(self._position_dict))
+        else:
+            return SnapshotView(self.config, self._position_dict)
 
     # returns -1 for infeasiable.
     def next_available_row(self, column):

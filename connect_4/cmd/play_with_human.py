@@ -4,6 +4,7 @@ from game import Color
 from game import Move
 from policy import HumanPolicy
 from policy import RandomPolicy
+from policy import ModelPolicy
 from data.sql import store_record as sql_store
 
 ###########################
@@ -11,7 +12,7 @@ from data.sql import store_record as sql_store
 ###########################
 
 # NUM_EPOCHS = 1
-NUM_EPOCHS = 2000
+NUM_EPOCHS = 1000
 STORE_IN_SQL = True
 
 ###########################
@@ -32,8 +33,9 @@ for i in range(NUM_EPOCHS):
     b = config.new_board()
     b.draw()
 
-    black_policy = RandomPolicy(b, 'b')
-    white_policy = RandomPolicy(b, 'w')
+    black_policy = ModelPolicy(b, 'b')
+    # black_policy = RandomPolicy(b, 'b')
+    white_policy = ModelPolicy(b, 'w')
     # white_policy = HumanPolicy(b, 'w')
 
     ebuf.start_epoch()

@@ -11,7 +11,7 @@ from game import GameConfig
 ### Configuration to change
 ###########################
 
-NUM_SAMPLES = 100 * 1000 * 2  # 200K
+NUM_SAMPLES = 8 * 20 * 1000
 NUM_EPOCHS = 1
 BATCH_SIZE = 128
 WEIGHTS_FILE = '.build/weights.h5'
