@@ -16,6 +16,7 @@ def _build_model(config):
     num_classes = config.rows * config.columns
     input_shape = (config.rows, config.columns, 3)
     m = build_model(input_shape, num_classes)
+    print("Loading model from:", WEIGHTS_FILE)
     m.load_weights(WEIGHTS_FILE)
     return m
 

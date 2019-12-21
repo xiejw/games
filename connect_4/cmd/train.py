@@ -11,7 +11,8 @@ from game import GameConfig
 ### Configuration to change
 ###########################
 
-NUM_SAMPLES = 8 * 20 * 1000
+# 8 processes, 20 records per epoch, 100 epochs for process.
+NUM_SAMPLES = 8 * 20 * 100
 NUM_EPOCHS = 1
 BATCH_SIZE = 128
 WEIGHTS_FILE = '.build/weights.h5'

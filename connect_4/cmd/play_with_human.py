@@ -12,8 +12,9 @@ from data.sql import store_record as sql_store
 ###########################
 
 # NUM_EPOCHS = 1
-NUM_EPOCHS = 1000
+NUM_EPOCHS = 100
 STORE_IN_SQL = True
+BOOT_STRAP = False
 
 ###########################
 ### Initialize the env
@@ -33,10 +34,13 @@ for i in range(NUM_EPOCHS):
     b = config.new_board()
     b.draw()
 
-    black_policy = ModelPolicy(b, 'b')
-    # black_policy = RandomPolicy(b, 'b')
-    white_policy = ModelPolicy(b, 'w')
-    # white_policy = HumanPolicy(b, 'w')
+    if not BOOT_STRAP:
+        black_policy = ModelPolicy(b, 'b')
+        white_policy = ModelPolicy(b, 'w')
+    else:
+        black_policy = RandomPolicy(b, 'b')
+        white_policy = RandomPolicy(b, 'w')
+
 
     ebuf.start_epoch()
 
