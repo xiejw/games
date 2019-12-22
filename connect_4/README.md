@@ -1,3 +1,13 @@
+Libraries
+========
+
+    brew install mysql
+    apt install mysql-client python3-pip
+    apt install mycli
+
+    pip3 install mysql-connector-python keras tensorflow==1.14
+
+
 Bootstrap
 =========
 
