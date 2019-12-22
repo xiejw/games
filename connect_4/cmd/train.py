@@ -1,5 +1,6 @@
 import random
 import os
+import time
 
 from data.sql import read_records
 from data import TrainingState
@@ -76,7 +77,11 @@ m.fit(
         epochs=NUM_EPOCHS,
         verbose=1)
 
-print("Saving the model.")
-m.save_weights(WEIGHTS_FILE)
+epoch = int(time.time())
+file_name = WEIGHTS_FILE + ("%d" % epoch)
+print("Saving the model:", file_name)
+m.save_weights(file_name)
+os.remove(WEIGHTS_FILE)
+os.symlink(os.path.basename(file_name), WEIGHTS_FILE)
 
 
