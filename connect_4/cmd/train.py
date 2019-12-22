@@ -81,7 +81,8 @@ epoch = int(time.time())
 file_name = WEIGHTS_FILE + ("%d" % epoch)
 print("Saving the model:", file_name)
 m.save_weights(file_name)
-os.remove(WEIGHTS_FILE)
+if os.path.exists(WEIGHTS_FILE):
+  os.remove(WEIGHTS_FILE)
 os.symlink(os.path.basename(file_name), WEIGHTS_FILE)
 
 
