@@ -4,13 +4,19 @@ from keras.models import Model
 from keras.layers import Input, Dense, Dropout, Flatten, BatchNormalization, ReLU
 from keras.layers import Conv2D, Add
 from keras import backend as K
+from keras.regularizers import l2
+
+L2_WEIGHT_DECAY = 1e-4
 
 def build_resnet_model(input_shape, num_classes):
     inp = Input(shape=input_shape)
 
     x = inp
 
-    x = Conv2D(128, kernel_size=(4, 4), padding='same')(x)
+    x = Conv2D(128,
+               kernel_size=(4, 4),
+               padding='same',
+               kernel_regularizer=l2(L2_WEIGHT_DECAY))(x)
     x = BatchNormalization()(x)
     x = ReLU()(x)
 
@@ -21,20 +27,28 @@ def build_resnet_model(input_shape, num_classes):
     del x
 
     # Policy Head
-    x = Conv2D(2, kernel_size=(1, 1), padding='same')(head_base)
+    x = Conv2D(2, kernel_size=(1, 1), padding='same', kernel_regularizer=l2(L2_WEIGHT_DECAY))(head_base)
     x = BatchNormalization()(x)
     x = ReLU()(x)
     x = Flatten()(x)
-    policy_head = Dense(num_classes, activation='softmax', name='policy')(x)
+    policy_head = Dense(
+        num_classes, activation='softmax',
+        name='policy',
+        kernel_regularizer=l2(L2_WEIGHT_DECAY),
+        bias_regularizer=l2(L2_WEIGHT_DECAY))(x)
     del x
 
     # Value Head
-    x = Conv2D(2, kernel_size=(1, 1), padding='same')(head_base)
+    x = Conv2D(2, kernel_size=(1, 1), padding='same', kernel_regularizer=l2(L2_WEIGHT_DECAY))(head_base)
     x = BatchNormalization()(x)
     x = ReLU()(x)
     x = Flatten()(x)
-    x = Dense(256, activation='relu')(x)
-    value_head = Dense(1, activation='tanh', name='value')(x)
+    x = Dense(256, activation='relu',
+              kernel_regularizer=l2(L2_WEIGHT_DECAY),
+              bias_regularizer=l2(L2_WEIGHT_DECAY))(x)
+    value_head = Dense(1, activation='tanh', name='value',
+                       kernel_regularizer=l2(L2_WEIGHT_DECAY),
+                       bias_regularizer=l2(L2_WEIGHT_DECAY))(x)
     del x
 
 
@@ -53,11 +67,11 @@ def build_resnet_model(input_shape, num_classes):
 
 def res_block(x):
     y = x
-    x = Conv2D(128, kernel_size=(4, 4), padding='same')(x)
+    x = Conv2D(128, kernel_size=(4, 4), padding='same', kernel_regularizer=l2(L2_WEIGHT_DECAY))(x)
     x = BatchNormalization()(x)
     x = ReLU()(x)
 
-    x = Conv2D(128, kernel_size=(4, 4), padding='same')(x)
+    x = Conv2D(128, kernel_size=(4, 4), padding='same', kernel_regularizer=l2(L2_WEIGHT_DECAY))(x)
     x = BatchNormalization()(x)
     x = Add()([x, y])
 
