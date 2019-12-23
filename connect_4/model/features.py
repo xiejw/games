@@ -8,6 +8,7 @@ def convert_inference_states_to_model_feature(config, inference_state):
     # 3 is the number of feature planes.
     boards_np = np.zeros([1, 3, config.rows, config.columns])
 
+    assert isinstance(inference_state.next_player_color, Color)
     if inference_state.next_player_color == Color.BLACK:
         boards_np[0, 2, :, :] = 1.0
 
@@ -44,9 +45,10 @@ def convert_states_to_model_features(config, states):
         r = state.reward
         rewards_np[i] = r
         j = config.convert_position_to_index(state.position)
-        positions_np[i][j] = 1.0 if r >= 0 else -1.0
+        positions_np[i][j] = 1.0 # if r >= 0 else -1.0
 
         # Features
+        assert isinstance(state.next_player_color, Color)
         if state.next_player_color == Color.BLACK:
             boards_np[i, 2, :, :] = 1.0
 

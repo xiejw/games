@@ -11,3 +11,9 @@ view_db:
 
 db:
 	. data/sql/connect_table.sh
+
+bootstrap:
+	mkdir .build
+
+clean:
+	rm -rf .build

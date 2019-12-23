@@ -5,7 +5,7 @@ from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 
 
-def build_model(input_shape, num_classes):
+def build_cnn_model(input_shape, num_classes):
     model = Sequential()
     model.add(Conv2D(32, kernel_size=(4, 4),
                      activation='relu',

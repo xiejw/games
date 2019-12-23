@@ -13,7 +13,8 @@ from game import GameConfig
 ###########################
 
 # 8 processes, 20 records per epoch, 100 epochs for process.
-NUM_SAMPLES = 12 * 20 * 100
+NUM_SAMPLES = 1000 * 12 * 20 * 100
+# NUM_SAMPLES = 1
 NUM_EPOCHS = 1
 BATCH_SIZE = 128
 WEIGHTS_FILE = '.build/weights.h5'
@@ -72,15 +73,23 @@ if os.path.exists(WEIGHTS_FILE):
 print("Training the model.")
 m.fit(
         boards_np,
-        positions_np,
+        {
+            'policy': positions_np,
+            'value' :rewards_np,
+        },
         batch_size=BATCH_SIZE,
         epochs=NUM_EPOCHS,
         verbose=1)
 
+# Create new file name for ckpt.
 epoch = int(time.time())
-file_name = WEIGHTS_FILE + ("%d" % epoch)
+file_name = WEIGHTS_FILE + ("-%d" % epoch)
+
 print("Saving the model:", file_name)
 m.save_weights(file_name)
+print("Saved.")
+
+# Using symbolic to avoid race condition.
 if os.path.exists(WEIGHTS_FILE):
   os.remove(WEIGHTS_FILE)
 os.symlink(os.path.basename(file_name), WEIGHTS_FILE)
