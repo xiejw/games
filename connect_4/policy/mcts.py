@@ -50,11 +50,11 @@ class MCTSNode(object):
         c = 1.0
         q = {}
 
-math.sqrt(self.total_count)
+        sqrt_total_count = math.sqrt(self.total_count)
         for pos in self.legal_moves:
             n = self.n[pos]
             q[pos] = self.w[pos] / (n if n else 1)
-            q[pos] += c * self.p[pos] *
+            q[pos] += c * self.p[pos] * sqrt_total_count / (1.9 + self.n[pos])
 
 
 class MCTSPolicy(Policy):
