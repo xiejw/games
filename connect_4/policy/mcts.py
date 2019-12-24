@@ -33,12 +33,13 @@ class MCTSNode(object):
                     self._config,
                     InferenceState(
                         config=self._config,
+                        # One-time purpose.
                         snapshot=board.snapshot(deepcopy=False),
                         next_player_color=self.color)))
 
         for pos in self.legal_moves:
             index = self._config.convert_position_to_index(pos)
-            self.p[pos] = pred[0][index]
+            self.p[pos] = pred[0][0][index]
             self.n[pos] = 0
 
     def backup(self, pos, value):
@@ -54,7 +55,15 @@ class MCTSNode(object):
         for pos in self.legal_moves:
             n = self.n[pos]
             q[pos] = self.w[pos] / (n if n else 1)
-            q[pos] += c * self.p[pos] * sqrt_total_count / (1.9 + self.n[pos])
+            q[pos] += c * self.p[pos] * sqrt_total_count / (1.0 + self.n[pos])
+
+        # TODO: Allows exploration.
+        max_pos = max(q, key=lambda k: q[k])
+        return max_pos
+
+    def simulate(self, iterations=1600):
+      pass
+
 
 
 class MCTSPolicy(Policy):
@@ -70,3 +79,6 @@ class MCTSPolicy(Policy):
         self._tree = {}
 
     def next_position(self):
+      # promot next node
+      # simulation.
+      # select
