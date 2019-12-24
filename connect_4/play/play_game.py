@@ -1,12 +1,10 @@
 from data import ExperienceBuffer
 from game import Color
 from game import Move
-from policy import HumanPolicy
-from policy import RandomPolicy
-from policy import ModelPolicy
-from data.sql import store_record as sql_store
+from policy import BestPolicy
 
 
+# Plays the game for `num_epochs` iterations.
 def play_games(config, players=None, num_epochs=1, writer=None):
     ebuf = ExperienceBuffer(config, writer=writer)
 
@@ -21,8 +19,8 @@ def play_games(config, players=None, num_epochs=1, writer=None):
         if players:
             black_policy, white_policy = players(b)
         else:
-            black_policy = ModelPolicy(b, 'b')
-            white_policy = ModelPolicy(b, 'w')
+            black_policy = BestPolicy(b, 'b')
+            white_policy = BestPolicy(b, 'w')
 
 
         ebuf.start_epoch()

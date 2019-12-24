@@ -18,8 +18,8 @@ class MCTSNode(object):
         self.next_player_color = next_player_color
         self.model = model
 
-        self.legal_moves = board.legal_moves()
-        if not self.legal_moves:
+        self.legal_positions = board.legal_positions()
+        if not self.legal_positions:
             raise RuntimeError("N/A")
 
         self.total_count = 0
@@ -37,7 +37,7 @@ class MCTSNode(object):
                         snapshot=board.snapshot(deepcopy=False),
                         next_player_color=self.color)))
 
-        for pos in self.legal_moves:
+        for pos in self.legal_positions:
             index = self._config.convert_position_to_index(pos)
             self.p[pos] = pred[0][0][index]
             self.n[pos] = 0
@@ -55,7 +55,7 @@ class MCTSNode(object):
         q = {}
 
         sqrt_total_count = math.sqrt(self.total_count)
-        for pos in self.legal_moves:
+        for pos in self.legal_positions:
             n = self.n[pos]
             q[pos] = self.w[pos] / (n if n else 1)
             q[pos] += c * self.p[pos] * sqrt_total_count / (1.0 + self.n[pos])

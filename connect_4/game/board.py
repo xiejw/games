@@ -42,15 +42,15 @@ class Board(object):
                 return i
         return -1
 
-    # returns legal moves. Could be empty.
-    def legal_moves(self):
+    # returns legal positions (not moves). Could be empty.
+    def legal_positions(self):
         columns = list(range(self.config.columns))
-        legal_moves = []
+        legal_positions = []
         for c in columns:
             r = self.next_available_row(c)
             if r != -1:
-                legal_moves.append(Position(r, c))
-        return legal_moves
+                legal_positions.append(Position(r, c))
+        return legal_positions
 
     # This assumes before last_move, there is no winner.
     #

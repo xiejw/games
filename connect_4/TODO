@@ -1,5 +1,4 @@
-- legal moves -> legal_positions
+- MCTS
 - Documentation
 - Deep Nets
 - Better Loss?
-- MCTS

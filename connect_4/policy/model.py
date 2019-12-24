@@ -34,13 +34,13 @@ class ModelPolicy(Policy):
 
     def next_position(self):
         b = self._board
-        legal_moves = b.legal_moves()
+        legal_positions = b.legal_positions()
 
-        if not legal_moves:
+        if not legal_positions:
             raise RuntimeError("N/A")
 
         if random.random() <= self._epsilon:
-            return random.choice(legal_moves)
+            return random.choice(legal_positions)
 
         pred = self._model.predict(
                 convert_inference_states_to_model_feature(
@@ -56,7 +56,7 @@ class ModelPolicy(Policy):
         assert pred.shape == (1, self._config.rows * self._config.columns)
 
         probs = [(p, pred[0][self._config.convert_position_to_index(p)]) for p in
-                legal_moves]
+                legal_positions]
         max_position = max(probs, key=lambda x: x[1])
 
         return max_position[0]
