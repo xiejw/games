@@ -7,6 +7,8 @@ from game import Move
 #
 # - `players` is a fn returning two players. First is for black stone, and second
 #    is for white stone. It will be invoked for each iteration.
+#
+# - `writer` is passed to ExperienceBuffer directly.
 def play_games(config, players, num_epochs=1, writer=None):
     ebuf = ExperienceBuffer(config, writer=writer)
 

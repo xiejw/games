@@ -3,6 +3,7 @@ import numpy as np
 from game import Color
 from game import Position
 
+
 # Converts structured state (inference) to feature planes.
 def convert_inference_state_to_model_feature(config, inference_state):
     # 3 is the number of feature planes.
@@ -31,7 +32,9 @@ def convert_inference_state_to_model_feature(config, inference_state):
     return boards_np
 
 
-# Converts structured states to features.
+# Converts structured states (training) to features.
+#
+# For `boards_np`, logic is same as the inference version.
 def convert_states_to_model_features(config, states):
     rewards_np = np.zeros([len(states)])
     positions_np = np.zeros([len(states), config.rows * config.columns])
@@ -39,13 +42,12 @@ def convert_states_to_model_features(config, states):
     # 3 is the number of feature planes.
     boards_np = np.zeros([len(states), 3, config.rows, config.columns])
 
-    for i, state in enumerate(states):
 
+    for i, state in enumerate(states):
         # Labels
-        r = state.reward
-        rewards_np[i] = r
+        rewards_np[i] = state.reward
         j = config.convert_position_to_index(state.position)
-        positions_np[i][j] = 1.0 # if r >= 0 else -1.0
+        positions_np[i][j] = 1.0
 
         # Features
         assert isinstance(state.next_player_color, Color)
