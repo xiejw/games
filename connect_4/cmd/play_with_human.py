@@ -4,7 +4,7 @@ from game import GameConfig
 from policy import HumanPolicy
 from policy import RandomPolicy
 from policy import ModelPolicy
-from policy import MCTSPolicy
+# from policy import MCTSPolicy
 from play import play_games
 
 ###########################

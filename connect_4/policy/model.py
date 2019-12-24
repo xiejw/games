@@ -49,6 +49,11 @@ class ModelPolicy(Policy):
                         config=self._config,
                         snapshot=b.snapshot(deepcopy=False),
                         next_player_color=self._color)))
+        # If the model predicts two items, used the first one.
+        if isinstance(pred, list):
+            pred = pred[0]
+
+        assert pred.shape == (1, self._config.rows * self._config.columns)
 
         probs = [(p, pred[0][self._config.convert_position_to_index(p)]) for p in
                 legal_moves]
