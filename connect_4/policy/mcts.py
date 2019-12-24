@@ -47,7 +47,10 @@ class MCTSNode(object):
         self.n[pos] += 1
         self.w[pos] += value
 
+    # Selects a node based on current simulation results.
     def select(self):
+        assert self.total_count > 0
+
         c = 1.0
         q = {}
 
@@ -62,7 +65,20 @@ class MCTSNode(object):
         return max_pos
 
     def simulate(self, iterations=1600):
-      pass
+        pass
+
+        # loop `iterations`.
+        #   while True
+        #     select an action.
+        #     gets children of the node
+        #     if new child:
+        #       backup
+        #       break
+
+        debug = print
+
+        for i in range(iterations):
+            debug("=== iteration i")
 
 
 

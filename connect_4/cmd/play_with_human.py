@@ -4,13 +4,14 @@ from game import GameConfig
 from policy import HumanPolicy
 from policy import RandomPolicy
 from policy import ModelPolicy
+from policy import MCTSPolicy
 from play import play_games
 
 ###########################
 ### Configuration to change
 ###########################
 
-SHUFFLE_PLAYERS = True
+SHUFFLE_PLAYERS = False
 
 ###########################
 ### Initialize the env
