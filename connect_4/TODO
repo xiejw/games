@@ -1,5 +1,5 @@
 - MCTS
 - Documentation
-    data        game        model       play        play.sh     policy 
+    data        game        model       play
 - Deep Nets
 - Better Loss?

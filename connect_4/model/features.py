@@ -3,8 +3,8 @@ import numpy as np
 from game import Color
 from game import Position
 
-# Converts structured states to features.
-def convert_inference_states_to_model_feature(config, inference_state):
+# Converts structured state (inference) to feature planes.
+def convert_inference_state_to_model_feature(config, inference_state):
     # 3 is the number of feature planes.
     boards_np = np.zeros([1, 3, config.rows, config.columns])
 

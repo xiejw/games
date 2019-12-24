@@ -1,11 +1,13 @@
 from data import ExperienceBuffer
 from game import Color
 from game import Move
-from policy import BestPolicy
 
 
 # Plays the game for `num_epochs` iterations.
-def play_games(config, players=None, num_epochs=1, writer=None):
+#
+# - `players` is a fn returning two players. First is for black stone, and second
+#    is for white stone. It will be invoked for each iteration.
+def play_games(config, players, num_epochs=1, writer=None):
     ebuf = ExperienceBuffer(config, writer=writer)
 
     for i in range(num_epochs):
@@ -16,12 +18,7 @@ def play_games(config, players=None, num_epochs=1, writer=None):
         b = config.new_board()
         b.draw()
 
-        if players:
-            black_policy, white_policy = players(b)
-        else:
-            black_policy = BestPolicy(b, 'b')
-            white_policy = BestPolicy(b, 'w')
-
+        black_policy, white_policy = players(b)
 
         ebuf.start_epoch()
 

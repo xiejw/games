@@ -1,6 +1,7 @@
 from game import GameConfig
 from data.sql import store_record as sql_store
 from play import play_games
+from policy import ModelPolicy
 
 ###########################
 ### Configuration to change
@@ -18,4 +19,8 @@ print(config)
 
 writer = sql_store if STORE_IN_SQL else None
 
-play_games(config, num_epochs=NUM_EPOCHS, write=writer)
+players = lambda b: [
+        ModelPolicy(b, 'b', epsilon=0.1),
+        ModelPolicy(b, 'w', epsilon=0.1)]
+
+play_games(config, players=players, num_epochs=NUM_EPOCHS, write=writer)
