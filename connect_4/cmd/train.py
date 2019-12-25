@@ -1,3 +1,4 @@
+import datetime
 import random
 import os
 import time
@@ -22,6 +23,10 @@ WEIGHTS_FILE = '.build/weights.h5'
 ###########################
 ### Initialize the env
 ###########################
+
+print("=================================")
+print(datetime.datetime.now())
+print("=================================")
 
 config = GameConfig()
 print(config)

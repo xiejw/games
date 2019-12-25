@@ -1,3 +1,5 @@
+import datetime
+
 from game import GameConfig
 from data.sql import store_record as sql_store
 from play import play_games
@@ -13,6 +15,10 @@ STORE_IN_SQL = True
 ###########################
 ### Initialize the env
 ###########################
+
+print("=================================")
+print(datetime.datetime.now())
+print("=================================")
 
 config = GameConfig()
 print(config)
