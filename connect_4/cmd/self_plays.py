@@ -23,4 +23,4 @@ players = lambda b: [
         MCTSPolicy(b, 'b', explore=True),
         MCTSPolicy(b, 'w', explore=True)]
 
-play_games(config, players=players, num_epochs=NUM_EPOCHS, write=writer)
+play_games(config, players=players, num_epochs=NUM_EPOCHS, writer=writer)
