@@ -12,8 +12,8 @@ from game import GameConfig
 ### Configuration to change
 ###########################
 
-# 8 processes, 20 records per epoch, 100 epochs for process.
-NUM_SAMPLES = 1000 * 12 * 20 * 100
+# 70 processes, 20 records per epoch, 100 epochs for process.
+NUM_SAMPLES = 70 * 20 * 100
 # NUM_SAMPLES = 1
 NUM_EPOCHS = 1
 BATCH_SIZE = 128

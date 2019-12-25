@@ -176,7 +176,7 @@ class MCTSPolicy(Policy):
 
         # Select
         explore = False
-        if self._explore and len(self._board.moves) < 6:
+        if self._explore and len(self._board.moves) < 10:
             explore = True
         pos = root.select_next_pos_to_play(debug=self._debug, explore=explore)
 

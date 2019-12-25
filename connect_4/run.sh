@@ -4,8 +4,19 @@
 
 i="0"
 
-while [ $i -lt 4000 ]
+while [ $i -lt 20 ]
 do
-  make run
+
+  j="0"
+  while [ $j -lt 69 ]
+  do
+    make self_plays &
+    j=$[$j+1]
+  done
+
+  make self_plays
+
   make train
+
+  i=$[$i+1]
 done
