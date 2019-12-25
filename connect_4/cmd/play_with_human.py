@@ -19,7 +19,7 @@ config = GameConfig()
 print(config)
 
 def BestPolicy(b, c):
-    return MCTSPolicy(b, c, debug=True)
+    return MCTSPolicy(b, c, explore=False, debug=True)
 
 
 if SHUFFLE_PLAYERS and random.random() < 0.5:

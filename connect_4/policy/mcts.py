@@ -119,7 +119,9 @@ class MCTSNode(object):
             max_pair = max(q, key=lambda x: x[1])
             return max_pair[0]
 
-        raise RuntimeError("Unimp.")
+        population, weights = zip(*q)
+        max_pos = random.choices(population, weights)[0]
+        return max_pos
 
 
     def simulate(self, iterations=1600):
@@ -135,11 +137,12 @@ class MCTSNode(object):
 class MCTSPolicy(Policy):
 
 
-    def __init__(self, board, color, model=None, debug=False, name=None):
+    def __init__(self, board, color, model=None, explore=False, debug=False, name=None):
         self._board = board
         self._config = board.config
         self._color = Color.of(color)
         self._model = model or _build_model(self._config)
+        self._explore = explore
         self._debug = debug
         self.name = name if name else "mcts_" + color
 
@@ -172,7 +175,10 @@ class MCTSPolicy(Policy):
         root.simulate()
 
         # Select
-        pos = root.select_next_pos_to_play(debug=self._debug)
+        explore = False
+        if self._explore and len(self._board.moves) < 6:
+            explore = True
+        pos = root.select_next_pos_to_play(debug=self._debug, explore=explore)
 
         # Promote new root.
         new_root = root.c.get(pos)
