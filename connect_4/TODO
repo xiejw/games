@@ -1,5 +1,7 @@
 - MCTS
+  - select based on n
+  - explore.
+  - fixed the bug.
 - Documentation
     data        game
-- Deep Nets
-- Better Loss?
+- Switch MOdel to MCTS everywhere

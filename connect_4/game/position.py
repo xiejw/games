@@ -41,6 +41,10 @@ class Color(enum.Enum):
             c = Color(c)
         return c
 
+    def reverse(self):
+        assert self == Color.BLACK or self == Color.WHITE
+        return Color.WHITE if self == Color.BLACK else Color.BLACK
+
     def __str__(self):
         return self.value
 
