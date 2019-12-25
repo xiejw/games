@@ -124,7 +124,7 @@ class MCTSNode(object):
         return max_pos
 
 
-    def simulate(self, iterations=1600):
+    def simulate(self, iterations):
         _run_simulations(
                 iterations=iterations,
                 root_node=self,
@@ -137,11 +137,12 @@ class MCTSNode(object):
 class MCTSPolicy(Policy):
 
 
-    def __init__(self, board, color, model=None, explore=False, debug=False, name=None):
+    def __init__(self, board, color, model=None, iterations=1600, explore=False, debug=False, name=None):
         self._board = board
         self._config = board.config
         self._color = Color.of(color)
         self._model = model or _build_model(self._config)
+        self._iterations = iterations
         self._explore = explore
         self._debug = debug
         self.name = name if name else "mcts_" + color
@@ -177,7 +178,7 @@ class MCTSPolicy(Policy):
 
         # Simulation.
         root = self._root
-        root.simulate()
+        root.simulate(self._iterations)
 
         # Select
         explore = False
