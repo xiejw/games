@@ -167,7 +167,12 @@ class MCTSPolicy(Policy):
             last_pos = moves[-1].position  # Component's move
 
             new_root = self._root.c.get(last_pos)
-            assert new_root is not None
+            if new_root is None:
+                # This case means that the move by component has never been
+                # consided by this tree before.
+                new_board = copy.deepcopy(self._board)  # make a copy
+                new_root = MCTSNode(new_board, self._color, self._model)
+
             self._root = new_root
 
         # Simulation.

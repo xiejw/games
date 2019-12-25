@@ -15,7 +15,7 @@ def play_games(config, players, num_epochs=1, writer=None):
     for i in range(num_epochs):
         if num_epochs != 1:
             print("========================")
-            print("Epoch: %3d/%d", i+1, num_epochs)
+            print("Epoch: %3d/%d" % (i+1, num_epochs))
 
         b = config.new_board()
         b.draw()
