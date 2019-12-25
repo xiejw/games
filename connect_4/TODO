@@ -3,5 +3,5 @@
   - explore.
   - fixed the bug.
 - Documentation
-    data        game
+    game
 - Switch MOdel to MCTS everywhere

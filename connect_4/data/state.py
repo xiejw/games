@@ -3,6 +3,7 @@ from game import SnapshotView
 from game import Position
 from game import Move
 
+# Represents an inference state.
 class InferenceState(object):
 
     def __init__(self, config, snapshot, next_player_color):
@@ -16,6 +17,7 @@ class InferenceState(object):
         assert next_player_color != Color.NA
 
 
+# Represents a training state.
 class TrainingState(InferenceState):
 
     def __init__(self, config, snapshot, next_player_color, position, reward):

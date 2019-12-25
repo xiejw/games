@@ -29,7 +29,7 @@ class Board(object):
         self.moves.append(move)
         self._position_dict[move.position] = move.color
 
-    def snapshot(self, deepcopy=True):
+    def snapshot(self, deepcopy):
         if deepcopy:
             return SnapshotView(self.config, copy.deepcopy(self._position_dict))
         else:
