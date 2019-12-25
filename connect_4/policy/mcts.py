@@ -27,7 +27,7 @@ def _build_model(config):
 
 class MCTSNode(object):
 
-    # MCTSNode should owns the board. Call site should make deepcopy if
+    # MCTSNode should own the board. Call site should make deepcopy if
     # necessary.
     def __init__(self, board, next_player_color, model):
         self.board = board
@@ -70,6 +70,7 @@ class MCTSNode(object):
 
         for pos in self.legal_positions:
             index = self._config.convert_position_to_index(pos)
+            # TODO: Consider to add some noise.
             self.p[pos] = policy_pred[0][index]
             self.n[pos] = 0
             self.w[pos] = 0
@@ -80,12 +81,11 @@ class MCTSNode(object):
         self.n[pos] += 1
         self.w[pos] += value
 
-    # TODO: Allows exploration.
-    # Selects a node based on current simulation results.
-    def select(self):
-        # TODO: For non-explore version check total count?
-        # assert self.total_count > 0
-
+    # Selects a node.
+    #
+    # - The algorithrm is based on current simulation results.
+    # - It is used for next round of simulation.
+    def select_next_pos_to_evaluate(self):
         c = 1.0
         q = {}
 
@@ -97,6 +97,30 @@ class MCTSNode(object):
 
         max_pos = max(q, key=lambda k: q[k])
         return max_pos
+
+    def select_next_pos_to_play(self, debug=False, explore=False):
+        q = []
+        for pos in self.legal_positions:
+            q.append((pos, self.n[pos]))
+
+        if debug:
+            for i, item in enumerate(
+                    sorted(q, key=lambda x: x[1], reverse=True)[:5]):
+                pos = item[0]
+                n = item[1]
+                print("Candidate %d: %s:" % (i, pos))
+                print("   -> n (%d) p (%f) w (%f)" % (
+                    n,
+                    self.p[pos],
+                    self.w[pos] / (n if n else 1)))
+
+        if not explore:
+            # Select the pos with maximum visited counts.
+            max_pair = max(q, key=lambda x: x[1])
+            return max_pair[0]
+
+        raise RuntimeError("Unimp.")
+
 
     def simulate(self, iterations=1600):
         _run_simulations(
@@ -111,11 +135,12 @@ class MCTSNode(object):
 class MCTSPolicy(Policy):
 
 
-    def __init__(self, board, color, model=None, name=None):
+    def __init__(self, board, color, model=None, debug=False, name=None):
         self._board = board
         self._config = board.config
         self._color = Color.of(color)
         self._model = model or _build_model(self._config)
+        self._debug = debug
         self.name = name if name else "mcts_" + color
 
         self._root = None
@@ -138,8 +163,6 @@ class MCTSPolicy(Policy):
             moves = self._board.moves
             last_pos = moves[-1].position  # Component's move
 
-            print("deduced move: ", last_pos)
-
             new_root = self._root.c.get(last_pos)
             assert new_root is not None
             self._root = new_root
@@ -149,7 +172,7 @@ class MCTSPolicy(Policy):
         root.simulate()
 
         # Select
-        pos = root.select()
+        pos = root.select_next_pos_to_play(debug=self._debug)
 
         # Promote new root.
         new_root = root.c.get(pos)
@@ -159,6 +182,9 @@ class MCTSPolicy(Policy):
         return pos
 
 
+# In the tree containing `MCTSNode`, some leafs are not needed as the game is
+# over. `_game_is_over` is the placeholder for those so the node.c dict does not
+# return `None`.
 _game_is_over = object()
 
 
@@ -185,7 +211,7 @@ def _run_simulations(iterations, root_node, root_board):
 
             # Keep play until game is over or new leaf is reached.
             while True:
-                new_pos = current_node.select()
+                new_pos = current_node.select_next_pos_to_evaluate()
 
                 selections.append((current_node, new_pos))
 

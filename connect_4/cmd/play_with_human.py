@@ -2,7 +2,7 @@ import random
 
 from game import GameConfig
 from policy import HumanPolicy
-from policy import BestPolicy
+from policy import MCTSPolicy
 from play import play_games
 
 ###########################
@@ -18,6 +18,9 @@ SHUFFLE_PLAYERS = True
 config = GameConfig()
 print(config)
 
+def BestPolicy(b, c):
+    return MCTSPolicy(b, c, debug=True)
+
 
 if SHUFFLE_PLAYERS and random.random() < 0.5:
     players = lambda b: [HumanPolicy(b, 'b'), BestPolicy(b, 'w')]
@@ -26,6 +29,4 @@ else:
 
 
 play_games(config, players=players)
-
-
 

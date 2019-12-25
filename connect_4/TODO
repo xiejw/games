@@ -1,5 +1,3 @@
 - MCTS
-  - select based on n
   - explore.
-  - fixed the bug.
 - Switch MOdel to MCTS everywhere
