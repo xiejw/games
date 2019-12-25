@@ -1,7 +1,7 @@
 from game import GameConfig
 from data.sql import store_record as sql_store
 from play import play_games
-from policy import ModelPolicy
+from policy import MCTSPolicy
 
 ###########################
 ### Configuration to change
@@ -20,7 +20,7 @@ print(config)
 writer = sql_store if STORE_IN_SQL else None
 
 players = lambda b: [
-        ModelPolicy(b, 'b', epsilon=0.1),
-        ModelPolicy(b, 'w', epsilon=0.1)]
+        MCTSPolicy(b, 'b', explore=True),
+        MCTSPolicy(b, 'w', explore=True)]
 
 play_games(config, players=players, num_epochs=NUM_EPOCHS, write=writer)
