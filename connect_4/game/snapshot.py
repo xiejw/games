@@ -1,8 +1,8 @@
 import collections
 
-from .position import Position
-from .position import Move
 from .position import Color
+from .position import Move
+from .position import Position
 
 
 class SnapshotView(object):
