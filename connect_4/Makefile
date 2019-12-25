@@ -10,7 +10,7 @@ self_plays:
 	PYTHONPATH=. python3 cmd/self_plays.py
 
 kill_self_plays:
-	ps aux | grep self_plays | grep python | awk '{system("kill -9 " $2)}'
+	ps aux | grep self_plays | grep python | awk '{system("kill -9 " $$2)}'
 
 view_db:
 	. data/sql/view_table.sh
