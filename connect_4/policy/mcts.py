@@ -11,7 +11,6 @@ from model import convert_inference_state_to_model_feature
 
 from .policy import Policy
 
-
 # Default path to load weights
 WEIGHTS_FILE = '.build/weights.h5'
 
@@ -100,68 +99,10 @@ class MCTSNode(object):
         return max_pos
 
     def simulate(self, iterations=1600):
-
-        for i in range(iterations):
-            current_node = self
-            current_board = self.board
-
-            # Pairs of node and selection.
-            selections = []
-
-            def backup_reward(b_reward, w_reward):
-                for n, pos in selections:
-                    if n.next_player_color == Color.BLACK:
-                        n.backup(pos, b_reward)
-                    else:
-                        assert n.next_player_color == Color.WHITE
-                        n.backup(pos, w_reward)
-
-            while True:
-                new_pos = current_node.select()
-
-                selections.append((current_node, new_pos))
-
-                new_move = Move(new_pos, current_node.next_player_color)
-                new_board = copy.deepcopy(current_board)
-                new_board.new_move(new_move)
-
-                winner = new_board.winner_after_last_move()
-
-                if winner is not None:
-                    if winner == Color.NA:  # Tie
-                        black_player_reward = 0.0
-                    else:
-                        black_player_reward = (1.0
-                                if winner == Color.BLACK else -1.0)
-
-                    white_player_reward = black_player_reward * -1.0
-
-                    backup_reward(black_player_reward, white_player_reward)
-                    break
-
-                if current_node.c.get(new_pos) is None:
-                    # Expands
-                    next_player_color = current_node.next_player_color.reverse()
-                    expanded_node = MCTSNode(
-                            new_board,
-                            next_player_color,
-                            current_node.model)
-
-                    current_node.c[new_pos] = expanded_node
-
-                    if next_player_color == Color.BLACK:
-                        black_player_reward = expanded_node.predicated_reward
-                    else:
-                        black_player_reward = -1.0 * expanded_node.predicated_reward
-
-                    white_player_reward = black_player_reward * -1.0
-                    backup_reward(black_player_reward, white_player_reward)
-                    break
-
-                # Keeps walking.
-                current_board = new_board
-                current_node = current_node.c.get(new_pos)
-
+        _run_simulations(
+                iterations=iterations,
+                root_node=self,
+                root_board=self.board)
 
 
 # A policy based on MCTS and trained model.
@@ -210,9 +151,93 @@ class MCTSPolicy(Policy):
         # Select
         pos = root.select()
 
+        # Promote new root.
         new_root = root.c.get(pos)
-        assert new_root is not None
+        assert new_root is not None  # new_root might be `_game_is_over`.
         self._root = new_root
 
         return pos
+
+
+_game_is_over = object()
+
+
+# Runs simulations.
+#
+# Write as free funciton for isolation.
+def _run_simulations(iterations, root_node, root_board):
+
+        for i in range(iterations):
+            current_node = root_node
+            current_board = root_board
+
+            # Pairs of node and selection.
+            selections = []
+
+            # Backup reward for all nodes in `selections`.
+            def backup_reward(b_reward, w_reward):
+                for n, pos in selections:
+                    if n.next_player_color == Color.BLACK:
+                        n.backup(pos, b_reward)
+                    else:
+                        assert n.next_player_color == Color.WHITE
+                        n.backup(pos, w_reward)
+
+            # Keep play until game is over or new leaf is reached.
+            while True:
+                new_pos = current_node.select()
+
+                selections.append((current_node, new_pos))
+
+                new_move = Move(new_pos, current_node.next_player_color)
+                new_board = copy.deepcopy(current_board)
+                new_board.new_move(new_move)
+
+                winner = new_board.winner_after_last_move()
+
+                # Found winner.
+                if winner is not None:
+                    # This move will never be made so it should be None (not
+                    # present) or just the placeholder (`_game_is_over`).
+                    node_should_not_exist = current_node.c.get(new_pos)
+                    assert (node_should_not_exist is None or
+                            node_should_not_exist == _game_is_over)
+
+                    # Writes a placehold. This is needed as `MCTSPolicy` will
+                    # still promote new root node. We need an object there.
+                    current_node.c[new_pos] = _game_is_over
+
+                    if winner == Color.NA:  # Tie
+                        black_player_reward = 0.0
+                    else:
+                        black_player_reward = (1.0
+                                if winner == Color.BLACK else -1.0)
+
+                    white_player_reward = black_player_reward * -1.0
+
+                    backup_reward(black_player_reward, white_player_reward)
+                    break  # End this iteration.
+
+                # Expands new leaf
+                if current_node.c.get(new_pos) is None:
+                    next_player_color = current_node.next_player_color.reverse()
+                    expanded_node = MCTSNode(
+                            new_board,
+                            next_player_color,
+                            current_node.model)
+
+                    current_node.c[new_pos] = expanded_node
+
+                    if next_player_color == Color.BLACK:
+                        black_player_reward = expanded_node.predicated_reward
+                    else:
+                        black_player_reward = -1.0 * expanded_node.predicated_reward
+
+                    white_player_reward = black_player_reward * -1.0
+                    backup_reward(black_player_reward, white_player_reward)
+                    break  # End this iteration.
+
+                # Keeps playing in this iteration..
+                current_board = new_board
+                current_node = current_node.c.get(new_pos)
 
