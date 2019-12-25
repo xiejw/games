@@ -6,6 +6,9 @@ run:
 train:
 	PYTHONPATH=. python3 cmd/train.py
 
+self_plays:
+	PYTHONPATH=. python3 cmd/self_plays.py
+
 view_db:
 	. data/sql/view_table.sh
 
