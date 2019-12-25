@@ -2,13 +2,16 @@
 
 # This script opens 4 terminal windows.
 
+NUM_ITERATIONS=20
+NUM_PROCESSES=70
+
 i="0"
 
-while [ $i -lt 20 ]
+while [ $i -lt $NUM_ITERATIONS ]
 do
 
   j="0"
-  while [ $j -lt 69 ]
+  while [ $j -lt $[$NUM_PROCESSES-1] ]
   do
     (unbuffer make self_plays 2>&1 | tee -a /tmp/self_plays_"$j".log) &
     j=$[$j+1]
