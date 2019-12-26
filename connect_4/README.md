@@ -47,3 +47,10 @@ Some Useful Cmds
 
     # Kills all self_plays
     ps aux | grep self_plays | grep python | awk '{system("kill -9 " $2)}'
+
+    # Keeps checking number of self_plays.
+    while true; do
+      sleep 30;
+      date;
+      ps aux | grep python | grep self_plays | wc;
+    done
