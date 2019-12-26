@@ -29,3 +29,5 @@ def get_cursor(retries=3):
             _mydb.reconnect()
 
 
+def commit():
+    _mydb.commit()
