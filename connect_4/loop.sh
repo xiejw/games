@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# This script opens 4 terminal windows.
-
 NUM_ITERATIONS=20
 NUM_PROCESSES=70
 

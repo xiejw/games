@@ -1,10 +1,10 @@
 Libraries
 ========
 
-    # expect is for unbuffer
+    # `expect` is for unbuffer
     brew install mysql expect
 
-    #
+    # On some Debian, mycli is the replacement for mysql
     apt install mysql-client python3-pip
     apt install mycli
 
@@ -22,6 +22,19 @@ Bootstrap
 
     # generate random data to start with
     m bootstrap
+
+One-Off
+=======
+
+    make run
+    make self_plays
+    make train
+
+Loop
+====
+
+    . loop.sh
+
 
 Some Useful Cmds
 ================
