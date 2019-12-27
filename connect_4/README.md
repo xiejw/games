@@ -50,7 +50,7 @@ Some Useful Cmds
 
     # Keeps checking number of self_plays.
     while true; do
-      sleep 30;
+      sleep 180;
       date;
       ps aux | grep python | grep self_plays | wc;
     done
