@@ -31,3 +31,10 @@ def get_cursor(retries=3):
 
 def commit():
     _mydb.commit()
+
+def close():
+    print("Close db.")
+    global _mydb
+    _mydb.close()
+    _mydb = None
+

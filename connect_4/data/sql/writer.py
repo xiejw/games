@@ -8,3 +8,4 @@ def store_record(record_str):
     mycursor.execute(_sql, val)
     commit()
     assert mycursor.rowcount == 1, "SQL write failed."
+    mycursor.close()

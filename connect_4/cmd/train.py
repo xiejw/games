@@ -4,6 +4,7 @@ import os
 import time
 
 from data.sql import read_records
+from data.sql import close as sql_close
 from data import TrainingState
 from model import convert_states_to_model_features
 from model import build_model
@@ -99,4 +100,4 @@ if os.path.exists(WEIGHTS_FILE):
   os.remove(WEIGHTS_FILE)
 os.symlink(os.path.basename(file_name), WEIGHTS_FILE)
 
-
+sql_close()

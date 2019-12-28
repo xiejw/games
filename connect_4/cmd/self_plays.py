@@ -2,6 +2,7 @@ import datetime
 
 from game import GameConfig
 from data.sql import store_record as sql_store
+from data.sql import close as sql_close
 from play import play_games
 from policy import MCTSPolicy
 
@@ -30,3 +31,5 @@ players = lambda b: [
         MCTSPolicy(b, 'w', iterations=600, explore=True)]
 
 play_games(config, players=players, num_epochs=NUM_EPOCHS, writer=writer)
+
+sql_close()

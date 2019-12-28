@@ -9,3 +9,4 @@ def read_records(max_num=20):
     results = cursor.fetchall()
 
     return [x[0] for x in results]
+    cursor.close()

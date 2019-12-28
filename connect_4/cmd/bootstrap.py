@@ -1,6 +1,7 @@
 from game import GameConfig
 from policy import RandomPolicy
 from data.sql import store_record as sql_store
+from data.sql import close as sql_close
 from play import play_games
 
 ###########################
@@ -21,3 +22,6 @@ writer = sql_store if STORE_IN_SQL else None
 players = lambda b: [RandomPolicy(b, 'b'), RandomPolicy(b, 'w')]
 
 play_games(config, players=players, writer=writer)
+
+sql_close()
+
