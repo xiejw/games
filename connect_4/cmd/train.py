@@ -14,10 +14,11 @@ from game import GameConfig
 ### Configuration to change
 ###########################
 
+# 10 iterations.
 # 70 processes, 35 records per epoch, 50 epochs for process.
-NUM_SAMPLES = 70 * 35 * 50
+NUM_SAMPLES = 70 * 35 * 50 * 10
 # NUM_SAMPLES = 1
-NUM_EPOCHS = 1
+NUM_EPOCHS = 12
 BATCH_SIZE = 128
 WEIGHTS_FILE = '.build/weights.h5'
 
@@ -71,9 +72,11 @@ input_shape = (config.rows, config.columns, 3)
 m = build_model(input_shape, num_classes)
 m.summary()
 
-if os.path.exists(WEIGHTS_FILE):
-    print("!!! Loading weights for model.")
-    m.load_weights(WEIGHTS_FILE)
+# We disable weights loading in favor of training from scratch.
+#
+# if os.path.exists(WEIGHTS_FILE):
+#     print("!!! Loading weights for model.")
+#     m.load_weights(WEIGHTS_FILE)
 
 
 print("Training the model.")
