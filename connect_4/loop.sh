@@ -1,22 +1,13 @@
 #!/bin/bash
 
 NUM_ITERATIONS=20
-NUM_PROCESSES=70
 
 i="0"
 
 while [ $i -lt $NUM_ITERATIONS ]
 do
 
-  j="0"
-  while [ $j -lt $[$NUM_PROCESSES-1] ]
-  do
-    (unbuffer make self_plays 2>&1 | tee -a /tmp/self_plays_"$j".log) &
-    j=$[$j+1]
-  done
-
-  unbuffer make self_plays | tee -a /tmp/self_plays.log
-
+  unbuffer make launch_self_plays
   unbuffer make train | tee -a /tmp/training.log | tee /tmp/training_"$i".log
 
   i=$[$i+1]

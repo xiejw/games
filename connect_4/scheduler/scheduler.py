@@ -1,12 +1,10 @@
-import subprocess
 import time
-import random
 
 
 # A scheduler launches jobs in background.
 class Scheduler(object):
 
-    def __init__(self, launcher, total_jobs, max_concurrent_jobs=40,
+    def __init__(self, launcher, total_jobs, max_concurrent_jobs,
             sleep_secs=5, log_fn=print):
         self._launcher = launcher
         self._total_jobs = total_jobs
@@ -57,13 +55,3 @@ class Scheduler(object):
 
             log_fn("== Sleep for %d secs\n\n\n" % self._sleep_secs)
             time.sleep(self._sleep_secs)
-
-def launcher(global_index):
-    del global_index
-    secs = int(random.random() * 20) + 10
-    args = ['sleep', str(secs)]
-    return subprocess.Popen(args)
-
-
-sch = Scheduler(launcher, total_jobs=70)
-sch.run()

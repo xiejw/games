@@ -6,6 +6,9 @@ run:
 train:
 	PYTHONPATH=. python3 cmd/train.py
 
+launch_self_plays:
+	PYTHONPATH=. python3 cmd/launch_self_plays.py
+
 self_plays:
 	PYTHONPATH=. python3 cmd/self_plays.py
 
