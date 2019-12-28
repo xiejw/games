@@ -1,5 +1,0 @@
-Write a process scheduler.
-  - Current due to OOM or unexpected error. The self plays shuts down by itself. This 
-    hurts training.
-  - We should inform training routing about the number of epochs and number of process, 
-    rather than hard code.

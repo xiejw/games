@@ -2,6 +2,10 @@ import time
 
 
 # A scheduler launches jobs in background.
+#
+# - This schduduler maintainces a pool of max of `max_concurrent_jobs` in total.
+# - Periodically check finished jobs.
+# - Launch new jobs toward both `max_concurrent_jobs` and `total_jobs`.
 class Scheduler(object):
 
     def __init__(self, launcher, total_jobs, max_concurrent_jobs,
