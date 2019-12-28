@@ -27,8 +27,8 @@ print(config)
 writer = sql_store if STORE_IN_SQL else None
 
 players = lambda b: [
-        MCTSPolicy(b, 'b', iterations=600, explore=True),
-        MCTSPolicy(b, 'w', iterations=600, explore=True)]
+        MCTSPolicy(b, 'b', iterations=1600, explore=True),
+        MCTSPolicy(b, 'w', iterations=1600, explore=True)]
 
 play_games(config, players=players, num_epochs=NUM_EPOCHS, writer=writer)
 
