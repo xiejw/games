@@ -18,8 +18,10 @@ view_db:
 db:
 	. data/sql/connect_table.sh
 
-bootstrap:
+bootstrap: clean
 	mkdir .build
+	PYTHONPATH=. python3 cmd/bootstrap.py
+	make train
 
 clean:
 	rm -rf .build

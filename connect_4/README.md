@@ -20,8 +20,10 @@ Bootstrap
     # create table
     . data/sql/create_table.sh
 
-    # generate random data to start with
-    m bootstrap
+    # Generate random data to start with.
+    #
+    # This will delete old data!!!!
+    make bootstrap
 
 One-Off
 =======
@@ -54,3 +56,9 @@ Some Useful Cmds
       date;
       ps aux | grep python | grep self_plays | wc;
     done
+
+Databases
+=========
+
+    select count(*) from records;
+    delete from records;
