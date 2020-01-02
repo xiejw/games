@@ -27,6 +27,7 @@ WEIGHTS_FILE = '.build/weights.h5'
 ###########################
 
 print("=================================")
+print("Start Training Routing.")
 print(datetime.datetime.now())
 print("=================================")
 
@@ -104,3 +105,8 @@ if os.path.exists(WEIGHTS_FILE):
 os.symlink(os.path.basename(file_name), WEIGHTS_FILE)
 
 sql_close()
+
+print("=================================")
+print("End Training Routing.")
+print(datetime.datetime.now())
+print("=================================")
