@@ -10,7 +10,7 @@ from policy import MCTSPolicy
 ### Configuration to change
 ###########################
 
-NUM_EPOCHS = 50
+NUM_EPOCHS = 1
 STORE_IN_SQL = True
 
 ###########################

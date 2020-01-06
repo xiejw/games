@@ -21,5 +21,5 @@ def launcher(global_index):
 
     return job
 
-sch = Scheduler(launcher, total_jobs=70, max_concurrent_jobs=70)
+sch = Scheduler(launcher, total_jobs=3500, max_concurrent_jobs=30)
 sch.run()
