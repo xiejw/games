@@ -10,6 +10,8 @@ from policy import MCTSPolicy
 ### Configuration to change
 ###########################
 
+# We rely on the `cmd/launcn_self_plays` to launch lots of self plays in a
+# fine-controlled manner.
 NUM_EPOCHS = 1
 STORE_IN_SQL = True
 

@@ -1,7 +1,7 @@
 Libraries
 ========
 
-    # `expect` is for unbuffer
+    # `expect` is for `unbuffer`
     brew install mysql expect
 
     # On some Debian, mycli is the replacement for mysql
@@ -22,7 +22,7 @@ Bootstrap
 
     # Generate random data to start with.
     #
-    # This will delete old data!!!!
+    # This will delete old checkpoints!!!!
     make bootstrap
 
 One-Off
@@ -48,6 +48,7 @@ Some Useful Cmds
     ps aux | grep python | grep self_plays | wc
 
     # Kills all self_plays
+    # Not needed for `launch_self_plays`
     ps aux | grep self_plays | grep python | awk '{system("kill -9 " $2)}'
 
     # Keeps checking number of self_plays.
