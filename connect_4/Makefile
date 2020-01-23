@@ -1,7 +1,7 @@
 default: run
 
 run:
-	PYTHONPATH=. python3 cmd/play_with_human.py
+	TF_CPP_MIN_LOG_LEVEL=3 PYTHONPATH=. python3 cmd/play_with_human.py
 
 train:
 	PYTHONPATH=. python3 cmd/train.py
