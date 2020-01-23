@@ -1,3 +1,8 @@
+Docker
+=====
+
+    make run_docker
+
 Libraries
 ========
 
@@ -8,7 +13,7 @@ Libraries
     apt install mysql-client python3-pip
     apt install mycli
 
-    pip3 install mysql-connector-python keras=2.3.1 tensorflow==1.14
+    pip3 install mysql-connector-python keras==2.3.1 tensorflow==1.14
 
 
 Bootstrap
