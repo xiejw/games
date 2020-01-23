@@ -23,6 +23,9 @@ bootstrap: clean
 	PYTHONPATH=lib python3 cmd/bootstrap.py
 	make train
 
+loop:
+	. cmd/loop.sh
+
 clean:
 	rm -rf .build
 
