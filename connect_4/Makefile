@@ -1,8 +1,14 @@
 default: run
 
+################################################################################
+# Plays the game.
+################################################################################
 run:
 	TF_CPP_MIN_LOG_LEVEL=3 PYTHONPATH=. python3 cmd/play_with_human.py
 
+################################################################################
+# Self plays and training.
+################################################################################
 train:
 	PYTHONPATH=. python3 cmd/train.py
 
@@ -12,12 +18,6 @@ launch_self_plays:
 self_plays:
 	PYTHONPATH=. python3 cmd/self_plays.py
 
-view_db:
-	. data/sql/view_table.sh
-
-db:
-	. data/sql/connect_table.sh
-
 bootstrap: clean
 	mkdir .build
 	PYTHONPATH=. python3 cmd/bootstrap.py
@@ -26,8 +26,9 @@ bootstrap: clean
 clean:
 	rm -rf .build
 
+################################################################################
 # Docker related
-#
+################################################################################
 build_docker:
 	docker build -t xiejw/connect_4 \
 		--build-arg WEIGHT_FILE=golden_weights/2020-01-22.h5 \
@@ -36,3 +37,13 @@ build_docker:
 
 run_docker:
 	docker run --rm -ti xiejw/connect_4
+
+################################################################################
+# Database related
+################################################################################
+view_db:
+	. data/sql/view_table.sh
+
+db:
+	. data/sql/connect_table.sh
+
