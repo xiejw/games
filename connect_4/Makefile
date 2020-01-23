@@ -4,7 +4,7 @@ default: run
 # Plays the game.
 ################################################################################
 run:
-	TF_CPP_MIN_LOG_LEVEL=3 PYTHONPATH=. python3 cmd/play_with_human.py
+	PYTHONPATH=. python3 cmd/play_with_human.py
 
 ################################################################################
 # Self plays and training.

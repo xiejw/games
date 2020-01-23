@@ -21,6 +21,7 @@ COPY game     /workdir/game
 COPY model    /workdir/model
 COPY play     /workdir/play
 COPY policy   /workdir/policy
+COPY util     /workdir/util
 
 COPY docker/run.sh /workdir
 
