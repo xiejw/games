@@ -16,12 +16,7 @@ RUN pip3 install keras==2.3.1 tensorflow==1.14
 RUN mkdir -p /workdir/cmd /workdir/.build
 
 COPY cmd/play_with_human.py /workdir/cmd
-COPY data     /workdir/data
-COPY game     /workdir/game
-COPY model    /workdir/model
-COPY play     /workdir/play
-COPY policy   /workdir/policy
-COPY util     /workdir/util
+COPY lib     /workdir/lib
 
 COPY docker/run.sh /workdir
 

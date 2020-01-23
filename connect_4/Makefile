@@ -4,23 +4,23 @@ default: run
 # Plays the game.
 ################################################################################
 run:
-	PYTHONPATH=. python3 cmd/play_with_human.py
+	PYTHONPATH=lib python3 cmd/play_with_human.py
 
 ################################################################################
 # Self plays and training.
 ################################################################################
 train:
-	PYTHONPATH=. python3 cmd/train.py
+	PYTHONPATH=lib python3 cmd/train.py
 
 launch_self_plays:
-	PYTHONPATH=. python3 cmd/launch_self_plays.py
+	PYTHONPATH=lib python3 cmd/launch_self_plays.py
 
 self_plays:
-	PYTHONPATH=. python3 cmd/self_plays.py
+	PYTHONPATH=lib python3 cmd/self_plays.py
 
 bootstrap: clean
 	mkdir .build
-	PYTHONPATH=. python3 cmd/bootstrap.py
+	PYTHONPATH=lib python3 cmd/bootstrap.py
 	make train
 
 clean:
