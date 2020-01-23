@@ -1,3 +1,6 @@
+import util
+util.suppress_tf_warning()
+
 import datetime
 import random
 import os
