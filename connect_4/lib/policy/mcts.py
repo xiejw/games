@@ -104,15 +104,18 @@ class MCTSNode(object):
             q.append((pos, self.n[pos]))
 
         if debug:
+            print("")
             for i, item in enumerate(
                     sorted(q, key=lambda x: x[1], reverse=True)[:5]):
                 pos = item[0]
                 n = item[1]
-                print("Candidate %d: %s:" % (i, pos))
-                print("   -> n (%d) p (%f) w (%f)" % (
+                print("  Candidate %d: %s:  -> n (%4d) p (%f) w (%f)" % (
+                    i,
+                    pos,
                     n,
                     self.p[pos],
                     self.w[pos] / (n if n else 1)))
+            print("")
 
         if not explore:
             # Select the pos with maximum visited counts.
