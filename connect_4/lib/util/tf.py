@@ -1,7 +1,11 @@
-# Disable all warnings from TensorFlow (Python side).
+# Disable all warnings from TensorFlow.
 #
 # - The order to disable warnings matters.
-# - For CPP side, set # TF_CPP_MIN_LOG_LEVEL=3.
+#   - Disable future warnings.
+#   - Disable deprecation warnings.
+#   - Disable annoying warning and info in codebase.
+#
+# - For CPP side, set TF_CPP_MIN_LOG_LEVEL=3.
 def suppress_tf_warning():
 
     import os
@@ -16,7 +20,4 @@ def suppress_tf_warning():
 
         import tensorflow as tf
 
-        # In addition, disable warning logging.
         tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
-
-        from tensorflow import keras
