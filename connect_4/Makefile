@@ -34,7 +34,7 @@ clean:
 ################################################################################
 build_docker:
 	docker build -t xiejw/connect_4 \
-		--build-arg WEIGHT_FILE=golden_weights/2020-01-22.h5 \
+		--build-arg WEIGHT_FILE=data/golden_weights/2020-01-22.h5 \
 		-f docker/Dockerfile \
 		.
 
