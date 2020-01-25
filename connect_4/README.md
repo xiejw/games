@@ -48,10 +48,10 @@ Bootstrap
 ---------
 
     # create docker
-    . data/sql/create_sql_docker.sh
+    . lib/data/sql/create_sql_docker.sh
 
     # create table
-    . data/sql/create_table.sh
+    . lib/data/sql/create_table.sh
 
     # Generate random data to start with.
     #

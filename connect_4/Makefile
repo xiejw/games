@@ -1,3 +1,5 @@
+BUILD=.build
+
 default: run
 
 ################################################################################
@@ -19,7 +21,7 @@ self_plays:
 	PYTHONPATH=lib python3 cmd/self_plays.py
 
 bootstrap: clean
-	mkdir .build
+	mkdir ${BUILD}
 	PYTHONPATH=lib python3 cmd/bootstrap.py
 	make train
 
@@ -27,7 +29,7 @@ loop:
 	. cmd/loop.sh
 
 clean:
-	rm -rf .build
+	rm -rf ${BUILD}
 
 ################################################################################
 # Docker related
@@ -45,8 +47,8 @@ run_docker:
 # Database related
 ################################################################################
 view_db:
-	. data/sql/view_table.sh
+	. lib/data/sql/view_table.sh
 
 db:
-	. data/sql/connect_table.sh
+	. lib/data/sql/connect_table.sh
 
