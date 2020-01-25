@@ -1,5 +1,5 @@
 Connect Four
-------------
+============
 
 According to Wikipedia:
 
@@ -13,17 +13,17 @@ of one's own discs.
 ![ConnectFour](./data/images/Connect_Four.gif)
 
 Let's Play
-----------
+==========
 
 Simply run the docker:
 
     make run_docker
 
 How to Train From Scratch
--------------------------
+=========================
 
 Prerequisite Libraries
-======================
+----------------------
 
     # macOS
     #
@@ -45,7 +45,7 @@ Prerequisite Libraries
 
 
 Bootstrap
-=========
+---------
 
     # create docker
     . data/sql/create_sql_docker.sh
@@ -59,20 +59,20 @@ Bootstrap
     make bootstrap
 
 One-Off
-=======
+-------
 
     make run
     make self_plays
     make train
 
 Loop
-====
+----
 
     . cmd/loop.sh
 
 
 Some Useful Cmds
-================
+----------------
 
     # Keeps checking number of self_plays.
     while true; do
@@ -82,7 +82,7 @@ Some Useful Cmds
     done
 
 Databases
-=========
+---------
 
     select count(*) from records;
     delete from records;
