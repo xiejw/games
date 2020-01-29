@@ -44,8 +44,8 @@ def get_players(weight_files):
         model_2 = _build_model(config, weight_files[1])
 
         return [
-                MCTSPolicy(board, 'b', model=model_1, iterations=1600, explore=True),
-                MCTSPolicy(board, 'w', model=model_2, iterations=1600, explore=True)
+                MCTSPolicy(board, 'b', model=model_1, iterations=1600, explore=True, debug=True),
+                MCTSPolicy(board, 'w', model=model_2, iterations=1600, explore=True, debug=True)
         ]
     return players_fn
 
