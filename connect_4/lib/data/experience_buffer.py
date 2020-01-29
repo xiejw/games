@@ -86,3 +86,11 @@ class ExperienceBuffer(object):
         print("On average %.3f states/epoch." % (
             self._num_states_reported / self._num_epochs))
 
+    # Returns the history dict.
+    def history(self):
+        return {
+                'num_black_wins': self._num_black_wins,
+                'num_white_wins': self._num_white_wins,
+                'num_ties': self._num_ties,
+        }
+

@@ -25,6 +25,9 @@ bootstrap: clean
 	PYTHONPATH=lib python3 cmd/bootstrap.py
 	make train
 
+evaluate:
+	PYTHONPATH=lib python3 cmd/evaluate.py
+
 loop:
 	. cmd/loop.sh
 

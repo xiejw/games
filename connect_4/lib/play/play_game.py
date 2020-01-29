@@ -56,3 +56,5 @@ def play_games(config, players, num_epochs=1, writer=None):
         ebuf.report()
 
     ebuf.summary()
+
+    return ebuf.history()

@@ -27,3 +27,6 @@ This folder contains all scripts to run the components. In particular,
     # A simple bash loop to call launch_self_plays and train in turns.
     loop.sh
 
+    # Evaluates the models used by MCTS.
+    # Caller should provide two ckpt paths.
+    evaluate.py
