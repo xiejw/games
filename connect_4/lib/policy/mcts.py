@@ -29,7 +29,7 @@ class MCTSNode(object):
 
     # MCTSNode should own the board. Call site should make deepcopy if
     # necessary.
-    def __init__(self, board, next_player_color, model):
+    def __init__(self, board, next_player_color, model, inject_noise=False):
         self.board = board
         self._config = board.config
         self.next_player_color = next_player_color
@@ -70,10 +70,18 @@ class MCTSNode(object):
 
         for pos in self.legal_positions:
             index = self._config.convert_position_to_index(pos)
-            # TODO: Consider to add some noise.
             self.p[pos] = policy_pred[0][index]
             self.n[pos] = 0
             self.w[pos] = 0
+
+        # We inject uniform noises.
+        if inject_noise:
+            print("Inject noise.")
+            noise = 1.0 / len(self.legal_positions)
+
+            for pos in self.legal_positions:
+                self.p[pos] = 0.5 * self.p[pos] + 0.5 * noise
+
 
     def backup(self, pos, value):
         assert pos in self.n
@@ -146,6 +154,7 @@ class MCTSPolicy(Policy):
         self._color = Color.of(color)
         self._model = model or _build_model(self._config)
         self._iterations = iterations
+        self._inject_noise_to_root = True
         self._explore = explore
         self._debug = debug
         self.name = name if name else "mcts_" + color
@@ -163,7 +172,9 @@ class MCTSPolicy(Policy):
                 assert len(self._board.moves) == 1
 
             new_board = copy.deepcopy(self._board)  # make a copy
-            node = MCTSNode(new_board, self._color, self._model)
+            # We inject noise only for root.
+            node = MCTSNode(new_board, self._color, self._model,
+                            inject_noise=self._inject_noise_to_root)
             self._root = node
         else:
             # Promot next node
