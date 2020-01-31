@@ -24,6 +24,13 @@ class ExperienceBuffer(object):
     def start_epoch(self):
         assert not self._current_epoch_moves
 
+    def abort_epoch(self):
+        assert self._current_epoch_moves
+        self._reset_after_epoch()
+
+    def _reset_after_epoch(self):
+        self._current_epoch_moves = []
+
     # Ends the current epoch. Calculates the reward and stores them.
     #
     # winner == Color.NA means a tie
@@ -60,8 +67,7 @@ class ExperienceBuffer(object):
 
         self._num_epochs += 1
 
-        # Reset
-        self._current_epoch_moves = []
+        self._reset_after_epoch()
 
     def add_move(self, move):
         self._current_epoch_moves.append(move)

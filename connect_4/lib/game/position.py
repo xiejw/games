@@ -45,6 +45,9 @@ class Color(enum.Enum):
         assert self == Color.BLACK or self == Color.WHITE
         return Color.WHITE if self == Color.BLACK else Color.BLACK
 
+    def __hash__(self):
+        return hash(self.value)
+
     def __str__(self):
         return self.value
 
@@ -67,6 +70,14 @@ class Move(object):
 
     def __str__(self):
         return "%s%s" % (self.color, self.position)
+
+    def __hash__(self):
+        return hash((self.position, self.color))
+
+    def __eq__(self, o):
+        if o is None:
+            return False
+        return self.position == o.position and self.color == o.color
 
     # reserve the `__str__`.
     #
