@@ -57,7 +57,8 @@ history_1 = play_games(
                 WEIGHTS_FILE_1,
                 WEIGHTS_FILE_2,
         ]),
-        num_epochs=NUM_EPOCHS // 2)
+        num_epochs=NUM_EPOCHS // 2,
+        avoid_dup=True)
 
 m1_wins = history_1['num_black_wins']
 m2_wins = history_1['num_white_wins']
@@ -68,7 +69,8 @@ history_2 = play_games(
                 WEIGHTS_FILE_2,
                 WEIGHTS_FILE_1,
         ]),
-        num_epochs=NUM_EPOCHS // 2)
+        num_epochs=NUM_EPOCHS // 2,
+        avoid_dup=True)
 
 m1_wins += history_2['num_white_wins']
 m2_wins += history_2['num_black_wins']
