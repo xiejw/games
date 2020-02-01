@@ -2,6 +2,8 @@ import random
 import math
 import copy
 
+import numpy as np
+
 from data import InferenceState
 from game import Color
 from game import Move
@@ -76,11 +78,12 @@ class MCTSNode(object):
 
         # We inject uniform noises.
         if inject_noise:
-            print("Inject noise.")
-            noise = 1.0 / len(self.legal_positions)
+            print("Inject uniform noise.")
+            a = np.random.uniform(0, 1, len(self.legal_positions))
+            a = a / np.sum(a)
 
-            for pos in self.legal_positions:
-                self.p[pos] = 0.5 * self.p[pos] + 0.5 * noise
+            for (i, pos) in enumerate(self.legal_positions):
+                self.p[pos] = 0.75 * self.p[pos] + 0.25 * a[i]
 
 
     def backup(self, pos, value):
