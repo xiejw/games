@@ -1,4 +1,5 @@
 BUILD=.build
+WEIGHT_FILE=data/golden_weights/2020-01-28.h5
 
 default: run
 
@@ -39,7 +40,14 @@ clean:
 ################################################################################
 build_docker:
 	docker build -t xiejw/connect_4 \
-		--build-arg WEIGHT_FILE=data/golden_weights/2020-01-22.h5 \
+		--build-arg WEIGHT_FILE=${WEIGHT_FILE} \
+		-f docker/Dockerfile \
+		.
+
+build_docker_no_cache:
+	docker build -t xiejw/connect_4 \
+		--no-cache \
+		--build-arg WEIGHT_FILE=${WEIGHT_FILE} \
 		-f docker/Dockerfile \
 		.
 
