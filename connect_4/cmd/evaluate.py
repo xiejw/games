@@ -25,8 +25,9 @@ print("=================================")
 config = GameConfig()
 print(config)
 
-WEIGHTS_FILE_1 = '.build/weights.h5-1579687310'
-WEIGHTS_FILE_2 = '.build/weights.h5-1580236502'
+WEIGHTS_FILE_1 = '.build/weights.h5-1579687310' # Jan 22
+WEIGHTS_FILE_2 = '.build/weights.h5-1579974603' # Jan 25
+# WEIGHTS_FILE_2 = '.build/weights.h5-1580236502' # Jan 28
 
 # Builds a model and loads weights from specific weight file.
 def _build_model(config, weight_file):
