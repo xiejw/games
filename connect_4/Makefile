@@ -27,7 +27,7 @@ bootstrap: clean
 	make train
 
 evaluate:
-	PYTHONPATH=lib python3 cmd/evaluate.py
+	PYTHONPATH=lib unbuffer python3 cmd/evaluate.py | tee /tmp/evaluate.txt
 
 loop:
 	. cmd/loop.sh

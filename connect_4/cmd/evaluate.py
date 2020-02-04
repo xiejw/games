@@ -25,8 +25,23 @@ print("=================================")
 config = GameConfig()
 print(config)
 
-WEIGHTS_FILE_1 = '.build/weights.h5-1579687310' # Jan 22
-WEIGHTS_FILE_2 = '.build/weights.h5-1579974603' # Jan 25
+# Results
+#
+# Day 0 vs 1
+# Results for round 1: {'num_black_wins': 3, 'num_white_wins': 15, 'num_ties': 2}
+# Results for round 2: {'num_black_wins': 14, 'num_white_wins': 5, 'num_ties': 1}
+# Model 1 .build/weights.h5-1580693471 wins: 8
+# Model 2 .build/weights.h5-1580745471 wins: 29
+
+WEIGHTS = [
+        '.build/weights.h5-1580693471',  # Day 0 random
+        '.build/weights.h5-1580745471',  # Day 1
+]
+
+WEIGHTS_FILE_1 = WEIGHTS[-2]
+WEIGHTS_FILE_2 = WEIGHTS[-1]
+
+# Final in previous test.
 # WEIGHTS_FILE_2 = '.build/weights.h5-1580236502' # Jan 28
 
 # Builds a model and loads weights from specific weight file.
