@@ -25,6 +25,12 @@ print("=================================")
 config = GameConfig()
 print(config)
 
+WEIGHTS = [
+        '.build/weights.h5-1580693471',  # Feb 2, 2020. Day 0 random
+        '.build/weights.h5-1580745471',  # Feb 3, 2020. Day 1
+        '.build/weights.h5-1580810590',  # Feb 4, 2020. Day 2
+]
+
 # Results
 #
 # Day 0 vs 1
@@ -33,10 +39,12 @@ print(config)
 # Model 1 .build/weights.h5-1580693471 wins: 8
 # Model 2 .build/weights.h5-1580745471 wins: 29
 
-WEIGHTS = [
-        '.build/weights.h5-1580693471',  # Day 0 random
-        '.build/weights.h5-1580745471',  # Day 1
-]
+# Day 1 vs 2
+# Results for round 1: {'num_black_wins': 3, 'num_white_wins': 16, 'num_ties': 1}
+# Results for round 2: {'num_black_wins': 15, 'num_white_wins': 3, 'num_ties': 2}
+# Model 1 .build/weights.h5-1580745471 wins: 6
+# Model 2 .build/weights.h5-1580810590 wins: 31
+
 
 WEIGHTS_FILE_1 = WEIGHTS[-2]
 WEIGHTS_FILE_2 = WEIGHTS[-1]
