@@ -29,6 +29,9 @@ bootstrap: clean
 evaluate:
 	PYTHONPATH=lib unbuffer python3 cmd/evaluate.py | tee /tmp/evaluate.txt
 
+elo_rating:
+	PYTHONPATH=lib python3 cmd/elo_rating.py
+
 loop:
 	. cmd/loop.sh
 

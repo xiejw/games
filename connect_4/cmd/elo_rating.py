@@ -72,6 +72,6 @@ for (k, v) in RESULTS.items():
             break
 
     if k == 1:
-      print("Elo rating for model {}: {:.2f}".format(0, elo_r[0]))
+      print("Elo rating for model {}: {:.2f} (anchored)".format(0, elo_r[0]))
 
     print("Elo rating for model {}: {:.2f}".format(k, elo_r[k]))

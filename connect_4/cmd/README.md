@@ -30,3 +30,7 @@ This folder contains all scripts to run the components. In particular,
     # Caller should provide two ckpt paths. Currently it is hard coded in script
     # now :(
     evaluate.py
+
+    # Evaluates elo rating for each ckeckpoint dumped in each iteration.
+    # The results are collected via the output from `evaluate.py`
+    elo_rating.py
