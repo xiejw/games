@@ -26,24 +26,32 @@ config = GameConfig()
 print(config)
 
 WEIGHTS = [
-        '.build/weights.h5-1580693471',  # Feb 2, 2020. Day 0 random
-        '.build/weights.h5-1580745471',  # Feb 3, 2020. Day 1
-        '.build/weights.h5-1580810590',  # Feb 4, 2020. Day 2
+        '.build/weights.h5-1580693471',  # Feb 2 (17:31), 2020. Iter 0 random
+        '.build/weights.h5-1580745471',  # Feb 3 (07:57), 2020. Iter 1
+        '.build/weights.h5-1580810590',  # Feb 4 (02:23), 2020. Iter 2
+        '.build/weights.h5-1580887732',  # FEb 4 (23:28), 2020, Iter 3
+        '.build/weights.h5-1580963956',  # Feb 5 (20:39), 2020. Iter 4
 ]
 
 # Results
 #
-# Day 0 vs 1
+# Iter 0 vs 1
 # Results for round 1: {'num_black_wins': 3, 'num_white_wins': 15, 'num_ties': 2}
 # Results for round 2: {'num_black_wins': 14, 'num_white_wins': 5, 'num_ties': 1}
 # Model 1 .build/weights.h5-1580693471 wins: 8
 # Model 2 .build/weights.h5-1580745471 wins: 29
 
-# Day 1 vs 2
+# Iter 1 vs 2
 # Results for round 1: {'num_black_wins': 3, 'num_white_wins': 16, 'num_ties': 1}
 # Results for round 2: {'num_black_wins': 15, 'num_white_wins': 3, 'num_ties': 2}
 # Model 1 .build/weights.h5-1580745471 wins: 6
 # Model 2 .build/weights.h5-1580810590 wins: 31
+
+# Iter 2 vs 3
+# Results for round 1: {'num_black_wins': 2, 'num_white_wins': 13, 'num_ties': 5}
+# Results for round 2: {'num_black_wins': 10, 'num_white_wins': 3, 'num_ties': 7}
+# Model 1 .build/weights.h5-1580810590 wins: 5
+# Model 2 .build/weights.h5-1580887732 wins: 23
 
 
 WEIGHTS_FILE_1 = WEIGHTS[-2]
