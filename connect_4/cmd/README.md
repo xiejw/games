@@ -1,6 +1,5 @@
 This folder contains all scripts to run the components. In particular,
 
-
     # Plays the MCT policy, based on current best model, against human player.
     play_with_human.py
 
@@ -28,5 +27,6 @@ This folder contains all scripts to run the components. In particular,
     loop.sh
 
     # Evaluates the models used by MCTS.
-    # Caller should provide two ckpt paths.
+    # Caller should provide two ckpt paths. Currently it is hard coded in script
+    # now :(
     evaluate.py
