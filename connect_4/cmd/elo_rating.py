@@ -77,3 +77,20 @@ for (k, v) in RESULTS.items():
       print("Elo rating for model {}: {:.2f} (anchored)".format(0, elo_r[0]))
 
     print("Elo rating for model {}: {:.2f}".format(k, elo_r[k]))
+
+
+def plot_elo_ratings(elo_r):
+    import numpy as np
+    import PyGnuplot as gp
+    import tempfile
+    assert isinstance(elo_r, collections.OrderedDict)
+
+    X = np.arange(len(elo_r))
+    Y = np.array([r for r in elo_r.values()])
+
+    with tempfile.NamedTemporaryFile() as fp:
+        gp.s([X,Y], filename=fp.name)
+        gp.c('plot "{}" u 1:2 notitle w lp'.format(fp.name))
+        input('press any key to continue')
+
+plot_elo_ratings(elo_r)

@@ -41,7 +41,7 @@ Prerequisite Libraries
     # Both macOs and Linux
     #
     # Install Python libraries
-    pip3 install mysql-connector-python keras==2.3.1 tensorflow==1.14
+    pip3 install mysql-connector-python keras==2.3.1 tensorflow==1.14 PyGnuplot
 
 
 Bootstrap
