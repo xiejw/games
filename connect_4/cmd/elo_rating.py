@@ -82,7 +82,11 @@ for (k, v) in RESULTS.items():
 
 def plot_elo_ratings(elo_r):
     import numpy as np
-    import PyGnuplot as gp
+    try:
+        import PyGnuplot as gp
+    except:
+        print("Skip plotting the graph as PyGnuplot is not installed.")
+        return
     import tempfile
     assert isinstance(elo_r, collections.OrderedDict)
 
