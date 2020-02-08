@@ -67,6 +67,12 @@ WEIGHTS = [
 # Model 1 .build/weights.h5-1580963956 wins: 6
 # Model 2 .build/weights.h5-1581041476 wins: 28
 
+# Iter 5 vs 6
+# Results for round 1: {'num_black_wins': 6, 'num_white_wins': 7, 'num_ties': 7}
+# Results for round 2: {'num_black_wins': 9, 'num_white_wins': 5, 'num_ties': 6}
+# Model 1 .build/weights.h5-1581041476 wins: 11
+# Model 2 .build/weights.h5-1581125796 wins: 16
+
 
 WEIGHTS_FILE_1 = WEIGHTS[-2]
 WEIGHTS_FILE_2 = WEIGHTS[-1]
