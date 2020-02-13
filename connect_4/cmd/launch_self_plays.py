@@ -3,11 +3,12 @@ import random
 
 from scheduler import Scheduler
 
+LOG_FILE = '/tmp/scheduler.log'
 
 ## Launches the self_plays and attachs the logs to tee.
 def launcher(global_index):
     # Writes the tee outputs to this file for audit.
-    f = open('/tmp/scheduler.log', 'a')
+    f = open(LOG_FILE, 'a')
 
     # Launches the self_plays immediately.
     job = subprocess.Popen(('unbuffer', 'make', 'self_plays'),
@@ -21,5 +22,6 @@ def launcher(global_index):
 
     return job
 
+print("Please monitor logging at", LOG_FILE)
 sch = Scheduler(launcher, total_jobs=3500, max_concurrent_jobs=30)
 sch.run()

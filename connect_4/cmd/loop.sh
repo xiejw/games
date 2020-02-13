@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Log files are
+#
+# - /tmp/scheduler.log (Dumped by launch_self_plays)
+# - /tmp/training.log
+
 NUM_ITERATIONS=20
 
 i="0"
