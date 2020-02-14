@@ -33,6 +33,7 @@ RESULTS[5] = {'win': 28, 'lost':  6, 'tie':  6}
 RESULTS[6] = {'win': 16, 'lost': 11, 'tie': 13}
 RESULTS[7] = {'win': 20, 'lost':  7, 'tie': 13}
 RESULTS[8] = {'win': 16, 'lost':  4, 'tie': 20}
+RESULTS[9] = {'win': 14, 'lost':  5, 'tie': 21}
 
 elo_r = collections.OrderedDict()
 elo_r[0] = 1000.  # Anchored.

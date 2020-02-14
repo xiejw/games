@@ -26,15 +26,16 @@ config = GameConfig()
 print(config)
 
 WEIGHTS = [
-        '.build/weights.h5-1580693471',  # Feb 2 (17:31), 2020. Iter 0 random
-        '.build/weights.h5-1580745471',  # Feb 3 (07:57), 2020. Iter 1
-        '.build/weights.h5-1580810590',  # Feb 4 (02:23), 2020. Iter 2
-        '.build/weights.h5-1580887732',  # FEb 4 (23:28), 2020, Iter 3
-        '.build/weights.h5-1580963956',  # Feb 5 (20:39), 2020. Iter 4
-        '.build/weights.h5-1581041476',  # Feb 6 (18:11), 2020. Iter 5
-        '.build/weights.h5-1581125796',  # Feb 7 (17:36), 2020. Iter 6
-        '.build/weights.h5-1581215559',  # Feb 8 (18:32), 2020. Iter 7
-        '.build/weights.h5-1581307364',  # Feb 9 (20:02), 2020. Iter 8
+        '.build/weights.h5-1580693471',  # Feb  2 (17:31), 2020. Iter 0 random
+        '.build/weights.h5-1580745471',  # Feb  3 (07:57), 2020. Iter 1
+        '.build/weights.h5-1580810590',  # Feb  4 (02:23), 2020. Iter 2
+        '.build/weights.h5-1580887732',  # FEb  4 (23:28), 2020, Iter 3
+        '.build/weights.h5-1580963956',  # Feb  5 (20:39), 2020. Iter 4
+        '.build/weights.h5-1581041476',  # Feb  6 (18:11), 2020. Iter 5
+        '.build/weights.h5-1581125796',  # Feb  7 (17:36), 2020. Iter 6
+        '.build/weights.h5-1581215559',  # Feb  8 (18:32), 2020. Iter 7
+        '.build/weights.h5-1581307364',  # Feb  9 (20:02), 2020. Iter 8
+        '.build/weights.h5-1581623488',  # Feb 13 (11:51), 2020. Iter 9
 ]
 
 # Results
@@ -87,6 +88,11 @@ WEIGHTS = [
 # Model 1 .build/weights.h5-1581215559 wins: 4
 # Model 2 .build/weights.h5-1581307364 wins: 16
 
+# Iter 8 vs 9
+# Results for round 1: {'num_black_wins': 3, 'num_white_wins': 7, 'num_ties': 10}
+# Results for round 2: {'num_black_wins': 7, 'num_white_wins': 2, 'num_ties': 11}
+# Model 1 .build/weights.h5-1581307364 wins: 5
+# Model 2 .build/weights.h5-1581623488 wins: 14
 
 WEIGHTS_FILE_1 = WEIGHTS[-2]
 WEIGHTS_FILE_2 = WEIGHTS[-1]
