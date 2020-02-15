@@ -25,15 +25,16 @@ K = 30
 
 # For key i, it is the result the Iter i against Iter (i-1).
 RESULTS = collections.OrderedDict()
-RESULTS[1] = {'win': 29, 'lost':  8, 'tie':  3}
-RESULTS[2] = {'win': 31, 'lost':  6, 'tie':  3}
-RESULTS[3] = {'win': 23, 'lost':  5, 'tie': 12}
-RESULTS[4] = {'win': 19, 'lost': 16, 'tie':  5}
-RESULTS[5] = {'win': 28, 'lost':  6, 'tie':  6}
-RESULTS[6] = {'win': 16, 'lost': 11, 'tie': 13}
-RESULTS[7] = {'win': 20, 'lost':  7, 'tie': 13}
-RESULTS[8] = {'win': 16, 'lost':  4, 'tie': 20}
-RESULTS[9] = {'win': 14, 'lost':  5, 'tie': 21}
+RESULTS[ 1] = {'win': 29, 'lost':  8, 'tie':  3}
+RESULTS[ 2] = {'win': 31, 'lost':  6, 'tie':  3}
+RESULTS[ 3] = {'win': 23, 'lost':  5, 'tie': 12}
+RESULTS[ 4] = {'win': 19, 'lost': 16, 'tie':  5}
+RESULTS[ 5] = {'win': 28, 'lost':  6, 'tie':  6}
+RESULTS[ 6] = {'win': 16, 'lost': 11, 'tie': 13}
+RESULTS[ 7] = {'win': 20, 'lost':  7, 'tie': 13}
+RESULTS[ 8] = {'win': 16, 'lost':  4, 'tie': 20}
+RESULTS[ 9] = {'win': 14, 'lost':  5, 'tie': 21}
+RESULTS[10] = {'win': 13, 'lost':  2, 'tie': 25}
 
 elo_r = collections.OrderedDict()
 elo_r[0] = 1000.  # Anchored.
