@@ -45,6 +45,7 @@ WEIGHTS = [
         '.build/weights.h5-1582284936',  # Feb 21 (03:35), 2020. Iter 16
         '.build/weights.h5-1582381002',  # Feb 22 (06:16), 2020. Iter 17
         '.build/weights.h5-1582476075',  # Feb 23 (08:41), 2020. Iter 18
+        '.build/weights.h5-1582572366',  # Feb 24 (11:26), 2020. Iter 19
 ]
 
 # Results
@@ -156,6 +157,12 @@ WEIGHTS = [
 # Results for round 2: {'num_black_wins': 7, 'num_white_wins': 0, 'num_ties': 13}
 # Model 1 .build/weights.h5-1582381002 wins: 0
 # Model 2 .build/weights.h5-1582476075 wins: 11
+
+# Iter 18 vs 19
+# Results for round 1: {'num_black_wins': 6, 'num_white_wins': 4, 'num_ties': 10}
+# Results for round 2: {'num_black_wins': 5, 'num_white_wins': 3, 'num_ties': 12}
+# Model 1 .build/weights.h5-1582476075 wins: 9
+# Model 2 .build/weights.h5-1582572366 wins: 9
 
 WEIGHTS_FILE_1 = WEIGHTS[-2]
 WEIGHTS_FILE_2 = WEIGHTS[-1]
