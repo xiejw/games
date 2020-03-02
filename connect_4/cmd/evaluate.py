@@ -48,6 +48,7 @@ WEIGHTS = [
         '.build/weights.h5-1582572366',  # Feb 24 (11:26), 2020. Iter 19
         '.build/weights.h5-1582675757',  # Feb 25 (16:09), 2020. Iter 20
         '.build/weights.h5-1582779069',  # Feb 26 (20:51), 2020. Iter 21
+        '.build/weights.h5-1582871811',  # Feb 27 (00:07), 2020. Iter 22
 ]
 
 # Results
