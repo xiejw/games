@@ -25,27 +25,6 @@ K = 30
 
 # For key i, it is the result the Iter i against Iter (i-1).
 RESULTS = collections.OrderedDict()
-RESULTS[ 1] = {'win': 29, 'lost':  8, 'tie':  3}
-RESULTS[ 2] = {'win': 31, 'lost':  6, 'tie':  3}
-RESULTS[ 3] = {'win': 23, 'lost':  5, 'tie': 12}
-RESULTS[ 4] = {'win': 19, 'lost': 16, 'tie':  5}
-RESULTS[ 5] = {'win': 28, 'lost':  6, 'tie':  6}
-RESULTS[ 6] = {'win': 16, 'lost': 11, 'tie': 13}
-RESULTS[ 7] = {'win': 20, 'lost':  7, 'tie': 13}
-RESULTS[ 8] = {'win': 16, 'lost':  4, 'tie': 20}
-RESULTS[ 9] = {'win': 14, 'lost':  5, 'tie': 21}
-RESULTS[10] = {'win': 13, 'lost':  2, 'tie': 25}
-RESULTS[11] = {'win': 10, 'lost':  4, 'tie': 26}
-RESULTS[12] = {'win': 12, 'lost':  6, 'tie': 22}
-RESULTS[13] = {'win':  9, 'lost':  9, 'tie': 22}
-RESULTS[14] = {'win':  9, 'lost':  4, 'tie': 27}
-RESULTS[15] = {'win':  6, 'lost':  4, 'tie': 30}
-RESULTS[16] = {'win': 10, 'lost':  6, 'tie': 24}
-RESULTS[17] = {'win': 14, 'lost':  6, 'tie': 20}
-RESULTS[18] = {'win': 11, 'lost':  0, 'tie': 29}
-RESULTS[19] = {'win':  9, 'lost':  9, 'tie': 22}
-RESULTS[20] = {'win': 10, 'lost':  2, 'tie': 28}
-RESULTS[21] = {'win': 15, 'lost':  5, 'tie': 20}
 
 elo_r = collections.OrderedDict()
 elo_r[0] = 1000.  # Anchored.
