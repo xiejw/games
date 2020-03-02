@@ -23,5 +23,5 @@ def launcher(global_index):
     return job
 
 print("Please monitor logging at", LOG_FILE)
-sch = Scheduler(launcher, total_jobs=3500, max_concurrent_jobs=30)
+sch = Scheduler(launcher, total_jobs=3500, max_concurrent_jobs=20)
 sch.run()
