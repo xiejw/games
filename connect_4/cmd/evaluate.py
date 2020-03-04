@@ -26,7 +26,9 @@ config = GameConfig()
 print(config)
 
 WEIGHTS = [
-        '.build/weights.h5-1580693471',  # Feb  2 (17:31), 2020. Iter  0 random
+        '.build/weights.h5-1583173597',  # Mar  2 (10:28), 2020. Iter  0 random
+        '.build/weights.h5-1583244370',  # Mar  3 (06:06), 2020. Iter  1
+        '.build/weights.h5-1583331870',  # Mar  4 (06:24), 2020. Iter  2
 ]
 
 WEIGHTS_FILE_1 = WEIGHTS[-2]
