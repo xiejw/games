@@ -25,6 +25,12 @@ K = 30
 
 # For key i, it is the result the Iter i against Iter (i-1).
 RESULTS = collections.OrderedDict()
+RESULTS[ 1] = {'win': 29, 'lost':  8, 'tie':  3}
+RESULTS[ 2] = {'win': 24, 'lost': 15, 'tie':  1}
+RESULTS[ 3] = {'win': 28, 'lost': 10, 'tie':  2}
+RESULTS[ 4] = {'win': 29, 'lost':  8, 'tie':  3}
+
+assert len(RESULTS) == 4
 
 elo_r = collections.OrderedDict()
 elo_r[0] = 1000.  # Anchored.
