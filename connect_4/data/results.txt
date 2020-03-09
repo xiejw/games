@@ -25,3 +25,10 @@ Results for round 1: {'num_black_wins': 4, 'num_white_wins': 13, 'num_ties': 3}
 Results for round 2: {'num_black_wins': 16, 'num_white_wins': 4, 'num_ties': 0}
 Model 1 .build/weights.h5-1583437368 wins: 8
 Model 2 .build/weights.h5-1583536363 wins: 29
+
+Iter 5
+
+Results for round 1: {'num_black_wins': 7, 'num_white_wins': 7, 'num_ties': 6}
+Results for round 2: {'num_black_wins': 19, 'num_white_wins': 0, 'num_ties': 1}
+Model 1 .build/weights.h5-1583536363 wins: 7
+Model 2 .build/weights.h5-1583640072 wins: 26
