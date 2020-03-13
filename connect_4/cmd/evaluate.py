@@ -33,6 +33,8 @@ WEIGHTS = [
         '.build/weights.h5-1583536363',  # Mar  6 (15:12), 2020. Iter  4
         '.build/weights.h5-1583640072',  # Mar  7 (20:01), 2020. Iter  5
         '.build/weights.h5-1583764769',  # Mar  9 (07:39), 2020. Iter  6
+        '.build/weights.h5-1583882079',  # Mar 10 (16:14), 2020. Iter  7
+        '.build/weights.h5-1584010747',  # Mar 12 (03:59), 2020. Iter  8
 ]
 
 WEIGHTS_FILE_1 = WEIGHTS[-2]
