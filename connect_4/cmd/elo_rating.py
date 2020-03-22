@@ -34,6 +34,7 @@ RESULTS[ 6] = {'win': 23, 'lost':  9, 'tie':  8}
 RESULTS[ 7] = {'win': 21, 'lost':  9, 'tie': 10}
 RESULTS[ 8] = {'win': 16, 'lost':  9, 'tie': 15}
 RESULTS[ 9] = {'win': 13, 'lost':  9, 'tie': 18}
+RESULTS[10] = {'win': 16, 'lost':  9, 'tie': 15}
 
 assert len(RESULTS) == 4
 
