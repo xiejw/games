@@ -34,6 +34,7 @@ class MCTSNode(object):
     def __init__(self, board, next_player_color, model, inject_noise=False):
         self.board = board
         self._config = board.config
+        self._inject_noise_to_root = inject_noise
         self.next_player_color = next_player_color
         self.model = model
 
@@ -78,7 +79,6 @@ class MCTSNode(object):
 
         # We inject uniform noises.
         if inject_noise:
-            print("Inject uniform noise.")
             a = np.random.uniform(0, 1, len(self.legal_positions))
             a = a / np.sum(a)
 
@@ -142,7 +142,8 @@ class MCTSNode(object):
         _run_simulations(
                 iterations=iterations,
                 root_node=self,
-                root_board=self.board)
+                root_board=self.board,
+                inject_noise=self._inject_noise_to_root)
 
 
 # A policy based on MCTS and trained model.
@@ -157,8 +158,8 @@ class MCTSPolicy(Policy):
         self._color = Color.of(color)
         self._model = model or _build_model(self._config)
         self._iterations = iterations
-        self._inject_noise_to_root = True
         self._explore = explore
+        self._inject_noise_to_root = explore
         self._debug = debug
         self.name = name if name else "mcts_" + color
 
@@ -189,7 +190,8 @@ class MCTSPolicy(Policy):
                 # This case means that the move by component has never been
                 # consided by this tree before.
                 new_board = copy.deepcopy(self._board)  # make a copy
-                new_root = MCTSNode(new_board, self._color, self._model)
+                new_root = MCTSNode(new_board, self._color, self._model,
+                                    inject_noise=self._inject_noise_to_root)
 
             self._root = new_root
 
@@ -220,7 +222,7 @@ _game_is_over = object()
 # Runs simulations.
 #
 # Write as free funciton for isolation.
-def _run_simulations(iterations, root_node, root_board):
+def _run_simulations(iterations, root_node, root_board, inject_noise):
 
         for i in range(iterations):
             current_node = root_node
@@ -279,7 +281,8 @@ def _run_simulations(iterations, root_node, root_board):
                     expanded_node = MCTSNode(
                             new_board,
                             next_player_color,
-                            current_node.model)
+                            current_node.model,
+                            inject_noise=inject_noise)
 
                     current_node.c[new_pos] = expanded_node
 
