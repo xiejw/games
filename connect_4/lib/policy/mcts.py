@@ -83,7 +83,7 @@ class MCTSNode(object):
             a = a / np.sum(a)
 
             for (i, pos) in enumerate(self.legal_positions):
-                self.p[pos] = 0.9 * self.p[pos] + 0.1 * a[i]
+                self.p[pos] = 0.8 * self.p[pos] + 0.2 * a[i]
 
 
     def backup(self, pos, value):
