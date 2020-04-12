@@ -26,15 +26,6 @@ K = 30
 # For key i, it is the result the Iter i against Iter (i-1).
 RESULTS = collections.OrderedDict()
 RESULTS[ 1] = {'win': 29, 'lost':  8, 'tie':  3}
-RESULTS[ 2] = {'win': 24, 'lost': 15, 'tie':  1}
-RESULTS[ 3] = {'win': 28, 'lost': 10, 'tie':  2}
-RESULTS[ 4] = {'win': 29, 'lost':  8, 'tie':  3}
-RESULTS[ 5] = {'win': 26, 'lost':  7, 'tie':  7}
-RESULTS[ 6] = {'win': 23, 'lost':  9, 'tie':  8}
-RESULTS[ 7] = {'win': 21, 'lost':  9, 'tie': 10}
-RESULTS[ 8] = {'win': 16, 'lost':  9, 'tie': 15}
-RESULTS[ 9] = {'win': 13, 'lost':  9, 'tie': 18}
-RESULTS[10] = {'win': 16, 'lost':  9, 'tie': 15}
 
 assert len(RESULTS) == 4
 

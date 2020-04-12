@@ -26,21 +26,9 @@ config = GameConfig()
 print(config)
 
 WEIGHTS = [
-        '.build/weights.h5-1583173597',  # Mar  2 (10:28), 2020. Iter  0 random
-        '.build/weights.h5-1583244370',  # Mar  3 (06:06), 2020. Iter  1
-        '.build/weights.h5-1583331870',  # Mar  4 (06:24), 2020. Iter  2
-        '.build/weights.h5-1583437368',  # Mar  5 (11:42), 2020. Iter  3
-        '.build/weights.h5-1583536363',  # Mar  6 (15:12), 2020. Iter  4
-        '.build/weights.h5-1583640072',  # Mar  7 (20:01), 2020. Iter  5
-        '.build/weights.h5-1583764769',  # Mar  9 (07:39), 2020. Iter  6
-        '.build/weights.h5-1583882079',  # Mar 10 (16:14), 2020. Iter  7
-        '.build/weights.h5-1584010747',  # Mar 12 (03:59), 2020. Iter  8
-        '.build/weights.h5-1584135043',  # Mar 13 (14:30), 2020. Iter  9
-        '.build/weights.h5-1584256293',  # Mar 15 (00:11), 2020. Iter 10
-        '.build/weights.h5-1584389831',  # Mar 16 (13:17), 2020. Iter 11
+    '.build/weights.h5-1584988775'  # Mar 23 (11:39), 2020. Iter  0 random
+    '.build/weights.h5-1585049323'  # Mar 24 (04:28), 2020. Iter  1
 
-        '.build/weights.h5-1584516396',  # 18
-#        '.build/weights.h5-1584650781',  # 19
 ]
 
 WEIGHTS_FILE_1 = WEIGHTS[-2]
