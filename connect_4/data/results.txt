@@ -1,2 +1,7 @@
 Iter 1
 
+On average 32.700 states/epoch.
+Results for round 1: {'num_black_wins': 6, 'num_white_wins': 13, 'num_ties': 1}
+Results for round 2: {'num_black_wins': 14, 'num_white_wins': 5, 'num_ties': 1}
+Model 1 .build/weights.h5-1584988775 wins: 11
+Model 2 .build/weights.h5-1585049323 wins: 27
