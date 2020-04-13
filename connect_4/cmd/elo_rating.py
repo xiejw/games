@@ -26,6 +26,7 @@ K = 30
 # For key i, it is the result the Iter i against Iter (i-1).
 RESULTS = collections.OrderedDict()
 RESULTS[ 1] = {'win': 27, 'lost': 11, 'tie':  2}
+RESULTS[ 2] = {'win': 38, 'lost':  2, 'tie':  0}
 
 assert len(RESULTS) == 4
 
