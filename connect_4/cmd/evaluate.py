@@ -29,6 +29,7 @@ WEIGHTS = [
     '.build/weights.h5-1584988775',  # Mar 23 (11:39), 2020. Iter  0 random
     '.build/weights.h5-1585049323',  # Mar 24 (04:28), 2020. Iter  1
     '.build/weights.h5-1585124939',  # Mar 25 (01:29), 2020. Iter  2
+    '.build/weights.h5-1585209034',  # Mar 26 (00:50), 2020. Iter  3
 ]
 
 WEIGHTS_FILE_1 = WEIGHTS[-2]

@@ -27,6 +27,7 @@ K = 30
 RESULTS = collections.OrderedDict()
 RESULTS[ 1] = {'win': 27, 'lost': 11, 'tie':  2}
 RESULTS[ 2] = {'win': 38, 'lost':  2, 'tie':  0}
+RESULTS[ 3] = {'win': 27, 'lost':  6, 'tie':  7}
 
 assert len(RESULTS) == 4
 
