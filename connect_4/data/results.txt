@@ -69,3 +69,11 @@ Results for round 1: {'num_black_wins': 2, 'num_white_wins': 7, 'num_ties': 11}
 Results for round 2: {'num_black_wins': 7, 'num_white_wins': 6, 'num_ties': 7}
 Model 1 .build/weights.h5-1585710855 wins: 8
 Model 2 .build/weights.h5-1585834790 wins: 14
+
+Iter 10
+
+On average 38.300 states/epoch.
+Results for round 1: {'num_black_wins': 4, 'num_white_wins': 6, 'num_ties': 10}
+Results for round 2: {'num_black_wins': 6, 'num_white_wins': 3, 'num_ties': 11}
+Model 1 .build/weights.h5-1585834790 wins: 7
+Model 2 .build/weights.h5-1585955191 wins: 12
