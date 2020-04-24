@@ -38,8 +38,9 @@ RESULTS[10] = {'win': 12, 'lost':  7, 'tie': 21}
 RESULTS[11] = {'win':  8, 'lost':  8, 'tie': 24}
 RESULTS[12] = {'win': 17, 'lost':  6, 'tie': 17}
 RESULTS[13] = {'win': 11, 'lost': 13, 'tie': 16}
+RESULTS[14] = {'win': 27, 'lost':  3, 'tie': 10}
 
-assert len(RESULTS) == 13
+assert len(RESULTS) == 14
 
 elo_r = collections.OrderedDict()
 elo_r[0] = 1000.  # Anchored.
