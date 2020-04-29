@@ -43,6 +43,7 @@ RESULTS[15] = {'win': 20, 'lost':  2, 'tie': 18}
 RESULTS[16] = {'win': 23, 'lost': 10, 'tie':  7}
 RESULTS[17] = {'win': 30, 'lost':  8, 'tie':  2}
 RESULTS[18] = {'win': 22, 'lost':  7, 'tie': 11}
+RESULTS[19] = {'win': 24, 'lost': 11, 'tie':  5}
 
 assert len(RESULTS) == 18
 
