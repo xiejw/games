@@ -42,20 +42,20 @@ clean:
 # Docker related
 ################################################################################
 build_docker:
-	docker build -t xiejw/connect_4 \
+	docker build -t xiejw/gomoku  \
 		--build-arg WEIGHT_FILE=${WEIGHT_FILE} \
 		-f docker/Dockerfile \
 		.
 
 build_docker_no_cache:
-	docker build -t xiejw/connect_4 \
+	docker build -t xiejw/gomoku  \
 		--no-cache \
 		--build-arg WEIGHT_FILE=${WEIGHT_FILE} \
 		-f docker/Dockerfile \
 		.
 
 run_docker:
-	docker run --rm -ti xiejw/connect_4
+	docker run --rm -ti xiejw/gomoku
 
 ################################################################################
 # Database related
