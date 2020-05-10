@@ -34,6 +34,5 @@ if SHUFFLE_PLAYERS and random.random() < 0.5:
 else:
     players = lambda b: [BestPolicy(b, 'b'), HumanPolicy(b, 'w')]
 
-
 play_games(config, players=players)
 
