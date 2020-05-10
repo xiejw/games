@@ -3,6 +3,19 @@ from game import Position
 
 from .policy import Policy
 
+_column_key_map = {
+        'a': 10,
+        'b': 11,
+        'c': 12,
+        'd': 13,
+        'e': 14,
+}
+
+def _parse_input_num(x):
+    if x in _column_key_map:
+        return _column_key_map[x]
+    return int(x)
+
 
 # Ask for next position from human input.
 class HumanPolicy(Policy):
@@ -20,9 +33,9 @@ class HumanPolicy(Policy):
         while True:
             try:
                 print("Row    : ", end="")
-                row = int(input())
+                row = _parse_input_num(input())
                 print("Column : ", end="")
-                column = int(input())
+                column = _parse_input_num(input())
 
                 pos = Position(row, column)
 
