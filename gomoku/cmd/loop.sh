@@ -5,7 +5,8 @@
 # - /tmp/self_plays_main.log (Dumped by launch_self_plays)
 # - /tmp/training.log
 
-NUM_ITERATIONS=20
+# Stage 1
+NUM_ITERATIONS=10
 
 i="0"
 

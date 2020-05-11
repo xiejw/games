@@ -17,9 +17,12 @@ from game import GameConfig
 ### Configuration to change
 ###########################
 
-# 10 iterations.
-# 70 processes, 35 records per epoch, 50 epochs for process.
-NUM_SAMPLES = 70 * 35 * 50 * 10
+# Stage 1.
+TOTAL_ITERATIONS_TO_TRACK = 10
+SAMPLES_PER_GAME = 50
+TOTAL_GAMS_PER_LOOP = 600
+NUM_SAMPLES = SAMPLES_PER_GAME * TOTAL_GAMS_PER_LOOP * TOTAL_ITERATIONS_TO_TRACK
+
 # NUM_SAMPLES = 1
 NUM_EPOCHS = 12
 BATCH_SIZE = 128
