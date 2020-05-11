@@ -13,6 +13,7 @@ i="0"
 while [ $i -lt $NUM_ITERATIONS ]
 do
 
+  unbuffer make view_db | tee -a /tmp/self_plays_main.log
   unbuffer make launch_self_plays
   unbuffer make view_db | tee -a /tmp/self_plays_main.log
   unbuffer make train | tee -a /tmp/training.log | tee /tmp/training_"$i".log
