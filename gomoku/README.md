@@ -18,3 +18,8 @@ Creates the DB docker and SQL table.
 ./lib/data/sql/create_sql_docker.sh
 ./lib/data/sql/create_table.sh
 ```
+
+Create key-value store for hparams.
+```
+./lib/hparams/create_hyparams_docker.sh
+```
