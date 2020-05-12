@@ -23,3 +23,8 @@ Create key-value store for hparams.
 ```
 ./lib/hparams/create_hyparams_docker.sh
 ```
+
+Python3
+```
+pip3 install redis
+```
