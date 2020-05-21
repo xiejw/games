@@ -23,6 +23,10 @@ def launcher(global_index):
     return job
 
 print("Please monitor logging at", LOG_FILE)
+
 # Stage 1, total_jobs=600
-sch = Scheduler(launcher, total_jobs=600, max_concurrent_jobs=8)
+# sch = Scheduler(launcher, total_jobs=600, max_concurrent_jobs=8)
+
+# Stage 2, total_jobs=3000
+sch = Scheduler(launcher, total_jobs=3000, max_concurrent_jobs=8)
 sch.run()

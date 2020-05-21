@@ -6,6 +6,8 @@
 # - /tmp/training.log
 
 # Stage 1
+# NUM_ITERATIONS=10
+# Stage 2
 NUM_ITERATIONS=10
 
 i="0"
