@@ -1,18 +1,17 @@
 import copy
-
 import Tkinter as tk
 
 class Board(object):
 
     def __init__(self, size, root):
-        self._frame = self._setUpFrame(size, root)
-        self._bg_colors = self._setUpBgColors(size)
+        self._frame = self._init_frame(size, root)
+        self._bg_colors = self._init_bg_colors(size)
         self._colors = copy.deepcopy(self._bg_colors)
-        self._widgets = self._setUpWidgets(size, self._frame)
+        self._widgets = self._init_widgets(size, self._frame)
         self._history = []
         self._size = size
 
-    def _setUpFrame(self, size, root):
+    def _init_frame(self, size, root):
         frame = tk.Frame(root)
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
@@ -23,12 +22,12 @@ class Board(object):
             frame.rowconfigure(i, pad=3, weight=1)
         return frame
 
-    def _setUpBgColors(self, size):
+    def _init_bg_colors(self, size):
         def color_fn(i, j):
             return 'lightyellow2' if (i + j) % 2 == 0 else 'light grey'
         return [[color_fn(i, j) for j in range(size) ] for i in range(size)]
 
-    def _setUpWidgets(self, size, frame):
+    def _init_widgets(self, size, frame):
         widgets = [[None for _ in range(size)] for _ in range(size)]
         for i in range(size):
             for j in range(size):
@@ -73,11 +72,7 @@ class Board(object):
         self._flip_one_spot(i, j)
         self._history.pop(-1)
 
-size = 8
-
 root = tk.Tk()
 root.geometry("400x400")
-
-Board(size, root)
-
+Board(size=8, root=root)
 root.mainloop()
