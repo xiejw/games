@@ -44,6 +44,7 @@ class Board(object):
         del event
         self._flip_one_spot(i, j)
         self._history.append((i,j))
+        print('+ {} {}'.format(i,j))
 
     def _flip_one_spot(self, i, j):
         pairs = [(i,j), (i-1,j), (i+1,j), (i,j-1), (i,j+1)]
@@ -69,6 +70,7 @@ class Board(object):
             return
 
         i, j = self._history[-1]
+        print('- {} {}'.format(i,j))
         self._flip_one_spot(i, j)
         self._history.pop(-1)
 
