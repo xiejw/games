@@ -1,5 +1,5 @@
 import copy
-import Tkinter as tk
+import tkinter as tk
 
 class Board(object):
 
@@ -75,4 +75,5 @@ class Board(object):
 root = tk.Tk()
 root.geometry("400x400")
 Board(size=8, root=root)
+print('Press `space` to revert one step.')
 root.mainloop()
