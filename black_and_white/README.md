@@ -1,3 +1,3 @@
 ## 黑白迭代（最强大脑）
 
-![Problem_1](./problems/1.png =250x250)
+<img src="./problems/1.png" width="200" height="200">
