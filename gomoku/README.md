@@ -19,12 +19,3 @@ Creates the DB docker and SQL table.
 ./lib/data/sql/create_table.sh
 ```
 
-Create key-value store for hparams.
-```
-./lib/hparams/create_hyparams_docker.sh
-```
-
-Python3
-```
-pip3 install redis
-```
