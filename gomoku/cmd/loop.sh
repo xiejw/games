@@ -12,7 +12,9 @@
 # Stage 3
 # NUM_ITERATIONS=10
 # Stage 4
-NUM_ITERATIONS=7 # got interupted should be 10
+# NUM_ITERATIONS=10
+# Stage 5
+NUM_ITERATIONS=10
 
 i="0"
 
