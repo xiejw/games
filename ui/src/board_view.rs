@@ -3,7 +3,6 @@ use super::game;
 use cursive::direction::Direction;
 use cursive::event::{Event, EventResult, Key, MouseButton, MouseEvent};
 use cursive::theme::{BaseColor, Color, ColorStyle};
-// use cursive::views::{Button, Dialog};
 use cursive::views::Dialog;
 use cursive::Printer;
 use cursive::Vec2;
@@ -16,24 +15,21 @@ enum Cell {
 }
 
 pub struct BoardView {
-    // Actual board, unknown to the player.
-    board: game::Board,
-
-    // Visible board
-    overlay: Vec<Cell>,
-
-    focused: Option<Vec2>,
+    board: game::Board, // Actual board, unknown to the player.
+    overlay: Vec<Cell>, // Visible board
     selected: Option<Vec2>,
 }
 
 impl BoardView {
+    const LEFT_MARGIN: usize = 2;
+    const TOP_MARGIN: usize = 1;
+
     pub fn new(options: game::Options) -> Self {
         let overlay = vec![Cell::Unknown; options.size.x * options.size.y];
         let board = game::Board::new(options);
         BoardView {
             board,
             overlay,
-            focused: None,
             selected: None,
         }
     }
@@ -53,9 +49,17 @@ impl BoardView {
 }
 
 impl cursive::view::View for BoardView {
+    fn required_size(&mut self, _: Vec2) -> Vec2 {
+        // For each cell, used 2 pixel to print.
+        self.board
+            .size
+            .map_x(|x| 2 * x + BoardView::LEFT_MARGIN)
+            .map_y(|y| y + BoardView::TOP_MARGIN)
+    }
+
     fn draw(&self, printer: &Printer) {
         for (i, cell) in self.overlay.iter().enumerate() {
-            let x = (i % self.board.size.x) * 2;
+            let x = (i % self.board.size.x) * 2; // Print two chars per cell.
             let y = i / self.board.size.x;
 
             let text = match *cell {
@@ -115,49 +119,9 @@ impl cursive::view::View for BoardView {
                     return EventResult::Consumed(None);
                 }
             }
-            Event::Mouse {
-                offset,
-                position,
-                event: MouseEvent::Press(_btn),
-            } => {
-                // Get cell for position
-                if let Some(pos) = self.get_cell(position, offset) {
-                    self.focused = Some(pos);
-                    return EventResult::Consumed(None);
-                }
-            }
-            Event::Mouse {
-                offset,
-                position,
-                event: MouseEvent::Release(btn),
-            } => {
-                // Get cell for position
-                if let Some(pos) = self.get_cell(position, offset) {
-                    // if self.focused == Some(pos) {
-                    //     // We got a click here!
-                    //     match btn {
-                    //         MouseButton::Left => return self.reveal(pos),
-                    //         MouseButton::Right => {
-                    //             self.flag(pos);
-                    //             return EventResult::Consumed(None);
-                    //         }
-                    //         MouseButton::Middle => {
-                    //             return self.auto_reveal(pos);
-                    //         }
-                    //         _ => (),
-                    //     }
-                    // }
-
-                    self.focused = None;
-                }
-            }
             _ => (),
         }
 
         EventResult::Ignored
-    }
-
-    fn required_size(&mut self, _: Vec2) -> Vec2 {
-        self.board.size.map_x(|x| 2 * x)
     }
 }
