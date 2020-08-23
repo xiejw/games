@@ -33,9 +33,9 @@ fn show_options(siv: &mut Cursive) {
             .content(
                 SelectView::new()
                     .item(
-                        "Easy:      8x8,   10 mines",
+                        "Easy:      15x15,   10 mines",
                         game::Options {
-                            size: Vec2::new(8, 8),
+                            size: Vec2::new(15, 15),
                             mines: 10,
                         },
                     )

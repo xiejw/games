@@ -52,74 +52,6 @@ impl BoardView {
                 }
             })
     }
-
-    fn flag(&mut self, pos: Vec2) {
-        if let Some(i) = self.board.cell_id(pos) {
-            let new_cell = match self.overlay[i] {
-                Cell::Unknown => Cell::Flag,
-                Cell::Flag => Cell::Unknown,
-                other => other,
-            };
-            self.overlay[i] = new_cell;
-        }
-    }
-
-    fn reveal(&mut self, pos: Vec2) -> EventResult {
-        if let Some(i) = self.board.cell_id(pos) {
-            if self.overlay[i] != Cell::Unknown {
-                return EventResult::Consumed(None);
-            }
-
-            // Action!
-            match self.board.cells[i] {
-                game::Cell::Bomb => {
-                    return EventResult::with_cb(|s| {
-                        s.add_layer(Dialog::text("BOOOM").button("Ok", |s| {
-                            s.pop_layer();
-                            s.pop_layer();
-                        }));
-                    })
-                }
-                game::Cell::Free(n) => {
-                    self.overlay[i] = Cell::Visible(n);
-                    if n == 0 {
-                        // Reveal all surrounding cells
-                        for p in self.board.neighbours(pos) {
-                            self.reveal(p);
-                        }
-                    }
-                }
-            }
-        }
-        EventResult::Consumed(None)
-    }
-
-    fn auto_reveal(&mut self, pos: Vec2) -> EventResult {
-        if let Some(i) = self.board.cell_id(pos) {
-            if let Cell::Visible(n) = self.overlay[i] {
-                // First: is every possible cell tagged?
-                let neighbours = self.board.neighbours(pos);
-                let tagged = neighbours
-                    .iter()
-                    .filter_map(|&pos| self.board.cell_id(pos))
-                    .map(|i| self.overlay[i])
-                    .filter(|&cell| cell == Cell::Flag)
-                    .count();
-                if tagged != n {
-                    return EventResult::Consumed(None);
-                }
-
-                for p in neighbours {
-                    let result = self.reveal(p);
-                    if result.has_callback() {
-                        return result;
-                    }
-                }
-            }
-        }
-
-        EventResult::Consumed(None)
-    }
 }
 
 impl cursive::view::View for BoardView {
@@ -129,12 +61,12 @@ impl cursive::view::View for BoardView {
             let y = i / self.board.size.x;
 
             let text = match *cell {
-                Cell::Unknown => "[]",
+                Cell::Unknown => "  ",
                 Cell::Flag => "()",
                 Cell::Visible(n) => ["  ", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8"][n],
             };
 
-            let color = match *cell {
+            let mut color = match *cell {
                 Cell::Unknown => Color::RgbLowRes(3, 3, 3),
                 Cell::Flag => Color::RgbLowRes(4, 4, 2),
                 Cell::Visible(1) => Color::RgbLowRes(3, 5, 3),
@@ -148,10 +80,19 @@ impl cursive::view::View for BoardView {
                 _ => Color::Dark(BaseColor::White),
             };
 
-            printer.with_color(
-                ColorStyle::new(Color::Dark(BaseColor::Black), color),
-                |printer| printer.print((x, y), text),
-            );
+            let default_bg = Color::Dark(BaseColor::Black);
+            match &self.selected {
+                Some(vec2) => {
+                    if x / 2 == vec2.x && y == vec2.y {
+                        color = Color::Dark(BaseColor::Red);
+                    }
+                }
+                None => {}
+            };
+
+            printer.with_color(ColorStyle::new(default_bg, color), |printer| {
+                printer.print((x, y), text)
+            });
         }
     }
 
@@ -163,7 +104,16 @@ impl cursive::view::View for BoardView {
         match event {
             Event::Key(v) => {
                 if v != Key::Tab {
-                    print!("key {:?}\n", v);
+                    let mut current_pos = self.selected.unwrap_or(Vec2::new(0, 0));
+                    match v {
+                        Key::Down => current_pos.y += 1,
+                        Key::Up => current_pos.y -= 1,
+                        Key::Right => current_pos.x += 1,
+                        Key::Left => current_pos.x -= 1,
+                        _ => {}
+                    };
+                    self.selected = Some(current_pos);
+
                     return EventResult::Consumed(None);
                 }
             }
@@ -185,20 +135,20 @@ impl cursive::view::View for BoardView {
             } => {
                 // Get cell for position
                 if let Some(pos) = self.get_cell(position, offset) {
-                    if self.focused == Some(pos) {
-                        // We got a click here!
-                        match btn {
-                            MouseButton::Left => return self.reveal(pos),
-                            MouseButton::Right => {
-                                self.flag(pos);
-                                return EventResult::Consumed(None);
-                            }
-                            MouseButton::Middle => {
-                                return self.auto_reveal(pos);
-                            }
-                            _ => (),
-                        }
-                    }
+                    // if self.focused == Some(pos) {
+                    //     // We got a click here!
+                    //     match btn {
+                    //         MouseButton::Left => return self.reveal(pos),
+                    //         MouseButton::Right => {
+                    //             self.flag(pos);
+                    //             return EventResult::Consumed(None);
+                    //         }
+                    //         MouseButton::Middle => {
+                    //             return self.auto_reveal(pos);
+                    //         }
+                    //         _ => (),
+                    //     }
+                    // }
 
                     self.focused = None;
                 }
