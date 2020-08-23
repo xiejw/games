@@ -46,13 +46,6 @@ fn show_options(siv: &mut Cursive) {
                             mines: 40,
                         },
                     )
-                    .item(
-                        "Difficult: 24x24, 99 mines",
-                        game::Options {
-                            size: Vec2::new(24, 24),
-                            mines: 99,
-                        },
-                    )
                     .on_submit(|s, option| {
                         s.pop_layer();
                         new_game(s, *option);
