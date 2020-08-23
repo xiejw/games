@@ -1,7 +1,7 @@
 use super::game;
 
 use cursive::direction::Direction;
-use cursive::event::{Event, EventResult, MouseButton, MouseEvent};
+use cursive::event::{Event, EventResult, Key, MouseButton, MouseEvent};
 use cursive::theme::{BaseColor, Color, ColorStyle};
 // use cursive::views::{Button, Dialog};
 use cursive::views::Dialog;
@@ -23,6 +23,7 @@ pub struct BoardView {
     overlay: Vec<Cell>,
 
     focused: Option<Vec2>,
+    selected: Option<Vec2>,
     _missing_mines: usize,
 }
 
@@ -34,6 +35,7 @@ impl BoardView {
             board,
             overlay,
             focused: None,
+            selected: None,
             _missing_mines: options.mines,
         }
     }
@@ -159,6 +161,12 @@ impl cursive::view::View for BoardView {
 
     fn on_event(&mut self, event: Event) -> EventResult {
         match event {
+            Event::Key(v) => {
+                if v != Key::Tab {
+                    print!("key {:?}\n", v);
+                    return EventResult::Consumed(None);
+                }
+            }
             Event::Mouse {
                 offset,
                 position,
