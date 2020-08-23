@@ -9,7 +9,6 @@ use cursive::Vec2;
 
 #[derive(Clone, Copy, PartialEq)]
 enum Cell {
-    Flag,
     Unknown,
 }
 
@@ -63,12 +62,10 @@ impl cursive::view::View for BoardView {
 
             let text = match *cell {
                 Cell::Unknown => "  ",
-                Cell::Flag => "()",
             };
 
             let mut color = match *cell {
                 Cell::Unknown => Color::RgbLowRes(3, 3, 3),
-                Cell::Flag => Color::RgbLowRes(4, 4, 2),
                 _ => Color::Dark(BaseColor::White),
             };
 

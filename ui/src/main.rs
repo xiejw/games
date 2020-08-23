@@ -16,14 +16,11 @@ fn main() {
         &mut siv,
         game::Options {
             size: Vec2::new(15, 15),
-            mines: 10,
         },
     );
 
     siv.run();
 }
-
-fn show_options(siv: &mut Cursive) {}
 
 fn new_game(siv: &mut Cursive, options: game::Options) {
     siv.add_layer(

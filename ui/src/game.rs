@@ -3,7 +3,6 @@ use cursive::Vec2;
 #[derive(Clone, Copy)]
 pub struct Options {
     pub size: Vec2,
-    pub mines: usize,
 }
 
 #[derive(Clone, Copy)]
@@ -20,10 +19,6 @@ pub struct Board {
 impl Board {
     pub fn new(options: Options) -> Self {
         let n_cells = options.size.x * options.size.y;
-        if options.mines > n_cells {
-            panic!("number of mines is larger than cell count.");
-        }
-
         Board {
             size: options.size,
             cells: vec![Cell::Free(0); n_cells],
