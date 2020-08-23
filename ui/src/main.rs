@@ -8,19 +8,18 @@ use cursive::Cursive;
 use cursive::Printer;
 use cursive::Vec2;
 
+static G_TITLE: &str = "Gomoku";
+
 fn main() {
     let mut siv = cursive::default();
 
     siv.add_layer(
         Dialog::new()
-            .title("Minesweeper")
+            .title(G_TITLE)
             .padding_lrtb(2, 2, 1, 1)
             .content(
                 LinearLayout::vertical()
                     .child(Button::new_raw("  New game   ", show_options))
-                    .child(Button::new_raw(" Best scores ", |s| {
-                        s.add_layer(Dialog::info("Not yet!").title("Scores"))
-                    }))
                     .child(Button::new_raw("    Exit     ", |s| s.quit())),
             ),
     );
@@ -269,7 +268,7 @@ fn new_game(siv: &mut Cursive, options: game::Options) {
 
     siv.add_layer(
         Dialog::new()
-            .title("Minesweeper")
+            .title(G_TITLE)
             .content(
                 LinearLayout::horizontal()
                     .child(Panel::new(BoardView::new(options))),
