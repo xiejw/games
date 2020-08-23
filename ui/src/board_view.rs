@@ -9,7 +9,6 @@ use cursive::Vec2;
 
 #[derive(Clone, Copy, PartialEq)]
 enum Cell {
-    Visible(usize),
     Flag,
     Unknown,
 }
@@ -59,33 +58,26 @@ impl cursive::view::View for BoardView {
 
     fn draw(&self, printer: &Printer) {
         for (i, cell) in self.overlay.iter().enumerate() {
-            let x = (i % self.board.size.x) * 2; // Print two chars per cell.
-            let y = i / self.board.size.x;
+            let x = (i % self.board.size.x) * 2 + BoardView::LEFT_MARGIN; // Print two chars per cell.
+            let y = i / self.board.size.x + BoardView::TOP_MARGIN;
 
             let text = match *cell {
                 Cell::Unknown => "  ",
                 Cell::Flag => "()",
-                Cell::Visible(n) => ["  ", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8"][n],
             };
 
             let mut color = match *cell {
                 Cell::Unknown => Color::RgbLowRes(3, 3, 3),
                 Cell::Flag => Color::RgbLowRes(4, 4, 2),
-                Cell::Visible(1) => Color::RgbLowRes(3, 5, 3),
-                Cell::Visible(2) => Color::RgbLowRes(5, 5, 3),
-                Cell::Visible(3) => Color::RgbLowRes(5, 4, 3),
-                Cell::Visible(4) => Color::RgbLowRes(5, 3, 3),
-                Cell::Visible(5) => Color::RgbLowRes(5, 2, 2),
-                Cell::Visible(6) => Color::RgbLowRes(5, 0, 1),
-                Cell::Visible(7) => Color::RgbLowRes(5, 0, 2),
-                Cell::Visible(8) => Color::RgbLowRes(5, 0, 3),
                 _ => Color::Dark(BaseColor::White),
             };
 
             let default_bg = Color::Dark(BaseColor::Black);
             match &self.selected {
                 Some(vec2) => {
-                    if x / 2 == vec2.x && y == vec2.y {
+                    if (x - BoardView::LEFT_MARGIN) / 2 == vec2.x
+                        && y - BoardView::TOP_MARGIN == vec2.y
+                    {
                         color = Color::Dark(BaseColor::Red);
                     }
                 }
