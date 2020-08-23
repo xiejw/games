@@ -2,7 +2,7 @@
 *.swp
 *.swo
 
-# Model 
+# Model
 .build
 
 # Python
@@ -11,3 +11,5 @@
 # OSX
 .DS_Store
 
+# rust
+ui/target
