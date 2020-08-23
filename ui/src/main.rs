@@ -27,32 +27,13 @@ fn main() {
 }
 
 fn show_options(siv: &mut Cursive) {
-    siv.add_layer(
-        Dialog::new()
-            .title("Select difficulty")
-            .content(
-                SelectView::new()
-                    .item(
-                        "Easy:      15x15,   10 mines",
-                        game::Options {
-                            size: Vec2::new(15, 15),
-                            mines: 10,
-                        },
-                    )
-                    .item(
-                        "Medium:    16x16, 40 mines",
-                        game::Options {
-                            size: Vec2::new(16, 16),
-                            mines: 40,
-                        },
-                    )
-                    .on_submit(|s, option| {
-                        s.pop_layer();
-                        new_game(s, *option);
-                    }),
-            )
-            .dismiss_button("Back"),
-    );
+    new_game(
+        siv,
+        game::Options {
+            size: Vec2::new(15, 15),
+            mines: 10,
+        },
+    )
 }
 
 fn new_game(siv: &mut Cursive, options: game::Options) {
@@ -64,11 +45,4 @@ fn new_game(siv: &mut Cursive, options: game::Options) {
                 s.pop_layer();
             }),
     );
-
-    siv.add_layer(Dialog::info(
-        "Controls:
-Reveal cell:                  left click
-Mark as mine:                 right-click
-Reveal nearby unmarked cells: middle-click",
-    ));
 }

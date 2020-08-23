@@ -24,7 +24,6 @@ pub struct BoardView {
 
     focused: Option<Vec2>,
     selected: Option<Vec2>,
-    _missing_mines: usize,
 }
 
 impl BoardView {
@@ -36,7 +35,6 @@ impl BoardView {
             overlay,
             focused: None,
             selected: None,
-            _missing_mines: options.mines,
         }
     }
 
@@ -104,7 +102,7 @@ impl cursive::view::View for BoardView {
         match event {
             Event::Key(v) => {
                 if v != Key::Tab {
-                    let mut current_pos = self.selected.unwrap_or(Vec2::new(0, 0));
+                    let mut current_pos = self.selected.unwrap_or(Vec2::new(7, 7));
                     match v {
                         Key::Down => current_pos.y += 1,
                         Key::Up => current_pos.y -= 1,
