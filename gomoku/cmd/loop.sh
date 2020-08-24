@@ -14,6 +14,8 @@
 # Stage 4
 # NUM_ITERATIONS=10
 # Stage 5
+# NUM_ITERATIONS=10
+# Stage 6 (just before stage 6, 5 layer to 10).
 NUM_ITERATIONS=10
 
 i="0"
