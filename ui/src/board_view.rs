@@ -109,39 +109,42 @@ impl cursive::view::View for BoardView {
     }
 
     fn on_event(&mut self, event: Event) -> EventResult {
-        match event {
-            Event::Key(v) => {
-                if v != Key::Tab {
-                    let current_pos = &mut self.selected;
-                    match v {
-                        Key::Down => current_pos.y += 1,
-                        Key::Up => current_pos.y -= 1,
-                        Key::Right => current_pos.x += 1,
-                        Key::Left => current_pos.x -= 1,
-                        Key::Enter => {
-                            let r = self.board.place(current_pos).unwrap();
-                            let id = current_pos.x + current_pos.y * self.board.size.x;
-                            match r {
-                                game::Color::Black => {
-                                    self.overlay[id] = Cell::Black;
-                                }
-                                game::Color::White => {
-                                    self.overlay[id] = Cell::White;
-                                }
-                            };
-                        }
-                        _ => {}
-                    };
-
-                    return EventResult::Consumed(None);
-                } else {
-                    self.focused = false;
-                }
+        if let Event::Key(v) = event {
+            if v == Key::Tab {
+                // Let the default behavior happen. Switch to the 'quit' button.
+                self.focused = false;
+                return EventResult::Ignored;
             }
-            _ => (),
+
+            match v {
+                Key::Down => self.selected.y += 1,
+                Key::Up => self.selected.y -= 1,
+                Key::Right => self.selected.x += 1,
+                Key::Left => self.selected.x -= 1,
+                Key::Enter => {
+                    self.place_new_stone();
+                }
+                _ => {}
+            };
+            return EventResult::Consumed(None);
         }
 
         EventResult::Ignored
     }
 }
 
+impl BoardView {
+    fn place_new_stone(&mut self) {
+        let current_pos = &self.selected;
+        let r = self.board.place(current_pos).unwrap();
+        let id = current_pos.x + current_pos.y * self.board.size.x;
+        match r {
+            game::Color::Black => {
+                self.overlay[id] = Cell::Black;
+            }
+            game::Color::White => {
+                self.overlay[id] = Cell::White;
+            }
+        };
+    }
+}
