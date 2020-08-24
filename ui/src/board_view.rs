@@ -1,9 +1,8 @@
 use super::game;
 
 use cursive::direction::Direction;
-use cursive::event::{Event, EventResult, Key, MouseButton, MouseEvent};
+use cursive::event::{Event, EventResult, Key};
 use cursive::theme::{BaseColor, Color, ColorStyle};
-use cursive::views::Dialog;
 use cursive::Printer;
 use cursive::Vec2;
 
@@ -33,19 +32,6 @@ impl BoardView {
             focused: false,
         }
     }
-
-    fn get_cell(&self, mouse_pos: Vec2, offset: Vec2) -> Option<Vec2> {
-        mouse_pos
-            .checked_sub(offset)
-            .map(|pos| pos.map_x(|x| x / 2))
-            .and_then(|pos| {
-                if pos.fits_in(self.board.size) {
-                    Some(pos)
-                } else {
-                    None
-                }
-            })
-    }
 }
 
 impl cursive::view::View for BoardView {
@@ -68,7 +54,6 @@ impl cursive::view::View for BoardView {
 
             let mut color = match *cell {
                 Cell::Unknown => Color::RgbLowRes(3, 3, 3),
-                _ => Color::Dark(BaseColor::White),
             };
 
             let default_bg = Color::Dark(BaseColor::Black);
