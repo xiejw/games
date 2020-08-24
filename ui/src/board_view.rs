@@ -15,7 +15,8 @@ enum Cell {
 pub struct BoardView {
     board: game::Board, // Actual board, unknown to the player.
     overlay: Vec<Cell>, // Visible board
-    selected: Option<Vec2>,
+    selected: Vec2,
+    focused: bool,
 }
 
 impl BoardView {
@@ -28,7 +29,8 @@ impl BoardView {
         BoardView {
             board,
             overlay,
-            selected: None,
+            selected: Vec2::new(7, 7),
+            focused: false,
         }
     }
 
@@ -70,20 +72,32 @@ impl cursive::view::View for BoardView {
             };
 
             let default_bg = Color::Dark(BaseColor::Black);
-            match &self.selected {
-                Some(vec2) => {
-                    if (x - BoardView::LEFT_MARGIN) / 2 == vec2.x
-                        && y - BoardView::TOP_MARGIN == vec2.y
-                    {
-                        color = Color::Dark(BaseColor::Red);
-                    }
+            if self.focused {
+                let vec2 = &self.selected;
+                if (x - BoardView::LEFT_MARGIN) / 2 == vec2.x && y - BoardView::TOP_MARGIN == vec2.y
+                {
+                    color = Color::Dark(BaseColor::Red);
                 }
-                None => {}
-            };
+            }
 
             printer.with_color(ColorStyle::new(default_bg, color), |printer| {
                 printer.print((x, y), text)
             });
+        }
+
+        // Print row title.
+        for y in 0..self.board.size.y {
+            let x = 0;
+            let text = match y {
+                10 => "a ",
+                11 => "b ",
+                12 => "c ",
+                13 => "d ",
+                14 => "e ",
+                15 => "f ",
+                _ => ["0 ", "1 ", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 "][y],
+            };
+            printer.print((x * 2, y + BoardView::TOP_MARGIN), text);
         }
 
         // Print column title.
@@ -103,6 +117,7 @@ impl cursive::view::View for BoardView {
     }
 
     fn take_focus(&mut self, _: Direction) -> bool {
+        self.focused = true;
         true
     }
 
@@ -110,7 +125,7 @@ impl cursive::view::View for BoardView {
         match event {
             Event::Key(v) => {
                 if v != Key::Tab {
-                    let mut current_pos = self.selected.unwrap_or(Vec2::new(7, 7));
+                    let current_pos = &mut self.selected;
                     match v {
                         Key::Down => current_pos.y += 1,
                         Key::Up => current_pos.y -= 1,
@@ -118,9 +133,10 @@ impl cursive::view::View for BoardView {
                         Key::Left => current_pos.x -= 1,
                         _ => {}
                     };
-                    self.selected = Some(current_pos);
 
                     return EventResult::Consumed(None);
+                } else {
+                    self.focused = false;
                 }
             }
             _ => (),

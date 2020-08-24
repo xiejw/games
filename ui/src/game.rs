@@ -36,13 +36,4 @@ impl Board {
             None
         }
     }
-
-    pub fn neighbours(&self, pos: Vec2) -> Vec<Vec2> {
-        let pos_min = pos.saturating_sub((1, 1));
-        let pos_max = (pos + (2, 2)).or_min(self.size);
-        (pos_min.x..pos_max.x)
-            .flat_map(|x| (pos_min.y..pos_max.y).map(move |y| Vec2::new(x, y)))
-            .filter(|&p| p != pos)
-            .collect()
-    }
 }
