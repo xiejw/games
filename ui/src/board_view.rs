@@ -9,6 +9,8 @@ use cursive::Vec2;
 #[derive(Clone, Copy, PartialEq)]
 enum Cell {
     Unknown,
+    Black,
+    White,
 }
 
 pub struct BoardView {
@@ -50,11 +52,11 @@ impl cursive::view::View for BoardView {
 
             let text = match *cell {
                 Cell::Unknown => "  ",
+                Cell::Black => "* ",
+                Cell::White => "o ",
             };
 
-            let mut color = match *cell {
-                Cell::Unknown => Color::RgbLowRes(3, 3, 3),
-            };
+            let mut color = Color::RgbLowRes(3, 3, 3);
 
             let default_bg = Color::Dark(BaseColor::Black);
             if self.focused {
@@ -116,6 +118,18 @@ impl cursive::view::View for BoardView {
                         Key::Up => current_pos.y -= 1,
                         Key::Right => current_pos.x += 1,
                         Key::Left => current_pos.x -= 1,
+                        Key::Enter => {
+                            let r = self.board.place(current_pos).unwrap();
+                            let id = current_pos.x + current_pos.y * self.board.size.x;
+                            match r {
+                                game::Color::Black => {
+                                    self.overlay[id] = Cell::Black;
+                                }
+                                game::Color::White => {
+                                    self.overlay[id] = Cell::White;
+                                }
+                            };
+                        }
                         _ => {}
                     };
 
@@ -130,3 +144,4 @@ impl cursive::view::View for BoardView {
         EventResult::Ignored
     }
 }
+
