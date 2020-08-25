@@ -3,6 +3,7 @@ use super::game;
 use cursive::direction::Direction;
 use cursive::event::{Event, EventResult, Key};
 use cursive::theme::{BaseColor, Color, ColorStyle};
+use cursive::views::Dialog;
 use cursive::Printer;
 use cursive::Vec2;
 
@@ -122,7 +123,7 @@ impl cursive::view::View for BoardView {
                 Key::Right => self.selected.x += 1,
                 Key::Left => self.selected.x -= 1,
                 Key::Enter => {
-                    self.place_new_stone();
+                    return self.place_new_stone();
                 }
                 _ => {}
             };
@@ -134,9 +135,18 @@ impl cursive::view::View for BoardView {
 }
 
 impl BoardView {
-    fn place_new_stone(&mut self) {
+    fn place_new_stone(&mut self) -> EventResult {
         let current_pos = &self.selected;
-        let r = self.board.place(current_pos).unwrap();
+        let r = self.board.place(current_pos);
+
+        if let Err(ref _err) = r {
+            return EventResult::with_cb(|s| {
+                s.add_layer(Dialog::info("Already occupied!").title("Error"));
+            });
+        }
+
+        let r = r.unwrap();
+
         let id = current_pos.x + current_pos.y * self.board.size.x;
         match r {
             game::Color::Black => {
@@ -146,5 +156,7 @@ impl BoardView {
                 self.overlay[id] = Cell::White;
             }
         };
+
+        return EventResult::Consumed(None);
     }
 }

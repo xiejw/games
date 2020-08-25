@@ -36,6 +36,10 @@ impl Board {
     pub fn place(&mut self, pos: &Vec2) -> Result<Color, Error> {
         let id = pos.x + pos.y * self.size.x;
 
+        if !self.stones[id].is_none() {
+            return Err(Error::Occupied);
+        }
+
         match self.next_color {
             Color::Black => {
                 self.stones[id] = Some(Color::Black);
