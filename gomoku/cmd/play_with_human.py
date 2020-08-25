@@ -29,10 +29,12 @@ def BestPolicy(b, c):
     return MCTSPolicy(b, c, explore=False, debug=True)
 
 
-if SHUFFLE_PLAYERS and random.random() < 0.5:
-    players = lambda b: [HumanPolicy(b, 'b'), BestPolicy(b, 'w')]
-else:
-    players = lambda b: [BestPolicy(b, 'b'), HumanPolicy(b, 'w')]
+# if SHUFFLE_PLAYERS and random.random() < 0.5:
+#     players = lambda b: [HumanPolicy(b, 'b'), BestPolicy(b, 'w')]
+# else:
+
+# Currently, the machine works best if goes first. Sad.
+players = lambda b: [BestPolicy(b, 'b'), HumanPolicy(b, 'w')]
 
 play_games(config, players=players)
 
