@@ -3,9 +3,12 @@ use super::game;
 use cursive::direction::Direction;
 use cursive::event::{Event, EventResult, Key};
 use cursive::theme::{BaseColor, Color, ColorStyle};
-use cursive::views::Dialog;
+use cursive::views::{Dialog, ProgressBar, TextView};
+use cursive::Cursive;
 use cursive::Printer;
 use cursive::Vec2;
+
+use std::{thread, time};
 
 #[derive(Clone, Copy, PartialEq)]
 enum Cell {
@@ -141,7 +144,19 @@ impl BoardView {
 
         if let Err(ref _err) = r {
             return EventResult::with_cb(|s| {
-                s.add_layer(Dialog::info("Already occupied!").title("Error"));
+                // s.add_layer(Dialog::info("Already occupied!").title("Error"));
+
+                s.add_layer(Dialog::around(TextView::new("Hello!")));
+
+                let cb = s.cb_sink().clone();
+                thread::spawn(move || {
+                    thread::sleep(time::Duration::from_millis(5 * 1000));
+                    cb.send(Box::new(|s: &mut Cursive| {
+                        s.pop_layer();
+                        ()
+                    }))
+                    .unwrap();
+                });
             });
         }
 
