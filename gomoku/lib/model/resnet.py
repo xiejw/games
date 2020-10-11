@@ -10,7 +10,7 @@ L2_WEIGHT_DECAY = 1e-4
 
 
 # Builds a multi-layer Residual network.
-def build_resnet_model(input_shape, num_classes, num_layers=10):
+def build_resnet_model(input_shape, num_classes, num_layers=20):
     inp = Input(shape=input_shape)
 
     x = inp
