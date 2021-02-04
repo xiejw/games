@@ -1,5 +1,5 @@
 BUILD=.build
-WEIGHT_FILE=data/golden_weights/2020-08-24.h5
+WEIGHT_FILE=data/golden_weights/2020-12-19.h5
 
 default: run
 
